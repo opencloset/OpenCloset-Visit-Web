@@ -2360,39 +2360,6 @@ any '/visit' => sub {
     );
 };
 
-get '/user/:id' => sub {
-    my $self = shift;
-
-    #
-    # fetch params
-    #
-    my %params = $self->get_params(qw/ id /);
-
-    my $user = $self->get_user( \%params );
-    return unless $user;
-
-    my $donated_clothes_count = 0;
-    $donated_clothes_count += $_->clothes->count for $user->donations;
-
-    my $rented_clothes_count = 0;
-    $rented_clothes_count += $_->clothes->count for $user->orders;
-
-    my $data  = $self->user_avg_diff($user);
-    my $data2 = $self->user_avg2($user);
-
-    #
-    # response
-    #
-    $self->stash(
-        user                  => $user,
-        donated_clothes_count => $donated_clothes_count,
-        rented_clothes_count  => $rented_clothes_count,
-        avg                   => $data->{avg},
-        diff                  => $data->{diff},
-        avg2                  => $data2->{avg2},
-    );
-} => 'user-id';
-
 get '/clothes' => sub {
     my $self = shift;
 
