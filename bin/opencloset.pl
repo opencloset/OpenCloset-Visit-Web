@@ -2881,28 +2881,6 @@ post '/order/:id/update' => sub {
     $self->respond_to({ data => q{} });
 };
 
-get '/stat/bestfit' => sub {
-    my $self = shift;
-
-    my $rs = $DB->resultset('Order')->search(
-        { bestfit => 1 },
-        {
-            order_by => [
-                { -asc => 'order_details.clothes_code' },
-            ],
-            prefetch => {
-                'order_details' => {
-                    'clothes' => {
-                        'donation' => 'user',
-                    },
-                },
-            },
-        },
-    );
-
-    $self->stash( order_rs => $rs,);
-} => 'stat-bestfit';
-
 get '/stat/clothes/amount' => sub {
     my $self = shift;
 
