@@ -2962,28 +2962,6 @@ get '/donation' => sub {
     );
 };
 
-get '/donation/:id' => sub {
-    my $self = shift;
-
-    my $id = $self->param('id');
-    my $donation = $DB->resultset('Donation')->find({ id => $id });
-
-    my $bucket = $DB->resultset('Clothes')->search({
-        donation_id => undef
-    });
-
-    return $self->error(404, {
-        str => 'donation not found',
-        data => {}
-    }) unless $donation;
-
-    $self->stash(
-        donation     => $donation,
-        bucket       => $bucket,
-        clothes_list => [$donation->clothes]
-    );
-} => 'donation-id';
-
 get '/stat/bestfit' => sub {
     my $self = shift;
 
