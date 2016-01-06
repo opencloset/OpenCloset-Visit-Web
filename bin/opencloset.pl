@@ -2881,27 +2881,6 @@ post '/order/:id/update' => sub {
     $self->respond_to({ data => q{} });
 };
 
-get '/sms' => sub {
-    my $self = shift;
-
-    my %params = $self->get_params(qw/ to msg /);
-
-    my $sender = SMS::Send->new(
-        app->config->{sms}{driver},
-        %{ app->config->{sms}{ app->config->{sms}{driver} } },
-    );
-    app->log->debug( sprintf('sms.driver: [%s]', app->config->{sms}{driver}) );
-
-    my $balance = +{ success => undef };
-    $balance = $sender->balance if $sender->_OBJECT_->can('balance');
-
-    $self->stash(
-        to      => $params{to}  || q{},
-        msg     => $params{msg} || q{},
-        balance => $balance->{success} ? $balance->{detail} : { cash => 0, point => 0 },
-    );
-};
-
 get '/stat/bestfit' => sub {
     my $self = shift;
 
