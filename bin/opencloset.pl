@@ -2360,15 +2360,6 @@ any '/visit' => sub {
     );
 };
 
-get '/tag' => sub {
-    my $self = shift;
-
-    #
-    # response
-    #
-    $self->stash( 'tag_rs' => $DB->resultset('Tag') );
-};
-
 get '/user' => sub {
     my $self = shift;
 
