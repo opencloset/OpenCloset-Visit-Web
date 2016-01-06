@@ -2011,9 +2011,6 @@ under '/' => sub {
                         when ('/visit') {
                             return 1;
                         }
-                        when ('/browse-happy') {
-                            return 1;
-                        }
                         when ('/login') {
                             $self->redirect_to( $self->url_for('/') );
                             return 1;
@@ -2026,9 +2023,6 @@ under '/' => sub {
                 else {
                     given ($req_path) {
                         when ('/visit') {
-                            return 1;
-                        }
-                        when ('/browse-happy') {
                             return 1;
                         }
                         when (/(return|extension)(\/success\/?)?$/) {
@@ -2052,9 +2046,6 @@ under '/' => sub {
                             $self->redirect_to( $self->url_for('/') );
                             return;
                         }
-                        when ('/browse-happy') {
-                            return 1;
-                        }
                         when ('/login') {
                             $self->redirect_to( $self->url_for('/') );
                             return 1;
@@ -2070,9 +2061,6 @@ under '/' => sub {
                             app->log->warn( "/visit is not allowed by site_type config: $site_type" );
                             $self->redirect_to( $self->url_for('/login') );
                             return;
-                        }
-                        when ('/browse-happy') {
-                            return 1;
                         }
                         when (/(return|extension)(\/success\/?)?$/) {
                             return 1;
@@ -2090,9 +2078,6 @@ under '/' => sub {
             when ('visit') {
                 given ($req_path) {
                     when ('/visit') {
-                        return 1;
-                    }
-                    when ('/browse-happy') {
                         return 1;
                     }
                     default {
@@ -2375,9 +2360,8 @@ any '/visit' => sub {
     );
 };
 
-get '/'             => 'home';
-get '/browse-happy' => 'browse-happy';
-get '/new-clothes'  => 'new-clothes';
+get '/'            => 'home';
+get '/new-clothes' => 'new-clothes';
 
 get '/tag' => sub {
     my $self = shift;
