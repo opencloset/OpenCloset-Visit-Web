@@ -2360,8 +2360,6 @@ any '/visit' => sub {
     );
 };
 
-get '/new-clothes' => 'new-clothes';
-
 get '/tag' => sub {
     my $self = shift;
 
