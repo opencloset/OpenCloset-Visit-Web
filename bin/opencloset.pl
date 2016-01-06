@@ -2881,8 +2881,6 @@ post '/order/:id/update' => sub {
     $self->respond_to({ data => q{} });
 };
 
-get '/shortcut' => 'shortcut';
-
 get '/stat/visitor' => sub {
     my $self = shift;
 
