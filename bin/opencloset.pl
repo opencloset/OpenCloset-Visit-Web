@@ -2360,7 +2360,6 @@ any '/visit' => sub {
     );
 };
 
-get '/'            => 'home';
 get '/new-clothes' => 'new-clothes';
 
 get '/tag' => sub {
