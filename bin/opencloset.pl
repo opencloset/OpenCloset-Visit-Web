@@ -2881,59 +2881,5 @@ post '/order/:id/update' => sub {
     $self->respond_to({ data => q{} });
 };
 
-get '/order/:order_id/extension' => sub {
-    my $self = shift;
-
-    my $order_id = $self->param('order_id');
-    my $order    = $self->get_order( { id => $order_id } );
-    return unless $order;
-
-    my $error = $self->flash('error');
-    $self->render('order-extension', order => $order, error => $error);
-};
-
-post '/order/:order_id/extension' => sub {
-    my $self     = shift;
-    my $order_id = $self->param('order_id');
-    my $order    = $self->get_order({ id => $order_id });
-    return unless $order;
-
-    ## parameters validation
-    my $v = $self->validation;
-    $v->required('phone');
-    $v->required('user-target-date');
-
-    if ( $v->has_error ) {
-        my $errors = {};
-        my $failed = $v->failed;
-        map { $errors->{$_} = $v->error($_) } @$failed;
-        $self->flash(error => $errors);
-        return $self->redirect_to($self->url_for);
-    }
-
-    my $phone       = $v->param('phone');
-    my $target_date = $v->param('user-target-date');
-
-    ## phone number validation
-    my $user_phone = $order->user->user_info->phone;
-    if ( $phone ne $user_phone ) {
-        $self->flash(error => { phone => ['대여예약시에 사용했던 동일한 핸드폰 번호를 입력해주세요'] });
-        return $self->redirect_to($self->url_for);
-    }
-
-    $self->update_order({ id => $order_id, user_target_date => $target_date });
-    $self->redirect_to( $self->url_for("/order/$order_id/extension/success") );
-};
-
-get '/order/:order_id/extension/success' => sub {
-    my $self = shift;
-
-    my $order_id = $self->param('order_id');
-    my $order    = $self->get_order( { id => $order_id } );
-    return unless $order;
-
-    $self->render('order-extension-success', order => $order);
-};
-
 app->secrets( app->defaults->{secrets} );
 app->start;
