@@ -29,32 +29,15 @@ use Mojolicious::Lite;
 }
 app->controller_class("OpenCloset::Web::Controller");
 
-use CHI;
-use Data::Pageset;
-use DateTime::Duration;
-use DateTime::Format::Duration;
-use DateTime::Format::Human::Duration;
 use DateTime;
 use Encode 'decode_utf8';
-use Gravatar::URL;
 use HTTP::Tiny;
 use List::MoreUtils qw( zip );
-use List::Util qw( sum );
-use Mojo::Util qw( encode );
-use Parcel::Track;
-use SMS::Send::KR::APIStore;
-use SMS::Send::KR::CoolSMS;
-use SMS::Send;
-use Statistics::Basic;
 use String::Random;
-use Try::Tiny;
-use Unicode::GCString;
-use Unicode::Normalize;
 
 use Postcodify;
 
 use OpenCloset::Schema;
-use OpenCloset::Size::Guess;
 
 app->defaults( %{ plugin 'Config' => { default => {
     jses        => [],
