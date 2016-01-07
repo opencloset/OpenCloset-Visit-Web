@@ -49,9 +49,6 @@
     <script src="/lib/chosen/js/chosen.jquery.min.js"></script>
 
     <!-- bootbox -->
-    <script src="/lib/facebox/facebox.js"></script>
-
-    <!-- bootbox -->
     <script src="/lib/bootstrap/js/bootbox.min.js"></script>
 
     <!-- bundle -->

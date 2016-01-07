@@ -10,12 +10,6 @@ $ ->
     $(el).addClass('active open') if $(el).find('li.active').length > 0
 
   #
-  # facebox settings
-  #
-  $.facebox.settings.loadingImage = '/lib/facebox/loading.gif'
-  $.facebox.settings.closeImage = '/lib/facebox/closelabel.png'
-
-  #
   # common fuction for OpenCloset
   #
   Window::OpenCloset =
