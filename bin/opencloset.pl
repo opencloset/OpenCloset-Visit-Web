@@ -740,93 +740,17 @@ under '/' => sub {
     {
         use experimental qw( smartmatch );
 
-        my $req_path  = $self->req->url->path;
-        my $site_type = app->config->{site_type};
-        given ($site_type) {
-            when ('all') {
-                if ( $self->is_user_authenticated ) {
-                    given ($req_path) {
-                        when ('/visit') {
-                            return 1;
-                        }
-                        when ('/login') {
-                            $self->redirect_to( $self->url_for('/') );
-                            return 1;
-                        }
-                        default {
-                            return 1;
-                        }
-                    }
-                }
-                else {
-                    given ($req_path) {
-                        when ('/visit') {
-                            return 1;
-                        }
-                        when (/(return|extension)(\/success\/?)?$/) {
-                            return 1;
-                        }
-                        when ('/login') {
-                            return 1;
-                        }
-                        default {
-                            $self->redirect_to( $self->url_for('/visit') );
-                            return;
-                        }
-                    }
-                }
+        my $req_path = $self->req->url->path;
+        given ($req_path) {
+            when ('/visit') {
+                return 1;
             }
-            when ('staff') {
-                if ( $self->is_user_authenticated ) {
-                    given ($req_path) {
-                        when ('/visit') {
-                            app->log->warn( "/visit is not allowed by site_type config: $site_type" );
-                            $self->redirect_to( $self->url_for('/') );
-                            return;
-                        }
-                        when ('/login') {
-                            $self->redirect_to( $self->url_for('/') );
-                            return 1;
-                        }
-                        default {
-                            return 1;
-                        }
-                    }
-                }
-                else {
-                    given ($req_path) {
-                        when ('/visit') {
-                            app->log->warn( "/visit is not allowed by site_type config: $site_type" );
-                            $self->redirect_to( $self->url_for('/login') );
-                            return;
-                        }
-                        when (/(return|extension)(\/success\/?)?$/) {
-                            return 1;
-                        }
-                        when ('/login') {
-                            return 1;
-                        }
-                        default {
-                            $self->redirect_to( $self->url_for('/login') );
-                            return;
-                        }
-                    }
-                }
-            }
-            when ('visit') {
-                given ($req_path) {
-                    when ('/visit') {
-                        return 1;
-                    }
-                    default {
-                        app->log->warn( "$req_path is not allowed by site_type config: $site_type" );
-                        $self->redirect_to( $self->url_for('/visit') );
-                        return;
-                    }
-                }
+            when ('/login') {
+                return 1;
             }
             default {
                 app->log->warn( "$req_path is not allowed by site_type config: $site_type" );
+                $self->redirect_to( $self->url_for('/visit') );
                 return;
             }
         }
