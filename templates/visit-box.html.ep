@@ -57,7 +57,7 @@
                           </label>
 
                           <label class="block">
-                            <input name="service" type="checkbox" class="<%= $theme %>" />
+                            <input name="service" type="checkbox" />
                             <span class="lbl">
                               <a href="#modal-service" data-toggle="modal">
                                 <strong>정장 대여규정</strong>에 동의합니다.
@@ -66,7 +66,7 @@
                           </label>
 
                           <label class="block">
-                            <input name="privacy" type="checkbox" class="<%= $theme %>" />
+                            <input name="privacy" type="checkbox" />
                             <span class="lbl">
                               <a href="#modal-privacy" data-toggle="modal">
                                 <strong>개인정보 이용안내</strong>에 동의합니다.

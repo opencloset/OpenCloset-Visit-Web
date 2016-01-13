@@ -57,14 +57,14 @@
 
                               <div class="radio">
                                 <label>
-                                  <input type="radio" class="ace" name="gender" value="male" <%= $user->user_info->gender eq 'male' ? 'checked' : q{} %>>
+                                  <input type="radio" name="gender" value="male" <%= $user->user_info->gender eq 'male' ? 'checked' : q{} %>>
                                   <span class="lbl"> 남자</span>
                                 </label>
                               </div>
 
                               <div class="radio">
                                 <label>
-                                  <input type="radio" class="ace" name="gender" value="female" <%= $user->user_info->gender eq 'female' ? 'checked' : q{} %>>
+                                  <input type="radio" name="gender" value="female" <%= $user->user_info->gender eq 'female' ? 'checked' : q{} %>>
                                   <span class="lbl"> 여자</span>
                                 </label>
                               </div>

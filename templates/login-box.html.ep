@@ -39,7 +39,7 @@
 
                           <div class="clearfix">
                             <label class="inline">
-                              <input name="remember" type="checkbox" class="<%= $theme %>" />
+                              <input name="remember" type="checkbox" />
                               <span class="lbl"> 기억하기</span>
                             </label>
 

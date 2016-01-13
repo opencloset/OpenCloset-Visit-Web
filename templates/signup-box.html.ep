@@ -54,7 +54,7 @@
                           </label>
 
                           <label class="block">
-                            <input name="agree" type="checkbox" class="<%= $theme %>" />
+                            <input name="agree" type="checkbox" />
                             <span class="lbl">
                               <a href="#">사용자 약관</a>에 동의합니다.
                             </span>
