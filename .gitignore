@@ -15,9 +15,6 @@ app.psgi.conf
 # log directory
 log/
 
-# local npm install modules
-node_modules/
-
 # Mojolicious::Plugin::AssetPack
 public/packed
 
