@@ -31,9 +31,6 @@
       <script src="/lib/excanvas/excanvas.min.js"></script>
     <![endif]-->
 
-    <!-- prettify -->
-    <script src="/lib/prettify/js/prettify.js"></script>
-
     <!-- underscore -->
     <script src="/lib/underscore/underscore-min.js"></script>
 
