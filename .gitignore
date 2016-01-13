@@ -18,14 +18,8 @@ log/
 # local npm install modules
 node_modules/
 
-# grunt: coffee
-coffee/js
-
-# grunt: uglify
-public/js
-
-# grunt: compass
-public/css
+# Mojolicious::Plugin::AssetPack
+public/packed
 
 # bower
 public/components/

@@ -56,6 +56,7 @@ my $DB = OpenCloset::Schema->connect({
     %{ app->config->{database}{opts} },
 });
 
+plugin 'AssetPack';
 plugin 'validator';
 plugin 'haml_renderer';
 plugin 'FillInFormLite';
@@ -103,6 +104,11 @@ plugin 'authentication' => {
         return $user_obj->id;
     },
 };
+
+app->asset( "bundle.js"  => "/coffee/bundle.coffee" );
+app->asset( "login.js"   => "/coffee/login.coffee" );
+app->asset( "visit.js"   => "/coffee/visit.coffee" );
+app->asset( "screen.css" => "/sass/screen.scss" );
 
 helper error => sub {
     my ($self, $status, $error) = @_;
