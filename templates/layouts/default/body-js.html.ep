@@ -27,10 +27,6 @@
     <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="/lib/bootstrap/js/bootstrap-tag.min.js"></script> <!-- tag -->
 
-    <!--[if lte IE 8]>
-      <script src="/lib/excanvas/excanvas.min.js"></script>
-    <![endif]-->
-
     <!-- underscore -->
     <script src="/lib/underscore/underscore-min.js"></script>
 
