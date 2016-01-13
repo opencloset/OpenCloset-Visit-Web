@@ -1,6 +1,3 @@
-_site
-.sass-cache/
-
 # application config file
 app.conf
 app.psgi.conf
@@ -16,13 +13,6 @@ public/packed
 
 # bower
 public/components/
-
-# database file
-*.sqlite
-*.db
-
-# cache dir
-cache/
 
 # hypnotoad pid file
 hypnotoad.pid
