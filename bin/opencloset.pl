@@ -749,7 +749,7 @@ under '/' => sub {
                 return 1;
             }
             default {
-                app->log->warn( "$req_path is not allowed by site_type config: $site_type" );
+                app->log->warn( "$req_path is not allowed" );
                 $self->redirect_to( $self->url_for('/visit') );
                 return;
             }
