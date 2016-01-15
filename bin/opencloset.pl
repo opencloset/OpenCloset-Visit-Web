@@ -831,28 +831,27 @@ any '/visit' => sub {
     my $pre_category  = $self->param('pre_category');
     my $pre_color     = $self->param('pre_color');
 
-    app->log->debug("type: $type");
-    app->log->debug("name: $name");
-    app->log->debug("phone: $phone");
-    app->log->debug("service: $service");
-    app->log->debug("privacy: $privacy");
-    app->log->debug("sms: $password");
-
-    app->log->debug("email: $email");
-    app->log->debug("gender: $gender");
-    app->log->debug("address1: $address1");
-    app->log->debug("address2: $address2");
-    app->log->debug("address3: $address3");
-    app->log->debug("address4: $address4");
-    app->log->debug("birth: $birth");
-    app->log->debug("order: $order");
-    app->log->debug("booking: $booking");
-    app->log->debug("booking-saved: $booking_saved");
-    app->log->debug("wearon_date: $wearon_date");
-    app->log->debug("purpose: $purpose");
-    app->log->debug("purpose2: $purpose2");
-    app->log->debug("pre_category: $pre_category");
-    app->log->debug("pre_color: $pre_color");
+    app->log->debug( "type: " .          ( $type          || q{} ) );
+    app->log->debug( "name: " .          ( $name          || q{} ) );
+    app->log->debug( "phone: " .         ( $phone         || q{} ) );
+    app->log->debug( "service: " .       ( $service       || q{} ) );
+    app->log->debug( "privacy: " .       ( $privacy       || q{} ) );
+    app->log->debug( "sms: " .           ( $password      || q{} ) );
+    app->log->debug( "email: " .         ( $email         || q{} ) );
+    app->log->debug( "gender: " .        ( $gender        || q{} ) );
+    app->log->debug( "address1: " .      ( $address1      || q{} ) );
+    app->log->debug( "address2: " .      ( $address2      || q{} ) );
+    app->log->debug( "address3: " .      ( $address3      || q{} ) );
+    app->log->debug( "address4: " .      ( $address4      || q{} ) );
+    app->log->debug( "birth: " .         ( $birth         || q{} ) );
+    app->log->debug( "order: " .         ( $order         || q{} ) );
+    app->log->debug( "booking: " .       ( $booking       || q{} ) );
+    app->log->debug( "booking-saved: " . ( $booking_saved || q{} ) );
+    app->log->debug( "wearon_date: " .   ( $wearon_date   || q{} ) );
+    app->log->debug( "purpose: " .       ( $purpose       || q{} ) );
+    app->log->debug( "purpose2: " .      ( $purpose2      || q{} ) );
+    app->log->debug( "pre_category: " .  ( $pre_category  || q{} ) );
+    app->log->debug( "pre_color: " .     ( $pre_color     || q{} ) );
 
     #
     # find user
