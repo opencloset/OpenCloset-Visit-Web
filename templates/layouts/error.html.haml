@@ -8,18 +8,12 @@
     = include 'layouts/default/after-css'
 
   %body
-    = include 'layouts/default/navbar'
-    #main-container.main-container
-      .main-container-inner
-        %a#menu-toggler.menu-toggler{:href = '#'}
-          %span.menu-text
-        = include 'layouts/default/sidebar'
-        .main-content
-          = include 'layouts/default/breadcrumbs'
-          .page-content
-            .row
-              .col-xs-12
-                / PAGE CONTENT BEGINS
-                = content
-                / PAGE CONTENT ENDS
+    .main-container
+      .main-content
+        .page-content
+          .row
+            .col-xs-12
+              / PAGE CONTENT BEGINS
+              = content
+              / PAGE CONTENT ENDS
     = include 'layouts/default/body-js'
