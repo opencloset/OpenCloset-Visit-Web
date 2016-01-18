@@ -25,7 +25,6 @@
 
     <!-- bootstrap -->
     <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/lib/bootstrap/js/bootstrap-tag.min.js"></script> <!-- tag -->
 
     <!-- underscore -->
     <script src="/lib/underscore/underscore-min.js"></script>
