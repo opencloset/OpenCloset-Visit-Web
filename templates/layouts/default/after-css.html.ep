@@ -1,3 +1,0 @@
-% use utf8;
-<!-- CSS -->
-    %= asset "screen.css";

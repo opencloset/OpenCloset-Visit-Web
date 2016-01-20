@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title . ' - ' . $site->{name} %></title>
+
+    <!-- META BEGINS -->
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <!-- META ENDS -->
+
+    <!-- CSS BEGINS -->
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css" />
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="/components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="/components/chosen/chosen.min.css" />
+
+    <!-- page specific -->
+    % for my $css (@$csses) {
+    %   if ( $css =~ m{^(https?://|/)} ) {
+    <link rel="stylesheet" href="<%= $css %>" />
+    %   }
+    %   else {
+    <link rel="stylesheet" href="/css/<%= $css %>" />
+    %   }
+    % }
+    %= asset "screen.css";
+    <!-- CSS ENDS -->
+
+    <!-- JAVASCRIPT BEGINS -->
+    <script>
+    var CONFIG = {
+    };
+    </script>
+    <!-- JAVASCRIPT ENDS -->
+  </head>
+  <body class='login-layout'>
+    <div class='main-container'>
+      <div class='main-content'>
+        <div class='row'>
+          <div class='col-sm-10 col-sm-offset-1'>
+            <div class='login-container'>
+              <div class='center'>
+                <h1>
+                  <i class="icon-archive orange"></i>
+                  <span class='white'>열린옷장</span>
+                </h1>
+              </div>
+              <div class='space-6'></div>
+              <div class='position-relative'>
+                <!-- PAGE CONTENT BEGINS -->
+                %= content
+                <!-- PAGE CONTENT ENDS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT BEGINS -->
+    <!-- jQuery -->
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- underscore -->
+    <script src="/components/underscore/underscore-min.js"></script>
+
+    <!-- bootstrap datepicker -->
+    <script src="/components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="/components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ko.min.js"></script>
+
+    <!-- chosen -->
+    <script src="/components/chosen/chosen.jquery.min.js"></script>
+
+    <!-- bootbox -->
+    <script src="/lib/bootstrap/js/bootbox.min.js"></script>
+
+    <!-- bundle -->
+    <script src="/packed/bundle-70701f05e0c16391f8cd6442f05b6ca6.js"></script>
+
+    <!-- remove alert box after 8 sec -->
+    <script type="text/javascript">
+      setTimeout( function() { $(".alert").remove() }, 8000 );
+    </script>
+
+    <!-- page specific -->
+    % for my $js (@$jses) {
+    %   if ( $js =~ m{^(https?://|/)} ) {
+    <script type="text/javascript" src="<%= $js %>"></script>
+    %   }
+    %   else {
+    <script type="text/javascript" src="/js/<%= $js %>"></script>
+    %   }
+    % }
+    %= asset "$page_id.js";
+    <!-- JAVASCRIPT ENDS -->
+
+  </body>
+</html>
