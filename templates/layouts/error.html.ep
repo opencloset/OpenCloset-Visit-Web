@@ -66,9 +66,6 @@
     <!-- chosen -->
     <script src="/components/chosen/chosen.jquery.min.js"></script>
 
-    <!-- bootbox -->
-    <script src="/lib/bootstrap/js/bootbox.min.js"></script>
-
     <!-- bundle -->
     <script src="/packed/bundle-70701f05e0c16391f8cd6442f05b6ca6.js"></script>
 
