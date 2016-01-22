@@ -4,7 +4,7 @@
                   <div class="widget-body">
                     <div class="widget-main">
                       <h4 class="header blue lighter bigger">
-                        <i class="icon-lock green"></i>
+                        <i class="fa fa-lock green"></i>
                         정보를 입력해주세요.
                       </h4>
 
@@ -22,16 +22,16 @@
                       <form method="post" action="<%= url_for('/login') %>">
                         <fieldset>
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="email" type="email" class="form-control" placeholder="전자우편" />
-                              <i class="icon-envelope"></i>
+                              <i class="fa fa-envelope"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="password" type="password" class="form-control" placeholder="비밀번호" />
-                              <i class="icon-key"></i>
+                              <i class="fa fa-key"></i>
                             </span>
                           </label>
 
@@ -44,7 +44,7 @@
                             </label>
 
                             <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-                              <i class="icon-unlock"></i>
+                              <i class="fa fa-unlock"></i>
                               로그인
                             </button>
                           </div>
@@ -57,7 +57,7 @@
                     <div class="toolbar clearfix">
                       <div>
                         <a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
-                          <i class="icon-arrow-left"></i>
+                          <i class="fa fa-arrow-left"></i>
                           암호를 잊어버렸어요
                         </a>
                       </div>
@@ -65,7 +65,7 @@
                       <div style="display: none;">
                         <a href="#" onclick="show_box('signup-box'); return false;" class="user-signup-link">
                           가입할래요
-                          <i class="icon-arrow-right"></i>
+                          <i class="fa fa-arrow-right"></i>
                         </a>
                       </div>
                     </div>

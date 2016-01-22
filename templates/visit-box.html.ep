@@ -4,7 +4,7 @@
                   <div class="widget-body">
                     <div class="widget-main">
                       <h4 class="header blue lighter bigger">
-                        <i class="icon-group green"></i>
+                        <i class="fa fa-users green"></i>
                         열린옷장 방문 예약
                       </h4>
 
@@ -43,16 +43,16 @@
                         <input type="hidden" name="type" value="visit-info">
                         <fieldset>
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="name" type="text" class="form-control" placeholder="이름" />
-                              <i class="icon-user"></i>
+                              <i class="fa fa-user"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="phone" type="tel" class="form-control" placeholder="휴대전화" />
-                              <i class="icon-phone"></i>
+                              <i class="fa fa-phone"></i>
                             </span>
                           </label>
 
@@ -75,9 +75,9 @@
                           </label>
 
                           <label class="block clearfix sms">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="sms" type="text" inputmode="numeric" class="form-control" placeholder="인증번호" />
-                              <i class="icon-key"></i>
+                              <i class="fa fa-key"></i>
                             </span>
                           </label>
                           <div class="sms">
@@ -93,7 +93,7 @@
 
                           <div class="clearfix">
                             <button id="btn-sms-reset" type="reset" class="width-40 pull-left btn btn-sm">
-                              <i class="icon-refresh"></i>
+                              <i class="fa fa-refresh"></i>
                               새로 쓰기
                             </button>
 
@@ -101,7 +101,7 @@
                               <span id="btn-sms-confirm-label">
                                 SMS 인증하기
                               </span>
-                              <i class="icon-arrow-right icon-on-right"></i>
+                              <i class="fa fa-arrow-right icon-on-right"></i>
                             </button>
                           </div>
                         </fieldset>
@@ -111,7 +111,7 @@
 
                       <div class="clearfix">
                         <a class="width-100 pull-right btn btn-sm btn-yellow" href="https://www.theopencloset.net">
-                          <i class="icon-home"></i>
+                          <i class="fa fa-home"></i>
                           <span> 열린옷장 홈페이지로 돌아가기 </span>
                         </a>
                       </div>

@@ -4,7 +4,7 @@
                   <div class="widget-body">
                     <div class="widget-main">
                       <h4 class="header red lighter bigger">
-                        <i class="icon-key"></i>
+                        <i class="fa fa-key"></i>
                         비밀번호를 초기화합니다.
                       </h4>
 
@@ -31,22 +31,22 @@
                       <form>
                         <fieldset>
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="forgot-name" type="tel" class="form-control" placeholder="이름" />
-                              <i class="icon-user"></i>
+                              <i class="fa fa-user"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="forgot-phone" type="tel" class="form-control" placeholder="휴대전화" />
-                              <i class="icon-phone"></i>
+                              <i class="fa fa-phone"></i>
                             </span>
                           </label>
 
                           <div class="clearfix">
                             <button id="btn-forgot-sms-send" type="button" class="width-35 pull-right btn btn-sm btn-danger">
-                              <i class="icon-lightbulb"></i>
+                              <i class="fa fa-lightbulb-o"></i>
                               보내주세요!
                             </button>
                           </div>
@@ -57,7 +57,7 @@
                     <div class="toolbar center">
                       <a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
                         로그인 페이지로 돌아가기
-                        <i class="icon-arrow-right"></i>
+                        <i class="fa fa-arrow-right"></i>
                       </a>
                     </div>
                   </div><!-- /widget-body -->

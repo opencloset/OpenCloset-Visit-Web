@@ -4,7 +4,7 @@
                   <div class="widget-body">
                     <div class="widget-main">
                       <h4 class="header green lighter bigger">
-                        <i class="icon-group blue"></i>
+                        <i class="fa fa-users blue"></i>
                         새로운 사용자 등록하기
                       </h4>
 
@@ -19,37 +19,37 @@
                       <form method="post" action="<%= url_for('/signup') %>">
                         <fieldset>
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="email" type="email" class="form-control" placeholder="전자우편" />
-                              <i class="icon-envelope"></i>
+                              <i class="fa fa-envelope"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="password" type="password" class="form-control" placeholder="비밀번호" />
-                              <i class="icon-lock"></i>
+                              <i class="fa fa-lock"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="confirm_password" type="password" class="form-control" placeholder="비밀번호 확인" />
-                              <i class="icon-retweet"></i>
+                              <i class="fa fa-retweet"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="name" type="text" class="form-control" placeholder="이름" />
-                              <i class="icon-user"></i>
+                              <i class="fa fa-user"></i>
                             </span>
                           </label>
 
                           <label class="block clearfix">
-                            <span class="block input-icon input-icon-right">
+                            <span class="block">
                               <input name="phone" type="tel" class="form-control" placeholder="전화번호" />
-                              <i class="icon-phone"></i>
+                              <i class="fa fa-phone"></i>
                             </span>
                           </label>
 
@@ -64,13 +64,13 @@
 
                           <div class="clearfix">
                             <button type="reset" class="width-40 pull-left btn btn-sm">
-                              <i class="icon-refresh"></i>
+                              <i class="fa fa-refresh"></i>
                               새로 쓰기
                             </button>
 
                             <button type="submit" class="width-55 pull-right btn btn-sm btn-success">
                               등록하기
-                              <i class="icon-arrow-right icon-on-right"></i>
+                              <i class="fa fa-arrow-right icon-on-right"></i>
                             </button>
                           </div>
                         </fieldset>
@@ -79,7 +79,7 @@
 
                     <div class="toolbar center">
                       <a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
-                        <i class="icon-arrow-left"></i>
+                        <i class="fa fa-arrow-left"></i>
                         로그인 페이지로 돌아가기
                       </a>
                     </div>
