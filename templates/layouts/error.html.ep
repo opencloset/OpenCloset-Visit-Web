@@ -10,7 +10,7 @@
     <!-- META ENDS -->
 
     <!-- CSS BEGINS -->
-    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
+    %= asset "bootstrap.css"
     %= asset "font-awesome4.css";
     <link rel="stylesheet" href="/components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" />
     <link rel="stylesheet" href="/components/chosen/chosen.min.css" />
@@ -54,7 +54,7 @@
     <script src="/components/jquery/dist/jquery.min.js"></script>
 
     <!-- bootstrap -->
-    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    %= asset "bootstrap.js"
 
     <!-- underscore -->
     <script src="/components/underscore/underscore-min.js"></script>

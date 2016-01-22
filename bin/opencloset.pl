@@ -59,6 +59,7 @@ my $DB = OpenCloset::Schema->connect({
 plugin 'AssetPack';
 plugin 'FillInFormLite';
 plugin 'FontAwesome4';
+plugin 'bootstrap3' => { jquery => 0 };
 plugin 'haml_renderer';
 plugin 'validator';
 
