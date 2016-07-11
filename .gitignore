@@ -16,3 +16,6 @@ public/components/
 
 # hypnotoad pid file
 hypnotoad.pid
+
+# sass
+.sass-cache/
