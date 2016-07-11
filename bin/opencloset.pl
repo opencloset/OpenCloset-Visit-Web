@@ -3,32 +3,6 @@
 use v5.18;
 use Mojolicious::Lite;
 
-#
-# redirect to login rather than not found page
-#
-#   https://groups.google.com/forum/#!topic/mojolicious/UbY9Ac9unfY
-#   https://github.com/kraih/mojo/compare/69fbd6807611ec209eff4147b511c8c324a80118...d9145abedbbebe226f9f6f3b22488de88809ba4d
-#
-{
-    package OpenCloset::Web::Controller;
-
-    use base 'Mojolicious::Controller';
-
-    sub render_not_found {
-        my ( $self, $e ) = @_;
-
-        if ( !$self->is_user_authenticated ) {
-            $self->redirect_to( $self->url_for('/visit') );
-            return;
-        }
-
-        Mojolicious::Controller::_development( 'not_found', @_ );
-    }
-
-    1;
-}
-app->controller_class("OpenCloset::Web::Controller");
-
 use DateTime;
 use Encode 'decode_utf8';
 use HTTP::Tiny;
@@ -753,9 +727,6 @@ under '/' => sub {
             when ('/visit') {
                 return 1;
             }
-            when ('/login') {
-                return 1;
-            }
             default {
                 app->log->warn( "$req_path is not allowed" );
                 $self->redirect_to( $self->url_for('/visit') );
@@ -765,46 +736,6 @@ under '/' => sub {
     }
 
     return;
-};
-
-get '/login';
-post '/login' => sub {
-    my $self = shift;
-
-    my $username = $self->param('email');
-    my $password = $self->param('password');
-    my $remember = $self->param('remember');
-
-    if ( $self->authenticate($username, $password) ) {
-        $self->session->{expiration} = $remember ? $self->app->config->{expire}{remember} : $self->app->config->{expire}{default};
-
-        my $remain   = $self->current_user->expires - DateTime->now( time_zone => app->config->{timezone} )->epoch;
-        my $deadline = 60 * 60 * 24 * 7;
-        my $uri      = q{/};
-
-        if ( $remain < $deadline ) {
-            $uri = '/user/' . $self->current_user->id;
-            $self->flash(
-                alert => {
-                    type => 'warning',
-                    msg  => '비밀번호 만료 시간이 얼마남지 않았습니다. 비밀번호를 변경해주세요.',
-                },
-            );
-        }
-
-        $self->redirect_to( $self->url_for($uri) );
-    }
-    else {
-        $self->flash(error => 'Failed to Authentication');
-        $self->redirect_to( $self->url_for('/login') );
-    }
-};
-
-get '/logout' => sub {
-    my $self = shift;
-
-    $self->logout;
-    $self->redirect_to( $self->url_for('/login') );
 };
 
 any '/visit' => sub {
