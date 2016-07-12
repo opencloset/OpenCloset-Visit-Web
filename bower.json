@@ -1,5 +1,5 @@
 {
-  "name": "OpenCloset-Visit-Web",
+  "name": "opencloset-visit-web",
   "authors": [
     "Keedi Kim <keedi.k@gmail.com>"
   ],
@@ -17,11 +17,13 @@
     "tests"
   ],
   "dependencies": {
-    "chosen": "~1.4.2",
-    "moment": "~2.11.1",
-    "underscore": "~1.8.3",
+    "bootstrap": "~3.3.6",
     "bootstrap-datepicker": "~1.5.1",
+    "chosen": "~1.4.2",
+    "font-awesome": "~4.6.1",
     "jquery": "~2.2.0",
-    "jquery-mask-plugin": "~1.13.4"
+    "jquery-mask-plugin": "~1.13.4",
+    "moment": "~2.11.1",
+    "underscore": "~1.8.3"
   }
 }

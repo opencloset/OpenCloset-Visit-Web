@@ -9,7 +9,9 @@ app.psgi.conf
 log/
 
 # Mojolicious::Plugin::AssetPack
-public/packed
+assets/assetpack.db
+assets/cache/
+assets/vendor/
 
 # bower
 public/components/

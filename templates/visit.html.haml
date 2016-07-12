@@ -1,16 +1,6 @@
 - use utf8;
 - my $_id = 'visit';
-- layout 'notlogin',
--   page_id => $_id,
--   jses  => [
--     '/components/moment/min/moment.min.js',
--     '/components/jquery-mask-plugin/dist/jquery.mask.min.js',
--     '//cdn.poesis.kr/post/search.min.js',
--   ],
--   csses => [
--     '//cdn.poesis.kr/post/search.css',
--   ],
--   ;
+- layout 'notlogin', page_id => $_id;
 - title meta_text($_id);
 
 - if ( $type eq 'visit-info' ) {

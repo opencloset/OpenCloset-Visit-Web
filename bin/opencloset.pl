@@ -5,9 +5,12 @@ use Mojolicious::Lite;
 
 use DateTime;
 use Encode 'decode_utf8';
+use File::ShareDir "dist_dir";
 use HTTP::Tiny;
 use List::MoreUtils qw( zip );
+use Path::Tiny;
 use String::Random;
+use Try::Tiny;
 
 use Postcodify;
 
@@ -30,10 +33,39 @@ my $DB = OpenCloset::Schema->connect({
     %{ app->config->{database}{opts} },
 });
 
-plugin 'AssetPack';
+plugin 'AssetPack' => {
+    pipes => [
+        qw/
+            Sass
+            Css
+            CoffeeScript
+            JavaScript
+            Fetch
+            Combine
+            /
+    ],
+};
+
+{
+    # use content from directories under lib/OpenCloset/Visit/Web/files or using File::ShareDir
+    my $lib_base = path( path(__FILE__)->absolute->dirname . "/Web/files" )->child("/public");
+    my $dist_dir = try { path( dist_dir("OpenCloset-Visit-Web") )->child("/public") };
+    my $cur_dir  = path("./public");
+
+    my $final =
+          $lib_base && $lib_base->is_dir ? $lib_base->stringify
+        : $dist_dir && $dist_dir->is_dir ? $dist_dir->stringify
+        : $cur_dir  && $cur_dir->is_dir  ? $cur_dir->stringify
+        :                                  undef;
+    push @{ app->asset->store->paths }, $final if $final;
+
+    # FIXME
+    push @{ app->static->paths }, "./assets";
+
+    app->asset->process;
+}
+
 plugin 'FillInFormLite';
-plugin 'FontAwesome4';
-plugin 'bootstrap3' => { jquery => 0 };
 plugin 'haml_renderer';
 plugin 'validator';
 
@@ -80,11 +112,6 @@ plugin 'authentication' => {
         return $user_obj->id;
     },
 };
-
-app->asset( "bundle.js"  => "/coffee/bundle.coffee" );
-app->asset( "login.js"   => "/coffee/login.coffee" );
-app->asset( "visit.js"   => "/coffee/visit.coffee" );
-app->asset( "screen.css" => "/sass/screen.scss" );
 
 helper error => sub {
     my ($self, $status, $error) = @_;
