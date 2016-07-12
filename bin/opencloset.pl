@@ -66,7 +66,6 @@ plugin 'AssetPack' => {
 }
 
 plugin 'FillInFormLite';
-plugin 'haml_renderer';
 plugin 'validator';
 
 plugin 'authentication' => {
