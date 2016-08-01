@@ -1,15 +1,14 @@
 {
-  "name": "opencloset",
-  "version": "0.0.0",
-  "homepage": "https://github.com/opencloset/opencloset",
+  "name": "opencloset-visit-web",
   "authors": [
-    "Keedi Kim <keedi.k@gmail.com>",
-    "Hyungsuk Hong <aanoaa@gmail.com>"
+    "Keedi Kim <keedi.k@gmail.com>"
   ],
-  "moduleType": [
-    "amd"
-  ],
+  "description": "OpenCloset::Visit::Web",
+  "main": "",
+  "moduleType": [],
   "license": "MIT",
+  "homepage": "https://github.com/opencloset/OpenCloset-Visit-Web",
+  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
@@ -18,12 +17,13 @@
     "tests"
   ],
   "dependencies": {
-    "mousetrap": "~1.5.2",
     "bootstrap": "~3.3.6",
-    "jquery": "~2.1.4",
-    "font-awesome": "~4.5.0",
-    "bootstrap-validator": "~0.9.0",
-    "jquery-mask-plugin": "jQuery-Mask-Plugin#~1.13.4",
-    "bootstrap-datepicker": "~1.5.0"
+    "bootstrap-datepicker": "~1.5.1",
+    "chosen": "~1.4.2",
+    "font-awesome": "~4.6.1",
+    "jquery": "~2.2.0",
+    "jquery-mask-plugin": "~1.13.4",
+    "moment": "~2.11.1",
+    "underscore": "~1.8.3"
   }
 }

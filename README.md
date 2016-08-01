@@ -21,11 +21,9 @@ opencloset
 
 [nvm](https://github.com/creationix/nvm) 의 사용을 추천합니다.
 
-coffeescript 파일을 컴파일하고, 컴파일된 javascript 파일을 minify
-하기위해 [grunt](http://gruntjs.com/) 도구를 설치합니다.
+[CoffeeScript](http://coffeescript.org/) 컴파일을 위한 모듈을 설치합니다.
 
-    $ npm install -g grunt-cli
-    $ npm install
+    $ npm install -g coffee-script
 
 front-end 패키지 관리를 위해 [bower](http://bower.io/)를 설치합니다.
 
@@ -115,36 +113,15 @@ MySQL 데이터베이스에 접속하며 `opencloset` 데이터베이스에
 
     $ PERL5LIB=lib:$PERL5LIB MOJO_HOME=. MOJO_CONFIG=app.conf morbo -w app.conf -w lib app.psgi
 
-## front-end 파일의 수정 ##
-
-scss 파일이나 coffeescript 파일이 추가 되었거나 변경되었다면, `grunt`
-명령어를 이용해서 각각의 파일을 js, css 파일로 컴파일합니다.
-
-    $ grunt
-
-개발중에 있다면 `watch` 명령어를 통해 변경된 파일이 감지되면 자동으로
-컴파일 되도록 할 수 있습니다.
-
-    $ grunt watch
-
 ### 자바스크립트 수정
 
 열린옷장 프로젝트의 자바스크립트는 커피스크립트를 이용해서 작성합니다.
-자바스크립트를 수정해야 하면 커피스크립트 파일을 수정해주세요.
-
-`grunt` 명령어를 이용해서 coffeescript 파일을 javascript 파일로
-컴파일합니다.
-
-    $ grunt coffee uglify
+자바스크립트를 수정해야 하면 `public/coffee` 디렉터리 하부의 커피스크립트 파일을 수정해주세요.
 
 ### 스타일시트 수정
 
 열린옷장 프로젝트의 스타일시트는 SASS를 이용해서 작성합니다.
-스타일시트를 수정해야 하면 `public/sass/*.sass` 파일을 수정해주세요.
-
-`grunt` 명령어를 이용해서 scss 파일을 css 파일로 컴파일합니다.
-
-    $ grunt compass
+스타일시트를 수정해야 하면 `public/sass` scss 파일을 수정해주세요.
 
 ### 이슈, 제안이나 의견
 
