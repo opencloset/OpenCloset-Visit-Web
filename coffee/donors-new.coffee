@@ -1,2 +1,0 @@
-$ ->
-  $('#input-phone').ForceNumericOnly()
