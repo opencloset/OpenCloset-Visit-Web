@@ -607,3 +607,11 @@ $ ->
   $("#select-past-orders").chosen
     width: "100%"
     disable_search_threshold: 20
+
+  $("input[name=name]").val("김도형키디")
+  $("input[name=phone]").val("01025116893")
+  $("input[name=service]").prop( "checked", true )
+  $("input[name=privacy]").prop( "checked", true )
+
+  #$("input[name=name]").val("박인경")
+  #$("input[name=phone]").val("01064210796")

@@ -7,10 +7,8 @@ use strict;
 use warnings;
 
 use Mojo::JSON;
-use POSIX qw( ceil );
 
-my $PORT = $ENV{PORT} || 5000;
-
+my $PORT     = 5000;
 my %SMS_FROM = (
     official => '0269291020',
     online   => '0269291029',
@@ -41,53 +39,6 @@ my $db_opts = $ENV{OPENCLOSET_DATABASE_OPTS} ? Mojo::JSON::decode_json( $ENV{OPE
 #
 $db_opts->{RaiseError} //= 1;
 $db_opts->{AutoCommit} //= 1;
-
-my %BOOKING_SLOT = (
-    weekday => {
-        male => {
-            '09:00' => 4, '09:30' => 4,
-            '10:00' => 4, '10:30' => 4, '11:00' => 4, '11:30' => 3,
-            '12:00' => 3, '12:30' => 3, '13:00' => 2, '13:30' => 3,
-            '14:00' => 4, '14:30' => 4, '15:00' => 4, '15:30' => 0,
-            '16:00' => 0, '16:30' => 0, '17:00' => 6, '17:30' => 3,
-            '18:00' => 3, '18:30' => 3, '19:00' => 3, '19:30' => 0,
-            '20:00' => 0, '20:30' => 0, '21:00' => 0, '21:30' => 0,
-            '22:00' => 0,
-        },
-        female => {
-            '09:00' => 5, '09:30' => 5,
-            '10:00' => 5, '10:30' => 5, '11:00' => 5, '11:30' => 3,
-            '12:00' => 3, '12:30' => 3, '13:00' => 2, '13:30' => 3,
-            '14:00' => 5, '14:30' => 5, '15:00' => 5, '15:30' => 0,
-            '16:00' => 0, '16:30' => 0, '17:00' => 6, '17:30' => 3,
-            '18:00' => 2, '18:30' => 2, '19:00' => 2, '19:30' => 0,
-            '20:00' => 0, '20:30' => 0, '21:00' => 0, '21:30' => 0,
-            '22:00' => 0,
-        },
-    },
-    weekend => {
-        male => {
-            '09:00' => 5, '09:30' => 5,
-            '10:00' => 5, '10:30' => 5, '11:00' => 5, '11:30' => 3,
-            '12:00' => 2, '12:30' => 2, '13:00' => 2, '13:30' => 3,
-            '14:00' => 4, '14:30' => 4, '15:00' => 4, '15:30' => 4,
-            '16:00' => 4, '16:30' => 4, '17:00' => 3, '17:30' => 0,
-            '18:00' => 0, '18:30' => 0, '19:00' => 0, '19:30' => 0,
-            '20:00' => 0, '20:30' => 0, '21:00' => 0, '21:30' => 0,
-            '22:00' => 0,
-        },
-        female => {
-            '09:00' => 4, '09:30' => 4,
-            '10:00' => 4, '10:30' => 4, '11:00' => 4, '11:30' => 3,
-            '12:00' => 2, '12:30' => 2, '13:00' => 2, '13:30' => 3,
-            '14:00' => 5, '14:30' => 5, '15:00' => 5, '15:30' => 5,
-            '16:00' => 5, '16:30' => 5, '17:00' => 3, '17:30' => 0,
-            '18:00' => 0, '18:30' => 0, '19:00' => 0, '19:30' => 0,
-            '20:00' => 0, '20:30' => 0, '21:00' => 0, '21:30' => 0,
-            '22:00' => 0,
-        },
-    },
-);
 
 {
     #
@@ -121,12 +72,6 @@ my %BOOKING_SLOT = (
     timezone => 'Asia/Seoul',
 
     #
-    # 사이트 유형 설정
-    #   all/staff/visit
-    #
-    site_type => $ENV{OPENCLOSET_APP_TYPE} || 'all',
-
-    #
     # 방문 예약 페이지에서 기존 정보로 채워줌 여무
     #
     visit_load => 0,
@@ -143,136 +88,6 @@ my %BOOKING_SLOT = (
     theme        => 'ace',
     site         => { name => '열린옷장', icon => 'archive' },
     company_name => '열린옷장',
-    sidebar      => {
-        meta => {
-            'home'                => { text => '첫 화면',               icon => 'home',      desc => '열린옷장 재고 관리 시스템입니다.', link => '/',          shortcut => '1' },
-            'rental'              => { text => '대여',                  icon => 'share',     desc => '어떤 옷을 빌려가나요?',                                  shortcut => '9' },
-            'order'               => { text => '주문서',                icon => 'file',      desc => '지금까지 대여해간 주문서 목록입니다.', link => '/order', shortcut => '8' },
-            'order-id'            => { text => '주문 내역',             icon => q{},         desc => '주문서 내역입니다.',        link => '#' },
-            'order-detail'        => { text => '주문 내역',             icon => q{},         desc => '주문서 내역입니다.',        link => '#' },
-            'user'                => { text => '사용자',                icon => 'user',      desc => '사용자 목록입니다.',        link => '/user',             shortcut => '3' },
-            'user-id'             => { text => '사용자 정보',           icon => 'user',      desc => '사용자 정보입니다.',        link => '#'        },
-            'clothes'             => { text => '의류',                  icon => 'female',    desc => '의류 목록입니다.',          link => '/clothes' },
-            'clothes-code'        => { text => '의류 정보',             icon => 'female',    desc => '의류 정보입니다.',          link => '#'        },
-            'tag'                 => { text => '태그',                  icon => 'tag',       desc => '태그 정보입니다.' },
-            'booking'             => { text => '예약',                  icon => 'book',      desc => '예약 정보입니다.',          link => '/booking',          shortcut => '5' },
-            'timetable'           => { text => '시간표',                icon => 'calendar',  desc => '예약 현황표입니다.',        link => '/timetable',        shortcut => '7' },
-            'sms'                 => { text => '문자 전송',             icon => 'envelope',  desc => '단문 메시지를 전송합니다.', link => '/sms',              shortcut => '6' },
-            'sms-macros'          => { text => 'SMS 매크로',            icon => 'envelope',  desc => '문자메세지 매크로를 관리합니다.', link => '/sms/macros',      },
-            'donation'            => { text => '기증',                  icon => 'heart',     desc => '기증 정보입니다.',          link => '/donation',         shortcut => '4' },
-            'donation-id'         => { text => '기증 내역',             icon => 'heart',     desc => '기증 내역입니다.',          link => '#' },
-            'login'               => { text => '로그인',                icon => 'lock',      },
-            'visit'               => { text => '방문 예약',             icon => 'group',     desc => '열린옷장 방문 예약', link => '/visit'  },
-            'visit2'              => { text => '방문 예약 (직원 전용)', icon => 'group',     desc => '열린옷장 방문 예약', link => '/visit2' },
-            'stat'                => { text => '통계',                  icon => 'bar-chart', desc => '통계',               link => '#' },
-            'volunteer'           => { text => '봉사활동',              icon => 'male',      desc => '봉사활동 현황입니다.',      link => 'https://volunteer.theopencloset.net/works' },
-            'stat-bestfit'        => { text => '어울림',                icon => q{},         desc => '베스트핏에 해당하는 의류와 대여자 신체 치수 정보를 보여줍니다.', link => '/stat/bestfit'        },
-            'stat-clothes-amount' => { text => '수량',                  icon => q{},         desc => '옷의 종류별 수량을 보여줍니다.',                                 link => '/stat/clothes/amount' },
-            'stat-clothes-hit'    => { text => '인기 의류',             icon => q{},         desc => '가장 많이 대여한 옷을 종류별로 보여줍니다.',                     link => '/stat/clothes/hit'    },
-            'stat-clothes-rent'   => { text => '대여 회전율',           icon => q{},         desc => '옷의 대여일 및 대여 회전율을 보여줍니다.',                       link => '/stat/clothes/rent'   },
-            'stat-status'         => { text => '상태',                  icon => q{},         desc => '주문서의 상태별 처리 시간을 보여줍니다.',                        link => '/stat/status'         },
-            'stat-visitor'        => { text => '방문자',                icon => q{},         desc => '일/주/월 별 방문자 정보',                                        link => '/stat/visitor'        },
-            'stat-events-seoul'   => { text => '이벤트 이용현황',       icon => q{},         desc => '취업날개 이벤트 이용현황',                                       link => '/stat/events/seoul-2017'   },
-            'size-guess'          => { text => '신체 치수 예측',        icon => 'info',      desc => '키와 몸무게로 신체 치수를 예측합니다.',                          link => '/size/guess' },
-            'user-id-search-clothes'      => { text => '의류검색',      icon => 'search',    desc => '신체치수로 잘 맞을 의류를 검색합니다.',                          link => '#' },
-            'donation-list'      => { text => '기증신청목록',           icon => q{},         desc => '기증신청서 목록 입니다',                                         link => 'https://donation.theopencloset.net/forms' },
-        },
-        items => [
-            { id => 'home'        },
-            { id => 'clothes'     },
-            { id => 'user'        },
-            {
-                id => 'donation',
-                items => [
-                    { id => 'donation' },
-                    { id => 'donation-list' },
-                ]
-            },
-            { id => 'tag'         },
-            { id => 'booking'     },
-            { id => 'visit2'      },
-            { id => 'sms'         },
-            { id => 'timetable'   },
-            { id => 'order'       },
-            { id => 'rental'      },
-            { id => 'volunteer'   },
-            { id => 'size-guess'  },
-            {
-                id    => 'stat',
-                items => [
-                    { id => 'stat-bestfit'        },
-                    { id => 'stat-clothes-amount' },
-                    { id => 'stat-clothes-hit'    },
-                    { id => 'stat-clothes-rent'   },
-                    { id => 'stat-status'         },
-                    { id => 'stat-visitor'        },
-                    { id => 'stat-events-seoul'   },
-                ],
-            },
-        ],
-    },
-
-    #
-    # page
-    #
-    entries_per_page => 20,
-
-    #
-    # avatar icon
-    #
-    avatar_icon => 'https://f.cloud.github.com/assets/138451/1897856/98a66e60-7bff-11e3-9318-ef8eae4ff285.png',
-
-    #
-    # category
-    #
-    category => {
-        bag       => { str => '가방',     price => 5000  },
-        belt      => { str => '벨트',     price => 2000  },
-        blouse    => { str => '블라우스', price => 5000  },
-        coat      => { str => '코트',     price => 10000 },
-        jacket    => { str => '재킷',     price => 10000 },
-        onepiece  => { str => '원피스',   price => 10000 },
-        pants     => { str => '바지',     price => 10000 },
-        shirt     => { str => '셔츠',     price => 5000  },
-        shoes     => { str => '신발',     price => 5000  },
-        skirt     => { str => '치마',     price => 10000 },
-        tie       => { str => '넥타이',   price => 2000  },
-        waistcoat => { str => '조끼',     price => 5000  },
-    },
-
-    'opencloset-sms-notifier.pl' => {
-        fake_sms   => $ENV{OPENCLOSET_SMS_NOTIFIER_FAKE_SMS}   // 0,
-        delay      => $ENV{OPENCLOSET_SMS_NOTIFIER_DELAY}      || 10,
-        send_delay => $ENV{OPENCLOSET_SMS_NOTIFIER_SEND_DELAY} || 1,
-        base_url   => $ENV{OPENCLOSET_SMS_NOTIFIER_BASE_URL}   || "http://127.0.0.1:$PORT/api",
-        email      => $ENV{OPENCLOSET_SMS_NOTIFIER_EMAIL}      || q{},
-        password   => $ENV{OPENCLOSET_SMS_NOTIFIER_PASSWORD}   || q{},
-        sms        => \%SMS,
-    },
-
-    'opencloset-cron-sms.pl' => {
-        port => $ENV{OPENCLOSET_CRON_SMS_PORT} || 8004,
-        delay => 10,
-        aelog => 'filter=debug:log=stderr',
-    },
-
-    'opencloset-cron-unpaid.pl' => {
-        port => $ENV{OPENCLOSET_CRON_UNPAID_PORT} || 8014,
-        delay => 10,
-        aelog => 'filter=debug:log=stderr',
-    },
-
-    'opencloset-cron-visitor.pl' => {
-        port => $ENV{OPENCLOSET_CRON_VISITOR_PORT} || 8015,
-        delay => 10,
-        aelog => 'filter=debug:log=stderr',
-    },
-
-    'opencloset-cron-event.pl' => {
-        port => $ENV{OPENCLOSET_CRON_EVENT_PORT} || 8017,
-        delay => 10,
-        aelog => 'filter=debug:log=stderr',
-    },
 
     #
     # SMS
@@ -285,34 +100,6 @@ my %BOOKING_SLOT = (
     expire => {
         default  => 3600,
         remember => 86400,
-    },
-
-    #
-    # booking
-    #
-    booking => {
-        mon => $BOOKING_SLOT{weekday},
-        tue => $BOOKING_SLOT{weekday},
-        wed => $BOOKING_SLOT{weekday},
-        thu => $BOOKING_SLOT{weekday},
-        fri => $BOOKING_SLOT{weekday},
-        sat => $BOOKING_SLOT{weekend},
-        sun => $BOOKING_SLOT{weekend},
-    },
-
-    #
-    # cache
-    #
-    cache => {
-        dir => './cache'
-    },
-
-    #
-    # sale
-    #
-    sale => {
-        enable => 1,
-        desc   => "3회째 대여자 부터 대여자의 부담을 줄이기 위해 비용을 할인함 (#790)",
     },
 
     #
@@ -333,64 +120,6 @@ my %BOOKING_SLOT = (
     #
     monitor_uri => $ENV{OPENCLOSET_MONITOR_URI} || 'https://monitor.theopencloset.net',
 
-    #
-    # bodykit
-    #
-    bodykit => {
-        accessKey => $ENV{OPENCLOSET_BODYKIT_ACCESSKEY} || q{},
-        secret    => $ENV{OPENCLOSET_BODYKIT_SECRET}    || q{},
-    },
-
-    #
-    # volunteer
-    #
-    volunteer_uri => $ENV{OPENCLOSET_VOLUNTEER_URI} || 'https://volunteer.theopencloset.net',
-
-    #
-    # search clothes
-    #
-    'search-clothes' => {
-        male => {
-            upper_name   => 'jacket',
-            lower_name   => 'pants',
-            upper_params => [qw/
-                arm
-                bust
-                topbelly
-            /],
-            lower_params => [qw/
-                thigh
-                waist
-            /],
-            range_rules  => {
-                bust     => sub { ( ceil( $_[0] ) - 3, ceil( $_[0] ) + 3 ) },
-                topbelly => sub { ( ceil( $_[0] ) - 2, ceil( $_[0] ) + 2 ) },
-                arm      => sub { ( ceil( $_[0] ) - 1, ceil( $_[0] ) + 2 ) },
-                thigh    => sub { ( ceil( $_[0] ) - 2, ceil( $_[0] ) + 3 ) },
-                waist    => sub { ( ceil( $_[0] ) - 1, ceil( $_[0] ) + 2 ) },
-            },
-            fix_sizes    => [ qw/arm waist/ ],
-        },
-        female => {
-            upper_name   => 'jacket',
-            lower_name   => 'skirt',
-            upper_params => [qw/
-                bust
-                topbelly
-            /],
-            lower_params => [qw/
-                hip
-                waist
-            /],
-            range_rules  => {
-                bust     => sub { ( ceil( $_[0] ) - 2, ceil( $_[0] ) + 2 ) },
-                topbelly => sub { ( ceil( $_[0] ) - 2, ceil( $_[0] ) + 2 ) },
-                hip      => sub { ( ceil( $_[0] ) - 2, ceil( $_[0] ) + 2 ) },
-                waist    => sub { ( ceil( $_[0] ),     ceil( $_[0] ) + 2 ) },
-            },
-            fix_sizes    => [ qw/hip/ ],
-        },
-    },
     events => {
         seoul => {
             key => $ENV{OPENCLOSET_EVENT_SEOUL_KEY} || q{},
@@ -419,33 +148,8 @@ my %BOOKING_SLOT = (
             booking_expires => "2018-12-16T23:59:59",
         },
     },
-    income => {
-        opencloset => '25ab86bed149ca6ca9c1c0d5db7c9a91388ddeab',    # s3cr3t
-    },
-    start_date => {
-        year      => 2014,
-        month     => 12,
-        day       => 17,
-        time_zone => 'Asia/Seoul',
-    },
-    oavatar => {
-        token => $ENV{OPENCLOSET_AVATAR_TOKEN} || 's3cr3t',
-        url   => $ENV{OPENCLOSET_AVATAR_URL}   || 'https://avatar.theopencloset.net/avatar',
-    },
     iamport => {
         key    => $ENV{OPENCLOSET_IAMPORT_API_KEY},
         secret => $ENV{OPENCLOSET_IAMPORT_API_SECRET},
     },
-    dressfree => {
-        username => $ENV{OPENCLOSET_DRESSFREE_USERNAME} || '',
-        password => $ENV{OPENCLOSET_DRESSFREE_PASSWORD} || '',
-    },
-    email_notify => {
-        from => $ENV{OPENCLOSET_EMAIL_NOTIFY_FROM} || 'info@theopencloset.net',
-        to   => $ENV{OPENCLOSET_EMAIL_NOTIFY_TO} || 'info@theopencloset.net',
-    },
-    jandi => {
-        hook => $ENV{OPENCLOSET_JANDI_WEBHOOK_URL} || '',
-    },
-    redis_url => $ENV{OPENCLOSET_REDIS_URL} || 'redis://localhost:6379',
 };

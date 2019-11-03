@@ -5,13 +5,56 @@
       <meta http-equiv="refresh" content="0;URL='<%= url_for('/browse-happy') %>'">
     <![endif]-->
     <title><%= title %> &middot; 열린옷장</title>
-    %= include 'layouts/default/meta'
-    %= include 'layouts/default/before-css'
-    %= include 'layouts/default/before-js'
-    %= include 'layouts/default/theme'
-    %= include 'layouts/default/css-page'
-    %= include 'layouts/default/after-css'
-    %= include 'layouts/default/after-js'
+
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="<%= url_for('/icon.png') %>" rel="icon" type="image/png">
+
+    <!-- Before CSS -->
+    <link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="/components/chosen/chosen.css" rel="stylesheet">
+    <link href="/components/facebox/src/facebox.css" rel="stylesheet">
+
+    <!-- Before JS -->
+    <script>
+    var CONFIG = {
+      monitor_uri: "<%= $monitor_uri %>",
+    };
+    </script>
+
+    <!-- theme -->
+    <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>-fonts.css">
+    <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>.min.css">
+    <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>-rtl.min.css">
+    <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>-skins.min.css">
+    <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>-chosen.css">
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="/theme/<%= $theme %>/css/<%= $theme %>-ie.min.css">
+    <![endif]-->
+    <script src="/theme/<%= $theme %>/js/<%= $theme %>-extra.min.js"></script>
+
+    <!-- css-page -->
+    % my @include_csses = @$csses;
+    % for my $css (@include_csses) {
+      % if ($css =~ m{^(https?://|/)}) {
+        <link href="<%= $css %>" rel="stylesheet">
+      % } else {
+        <link href="/css/<%= $css %>" rel="stylesheet">
+      % }
+    % }
+
+    <!-- After CSS -->
+    <link href="/components/opencloset.css/dist/css/opencloset.min.css" rel="stylesheet">
+    <link href="/css/screen.css" rel="stylesheet">
+
+    <!-- After JS -->
+    <!--[if IE 9]>
+      <script src="/lib/html5shiv/html5shiv.js"></script>
+      <script src="/lib/respond/respond.min.js"></script>
+    <![endif]-->
   </head>
 
   <body class="login-layout">
@@ -23,7 +66,7 @@
               <div class="center">
                 <h1>
                   % if (my $icon = $site->{icon}) {
-                    <i class="icon-<%= $icon %> orange"></i>
+                    <i class="fa fa-<%= $icon %> orange"></i>
                   % }
                   <span class="white">
                     %= $site->{name}
@@ -40,8 +83,70 @@
       </div>
       %= footer
     </div>
-    %= include 'layouts/default/body-js'
-    %= include 'layouts/default/body-js-theme'
-    %= include 'layouts/default/body-js-page'
+    <!-- body-js -->
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <!-- jQuery -->
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!--[if lte IE 8]>
+      <script src="/lib/excanvas/excanvas.min.js"></script>
+    <![endif]-->
+
+    <!-- underscore -->
+    <script src="/components/underscore/underscore-min.js"></script>
+
+    <!-- datepicker -->
+    <script src="/components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="/components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.ko.min.js"></script>
+
+    <!-- chosen -->
+    <script src="/components/chosen/chosen.jquery.js"></script>
+
+    <!-- bootbox -->
+    <script src="/components/facebox/src/facebox.js"></script>
+
+    <!-- bootbox -->
+    <script src="/components/bootbox.js/bootbox.js"></script>
+
+    <!-- bundle -->
+    <script src="/js/bundle.js"></script>
+
+    % if ($google_analytics) {
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', '<%= $google_analytics %>', 'auto');
+      ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+    </script>
+    % }
+
+    <!-- body js theme -->
+    <script src="/theme/<%= $theme %>/js/<%= $theme %>-elements.min.js"></script>
+    <script src="/theme/<%= $theme %>/js/<%= $theme %>.min.js"></script>
+
+    <!-- body-js-page -->
+    <!-- page specific -->
+    % my @include_jses = @$jses;
+    % my $asset = app->static->file("js/$page_id.js");
+    % push @include_jses, "$page_id.js" if $page_id && $asset && $asset->is_file;
+    % for my $js (@include_jses) {
+    %   if ( $js =~ m{^(https?://|/)} ) {
+          <script type="text/javascript" src="<%= $js %>"></script>
+    %   }
+    %   else {
+          <script type="text/javascript" src="/js/<%= $js %>"></script>
+    %   }
+    % }
+
   </body>
 </html>

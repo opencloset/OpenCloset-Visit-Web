@@ -30,6 +30,9 @@ public/css
 # bower
 public/components/
 
+# yarn
+yarn.lock
+
 # database file
 *.sqlite
 *.db
