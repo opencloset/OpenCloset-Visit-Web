@@ -1,5 +1,6 @@
 package OpenCloset::Web;
 use Mojo::Base 'Mojolicious';
+use experimental qw( signatures );
 
 use version; our $VERSION = qv("v1.12.11");
 
@@ -54,6 +55,7 @@ sub startup {
 
     $self->_authentication;
     $self->_public_routes;
+    $self->_endgame_routes;
     $self->_hooks;
 
     $self->secrets( $self->defaults->{secrets} );
@@ -140,6 +142,20 @@ sub _public_routes {
     my $api = $r->under('/api')->to('user#auth');
     $api->post('/sms/validation')->to('API#api_create_sms_validation');
     $api->get('/gui/booking-list')->to('API#api_gui_booking_list');
+}
+
+=head2 _endgame_routes
+
+=cut
+
+sub _endgame_routes {
+    my $self = shift;
+    my $r    = $self->routes;
+
+    $r->get( "/", sub ($c) { $c->redirect_to( $c->url_for("/endgame/offintro") ); } );
+
+    my $endgame = $r->under('/endgame');
+    $endgame->get("/offintro")->to("endgame#offintro");
 }
 
 sub _hooks {

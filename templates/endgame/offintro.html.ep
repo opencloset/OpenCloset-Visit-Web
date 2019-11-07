@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="<%= url_for("/icon.png") %>" rel="shortcut icon"/>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+        <link href="<%= url_for("/endgame/css/common.css") %>" rel="stylesheet" type="text/css"/>
+        <link href="<%= url_for("/endgame/css/offintro.css") %>" rel="stylesheet" type="text/css"/>
+        <meta content="Launchpad by Anima" name="author">
+        </meta>
+    </head>
+    <body style="margin: 0;
+ background: rgba(255, 255, 255, 1.0);">
+        <input id="anPageName" name="page" type="hidden" value="offintro"/>
+        <div class="offintro">
+            <div style="width: 375px; height: 100%; position:relative; margin:auto;">
+                <img anima-src="<%= url_for("/endgame/img/offintro-bgimage.png") %>" class="bgimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                <div class="logowhite">
+                    <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                </div>
+                <div class="btndelivery">
+                    <div class="rectud0ddubc30">
+                    </div>
+                    <div class="ud0ddubc30 anima-valign-text-middle">
+                        택배
+                    </div>
+                    <div class="delivery">
+                        Delivery
+                    </div>
+                    <div class="uc5f4ub9b0uc637uc7a5ud0ddubc30ub300uc5ecuc11cube44uc2a4 anima-valign-text-middle">
+                        열린옷장<br />택배대여 서비스
+                    </div>
+                    <div class="iconnext">
+                        <div class="rectangle">
+                        </div>
+                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                    </div>
+                </div>
+                <div class="btnvisit">
+                    <div class="rectud0ddubc30">
+                    </div>
+                    <div class="ubc29ubb38 anima-valign-text-middle">
+                        방문
+                    </div>
+                    <div class="visit">
+                        Visit
+                    </div>
+                    <div class="uc5f4ub9b0uc637uc7a5ubc29ubb38ub300uc5ecuc11cube44uc2a4 anima-valign-text-middle">
+                        열린옷장<br />방문대여 서비스
+                    </div>
+                    <div class="iconnext">
+                        <div class="rectangle">
+                        </div>
+                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script>
+            anima_isHidden = function(e) {
+                if (!(e instanceof HTMLElement)) return !1;
+                if (getComputedStyle(e).display == "none") return !0; else if (e.parentNode && anima_isHidden(e.parentNode)) return !0;
+                return !1;
+            };
+            anima_loadAsyncSrcForTag = function(tag) {
+                var elements = document.getElementsByTagName(tag);
+                var toLoad = [];
+                for (var i = 0; i < elements.length; i++) {
+                    var e = elements[i];
+                    var src = e.getAttribute("src");
+                    var loaded = (src != undefined && src.length > 0 && src != 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+                    if (loaded) continue;
+                    var asyncSrc = e.getAttribute("anima-src");
+                    if (asyncSrc == undefined || asyncSrc.length == 0) continue;
+                    if (anima_isHidden(e)) continue;
+                    toLoad.push(e);
+                }
+                toLoad.sort(function(a, b) {
+                    return anima_getTop(a) - anima_getTop(b);
+                });
+                for (var i = 0; i < toLoad.length; i++) {
+                    var e = toLoad[i];
+                    var asyncSrc = e.getAttribute("anima-src");
+                    e.setAttribute("src", asyncSrc);
+                }
+            };
+            anima_pauseHiddenVideos = function(tag) {
+                var elements = document.getElementsByTagName("video");
+                for (var i = 0; i < elements.length; i++) {
+                    var e = elements[i];
+                    var isPlaying = !!(e.currentTime > 0 && !e.paused && !e.ended && e.readyState > 2);
+                    var isHidden = anima_isHidden(e);
+                    if (!isPlaying && !isHidden && e.getAttribute("autoplay") == "autoplay") {
+                        e.play();
+                    } else if (isPlaying && isHidden) {
+                        e.pause();
+                    }
+                }
+            };
+            anima_loadAsyncSrc = function(tag) {
+                anima_loadAsyncSrcForTag("img");
+                anima_loadAsyncSrcForTag("iframe");
+                anima_loadAsyncSrcForTag("video");
+                anima_pauseHiddenVideos();
+            };
+            var anima_getTop = function(e) {
+                var top = 0;
+                do {
+                    top += e.offsetTop || 0;
+                    e = e.offsetParent;
+                } while (e);
+                return top;
+            };
+            anima_loadAsyncSrc();
+            anima_old_onResize = window.onresize;
+            anima_new_onResize = undefined;
+            anima_updateOnResize = function() {
+                if (anima_new_onResize == undefined || window.onresize != anima_new_onResize) {
+                    anima_new_onResize = function(x) {
+                        if (anima_old_onResize != undefined) anima_old_onResize(x);
+                        anima_loadAsyncSrc();
+                    };
+                    window.onresize = anima_new_onResize;
+                    setTimeout(function() {
+                        anima_updateOnResize();
+                    }, 3000);
+                }
+            };
+            anima_updateOnResize();
+            setTimeout(function() {
+                anima_loadAsyncSrc();
+            }, 200);
+        </script>
+        <!-- End of Scripts -->
+    </body>
+</html>
