@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="<%= url_for("/icon.png") %>" rel="shortcut icon"/>
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-        <link href="<%= url_for("/endgame/css/common.css") %>" rel="stylesheet" type="text/css"/>
-        <link href="<%= url_for("/endgame/css/offmain.css") %>" rel="stylesheet" type="text/css"/>
-        <meta content="Launchpad by Anima" name="author">
-        </meta>
-    </head>
-    <body style="margin: 0;
- background: rgba(255, 255, 255, 1.0);">
-        <input id="anPageName" name="page" type="hidden" value="offmain"/>
-        <div class="offmain">
-            <div style="width: 375px; height: 100%; position:relative; margin:auto;">
+% layout "endgame", page_id => "offmain";
+% title "방문";
                 <img anima-src="<%= url_for("/endgame/img/offmain-bgimage.png") %>" class="bgimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                 <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                 <a href="<%= url_for("/endgame/offcert") %>">
@@ -67,10 +53,3 @@
                     </div>
                 </div>
                 </a>
-            </div>
-        </div>
-        <!-- Scripts -->
-        <script type="text/javascript" src="<%= url_for("/endgame/js/anima.js") %>"></script>
-        <!-- End of Scripts -->
-    </body>
-</html>
