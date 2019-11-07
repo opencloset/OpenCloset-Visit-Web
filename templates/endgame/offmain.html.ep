@@ -16,6 +16,7 @@
             <div style="width: 375px; height: 100%; position:relative; margin:auto;">
                 <img anima-src="<%= url_for("/endgame/img/offmain-bgimage.png") %>" class="bgimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                 <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                <a href="<%= url_for("/endgame/offcert") %>">
                 <div class="btnreserv">
                     <div class="rect">
                     </div>
@@ -35,6 +36,8 @@
                         <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                     </div>
                 </div>
+                </a>
+                <a href="<%= $urls->{event_seoul} %>">
                 <div class="btnseoul">
                     <div class="rect">
                     </div>
@@ -48,6 +51,8 @@
                         <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                     </div>
                 </div>
+                </a>
+                <a href="<%= $urls->{event_gyeonggi} %>">
                 <div class="btnkyungki">
                     <div class="rect">
                     </div>
@@ -61,6 +66,7 @@
                         <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <!-- Scripts -->
