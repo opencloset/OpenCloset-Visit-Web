@@ -23,4 +23,13 @@ sub offintro ($self) {
 sub offmain ($self) {
 }
 
+=head2 offcert
+
+    GET /endgame/offcert
+
+=cut
+
+sub offcert ($self) {
+}
+
 1;
