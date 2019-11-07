@@ -18,6 +18,7 @@
                 <div class="logowhite">
                     <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                 </div>
+                <a href="<%= $urls->{share} %>">
                 <div class="btndelivery">
                     <div class="rectud0ddubc30">
                     </div>
@@ -36,6 +37,8 @@
                         <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                     </div>
                 </div>
+                </a>
+                <a href="<%= url_for("/endgame/offmain") %>">
                 <div class="btnvisit">
                     <div class="rectud0ddubc30">
                     </div>
@@ -54,6 +57,7 @@
                         <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                     </div>
                 </div>
+                </a>
             </div>
         </div>
         <!-- Scripts -->

@@ -152,4 +152,11 @@ $db_opts->{AutoCommit} //= 1;
         key    => $ENV{OPENCLOSET_IAMPORT_API_KEY},
         secret => $ENV{OPENCLOSET_IAMPORT_API_SECRET},
     },
+
+    #
+    # urls
+    #
+    urls => {
+        share => "https://share.theopencloset.net",
+    },
 };
