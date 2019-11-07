@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="<%= url_for("/icon.png") %>" rel="shortcut icon"/>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+        <link href="<%= url_for("/endgame/css/common.css") %>" rel="stylesheet" type="text/css"/>
+        <link href="<%= url_for("/endgame/css/offmain.css") %>" rel="stylesheet" type="text/css"/>
+        <meta content="Launchpad by Anima" name="author">
+        </meta>
+    </head>
+    <body style="margin: 0;
+ background: rgba(255, 255, 255, 1.0);">
+        <input id="anPageName" name="page" type="hidden" value="offmain"/>
+        <div class="offmain">
+            <div style="width: 375px; height: 100%; position:relative; margin:auto;">
+                <img anima-src="<%= url_for("/endgame/img/offmain-bgimage.png") %>" class="bgimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                <div class="btnreserv">
+                    <div class="rect">
+                    </div>
+                    <div class="uc5f4ub9b0uc637uc7a5ubc29ubb38uc2dcuac04uc608uc57dud558uae30 anima-valign-text-middle">
+                        <span><span class="span1">열린옷장</span><span class="span2"><br />방문시간 예약하기</span>
+    </span>
+                    </div>
+                    <div class="a267ubc29ubb38uc2dcuac04uc608uc57d267uc608uc57dub0b4uc5edud655uc778">
+                        · 방문시간 예약<br />· 예약내역 확인/변경/취소<br />
+                    </div>
+                    <div class="ud734ub300uc804ud654uac00uc5c6uac70ub098ubc88ud638uac00ubcc0uacbdub41c anima-valign-text-middle">
+                        * 휴대전화가 없거나 번호가 변경된 경우,<br />열린옷장에 직접문의하세요 (02-6929-1020)
+                    </div>
+                    <div class="iconnext">
+                        <div class="rectangle">
+                        </div>
+                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                    </div>
+                </div>
+                <div class="btnseoul">
+                    <div class="rect">
+                    </div>
+                    <div class="uc11cuc6b8uc2dcuc815uc7a5ubb34ub8ccub300uc5ecubc14ub85cuac00uae30 anima-valign-text-middle">
+                        <span><span class="span1">서울시 </span><span class="span2">정장 무료대여 바로가기</span>
+    </span>
+                    </div>
+                    <div class="iconnextblue">
+                        <div class="rectangle">
+                        </div>
+                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                    </div>
+                </div>
+                <div class="btnkyungki">
+                    <div class="rect">
+                    </div>
+                    <div class="uacbduae30uc815uc7a5ubb34ub8ccub300uc5ecuc815ubcf4ubcf4uae30 anima-valign-text-middle">
+                        <span><span class="span1">경기 </span><span class="span2">정장 무료대여 정보 보기</span>
+    </span>
+                    </div>
+                    <div class="iconnextblue">
+                        <div class="rectangle">
+                        </div>
+                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script>
+            anima_isHidden = function(e) {
+                if (!(e instanceof HTMLElement)) return !1;
+                if (getComputedStyle(e).display == "none") return !0; else if (e.parentNode && anima_isHidden(e.parentNode)) return !0;
+                return !1;
+            };
+            anima_loadAsyncSrcForTag = function(tag) {
+                var elements = document.getElementsByTagName(tag);
+                var toLoad = [];
+                for (var i = 0; i < elements.length; i++) {
+                    var e = elements[i];
+                    var src = e.getAttribute("src");
+                    var loaded = (src != undefined && src.length > 0 && src != 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+                    if (loaded) continue;
+                    var asyncSrc = e.getAttribute("anima-src");
+                    if (asyncSrc == undefined || asyncSrc.length == 0) continue;
+                    if (anima_isHidden(e)) continue;
+                    toLoad.push(e);
+                }
+                toLoad.sort(function(a, b) {
+                    return anima_getTop(a) - anima_getTop(b);
+                });
+                for (var i = 0; i < toLoad.length; i++) {
+                    var e = toLoad[i];
+                    var asyncSrc = e.getAttribute("anima-src");
+                    e.setAttribute("src", asyncSrc);
+                }
+            };
+            anima_pauseHiddenVideos = function(tag) {
+                var elements = document.getElementsByTagName("video");
+                for (var i = 0; i < elements.length; i++) {
+                    var e = elements[i];
+                    var isPlaying = !!(e.currentTime > 0 && !e.paused && !e.ended && e.readyState > 2);
+                    var isHidden = anima_isHidden(e);
+                    if (!isPlaying && !isHidden && e.getAttribute("autoplay") == "autoplay") {
+                        e.play();
+                    } else if (isPlaying && isHidden) {
+                        e.pause();
+                    }
+                }
+            };
+            anima_loadAsyncSrc = function(tag) {
+                anima_loadAsyncSrcForTag("img");
+                anima_loadAsyncSrcForTag("iframe");
+                anima_loadAsyncSrcForTag("video");
+                anima_pauseHiddenVideos();
+            };
+            var anima_getTop = function(e) {
+                var top = 0;
+                do {
+                    top += e.offsetTop || 0;
+                    e = e.offsetParent;
+                } while (e);
+                return top;
+            };
+            anima_loadAsyncSrc();
+            anima_old_onResize = window.onresize;
+            anima_new_onResize = undefined;
+            anima_updateOnResize = function() {
+                if (anima_new_onResize == undefined || window.onresize != anima_new_onResize) {
+                    anima_new_onResize = function(x) {
+                        if (anima_old_onResize != undefined) anima_old_onResize(x);
+                        anima_loadAsyncSrc();
+                    };
+                    window.onresize = anima_new_onResize;
+                    setTimeout(function() {
+                        anima_updateOnResize();
+                    }, 3000);
+                }
+            };
+            anima_updateOnResize();
+            setTimeout(function() {
+                anima_loadAsyncSrc();
+            }, 200);
+        </script>
+        <!-- End of Scripts -->
+    </body>
+</html>

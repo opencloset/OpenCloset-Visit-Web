@@ -156,6 +156,7 @@ sub _endgame_routes {
 
     my $endgame = $r->under('/endgame');
     $endgame->get("/offintro")->to("endgame#offintro");
+    $endgame->get("/offmain")->to("endgame#offmain");
 }
 
 sub _hooks {

@@ -14,4 +14,13 @@ use experimental qw( signatures );
 sub offintro ($self) {
 }
 
+=head2 offmain
+
+    GET /endgame/offmain
+
+=cut
+
+sub offmain ($self) {
+}
+
 1;
