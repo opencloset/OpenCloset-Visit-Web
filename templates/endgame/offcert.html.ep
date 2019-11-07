@@ -10,11 +10,13 @@
                         <div class="iconopencloset">
                             <img anima-src="<%= url_for('/endgame/img/onlineside02-277255270260277eu0302au0300au030a-267iu0302260iu0301-jpeg@2x.png') %>" class="a277255270260277eu0302au0300au030a267iu0302260iu0301jpeg" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                         </div>
+                        <a href="<%= url_for("/endgame/offmain") %>">
                         <div class="iconback">
                             <div class="rectangle">
                             </div>
                             <img anima-src="<%= url_for('/endgame/img/onlineprocessitem03-path@2x.png') %>" class="path" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
                         </div>
+                        </a>
                     </div>
                 </div>
                 <div class="texttitle anima-valign-text-middle">
