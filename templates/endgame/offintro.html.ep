@@ -1,46 +1,33 @@
-% layout "endgame", page_id => "offintro";
-% title "환영합니다";
-                <img anima-src="<%= url_for("/endgame/img/offintro-bgimage.png") %>" class="bgimage" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                <div class="logowhite">
-                    <img anima-src="<%= url_for('/endgame/img/offmain-u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a8-01@2x.png') %>" class="u110bu1167u11afu1105u1175u11abu110bu1169u11bau110cu1161u11bcu1112u1174u11abu1109u1162u11a801" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                </div>
-                <a href="<%= $urls->{share} %>">
-                <div class="btndelivery">
-                    <div class="rectud0ddubc30">
-                    </div>
-                    <div class="ud0ddubc30 anima-valign-text-middle">
-                        택배
-                    </div>
-                    <div class="delivery">
-                        Delivery
-                    </div>
-                    <div class="uc5f4ub9b0uc637uc7a5ud0ddubc30ub300uc5ecuc11cube44uc2a4 anima-valign-text-middle">
-                        열린옷장<br />택배대여 서비스
-                    </div>
-                    <div class="iconnext">
-                        <div class="rectangle">
-                        </div>
-                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                    </div>
-                </div>
-                </a>
-                <a href="<%= url_for("/endgame/offmain") %>">
-                <div class="btnvisit">
-                    <div class="rectud0ddubc30">
-                    </div>
-                    <div class="ubc29ubb38 anima-valign-text-middle">
-                        방문
-                    </div>
-                    <div class="visit">
-                        Visit
-                    </div>
-                    <div class="uc5f4ub9b0uc637uc7a5ubc29ubb38ub300uc5ecuc11cube44uc2a4 anima-valign-text-middle">
-                        열린옷장<br />방문대여 서비스
-                    </div>
-                    <div class="iconnext">
-                        <div class="rectangle">
-                        </div>
-                        <img anima-src="<%= url_for('/endgame/img/offintro-iconnext-1@2x.png') %>" class="iconnext1" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                    </div>
-                </div>
-                </a>
+<%
+layout(
+    "endgame2",
+    page_id  => "offintro",
+    bg_image => "/endgame/img/oc-offintro-bgimage.png",
+    header   => 0,
+    footer   => 0,
+);
+title "환영합니다";
+%>
+
+<div class="row row-cards pt-2">
+  <div class="col-7 col-sm-4 col-lg-2">
+    <div class="card box-link box-link-delivery">
+      <div class="card-body p-5">
+        <div class="box-link-title m-0" style="font-family: 'Noto Sans KR', Helvetica, Arial, serif; font-weight: 700;">택배</div>
+        <div class="box-link-subtitle mt-2">Delivery</div>
+        <div class="box-link-desc mt-2">열린옷장<br>택배 대여 서비스</div>
+        <div class="m-5 h3 box-link-arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-7 col-sm-4 col-lg-2">
+    <div class="card box-link box-link-visit">
+      <div class="card-body p-5">
+        <div class="box-link-title m-0">방문</div>
+        <div class="box-link-subtitle mt-2">Visit</div>
+        <div class="box-link-desc mt-2">열린옷장<br>택배 대여 서비스</div>
+        <div class="m-5 h3 box-link-arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+      </div>
+    </div>
+  </div>
+</div>

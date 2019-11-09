@@ -44,6 +44,9 @@ sub startup {
     $self->defaults(
         jses        => [],
         csses       => [],
+        bg_image    => [],
+        header      => 1,
+        footer      => 1,
         alert       => q{},
         type        => q{},
         %{ $self->plugin('Config') }

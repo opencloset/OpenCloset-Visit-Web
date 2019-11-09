@@ -1,0 +1,53 @@
+<%
+my $bg_image_class = q{};
+my $bg_image_style = q{};
+if ( stash("bg_image") ) {
+    $bg_image_class = "image-box";
+    $bg_image_style = sprintf( "--image-url: url(%s);", url_for( stash("bg_image") ) );
+}
+%>\
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en" />
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#4188c9">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <link href="<%= url_for("/icon.png") %>" rel="shortcut icon"/>
+    <title><%= title %> &middot; 열린옷장</title>
+    <link href="//fonts.googleapis.com/css?family=Black+Han+Sans|Noto+Sans+KR:400,700|Noto+Serif+KR:400,700&amp;display=swap" rel="stylesheet" />
+    <link href="<%= url_for("/dist/common.css") %>" rel="stylesheet" />
+    <link href="<%= url_for("/dist/style.css") %>" rel="stylesheet" />
+    <script src="<%= url_for("/dist/app.js") %>"></script>
+  </head>
+  <body class="">
+    <div class="page <%= $bg_image_class %>" style="<%= $bg_image_style %>">
+      <div class="flex-fill">
+        <!-- header -->
+        % if ( stash("header") ) {
+        %= include "layouts/endgame2/header"
+        % }
+        <!-- content -->
+        <div class="my-3 my-md-5">
+          <div id="<%= stash("page_id") %>" class="container">
+            %= content
+          </div> <!-- .container -->
+        </div>
+      </div> <!-- .flex-fill -->
+      <!-- footer -->
+      <div class="logo-box">
+        <img class="float-right" src="<%= url_for("/endgame/img/oc-bg-bottom-logo.png") %>">
+      </div>
+      % if ( stash("footer") ) {
+      %= include "layouts/endgame2/footer"
+      % }
+    </div> <!-- .page -->
+  </body>
+</html>
