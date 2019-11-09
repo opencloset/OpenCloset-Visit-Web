@@ -1,0 +1,14 @@
+.close {
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: .3s color;
+
+    &:before {
+        content: '\f114';
+        font-family: "feathericon";
+    }
+
+    span {
+        display: none;
+    }
+}

@@ -1,0 +1,4 @@
+@import 'tabler-ui/src/assets/scss/variables';  // tabler-ui
+@import 'variables';                            // override variable
+@import 'bootstrap/scss/bootstrap.scss';        // bootstrap
+@import 'dashboard/dashboard';                  // patched tabler-ui
