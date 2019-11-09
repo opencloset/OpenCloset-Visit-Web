@@ -1,0 +1,68 @@
+.image-box {
+  background-image: var(--image-url);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-attachment: fixed;
+  opacity: 1;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+.logo-box {
+  border-top: none;
+  background-color: transparent;
+  padding: 1rem;
+
+  img {
+    width: 97px;
+    height: 23px;
+    opacity: .33;
+  }
+}
+
+#offintro .box-link {
+  a:hover {
+    text-decoration: none;
+  }
+
+  .card {
+    border: none;
+    margin-bottom: 1rem;
+    margin-left: .5rem;
+    font-weight: 700;
+
+    &.box-link-delivery {
+      background-color: #355ecd;
+      color: #fff;
+    }
+
+    &.box-link-visit {
+      background-color: #ffb343;
+      color: #fff;
+    }
+
+    .box-link-arrow {
+      position: absolute;
+      top: 10%;
+      right: 0;
+      z-index: 99;
+    }
+
+    .box-link-title {
+      font-size: 1.9rem;
+      line-height: 1.2;
+    }
+
+    .box-link-subtitle {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .box-link-desc {
+      line-height: 1.2;
+      opacity: .75;
+    }
+  }
+}
