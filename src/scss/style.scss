@@ -23,7 +23,7 @@
 }
 
 #offintro .box-link {
-  a:hover {
+  &:hover {
     text-decoration: none;
   }
 
@@ -64,5 +64,68 @@
       line-height: 1.2;
       opacity: .75;
     }
+  }
+}
+
+#offmain .box-link {
+  &:hover {
+    text-decoration: none;
+  }
+
+  .card {
+    border: none;
+    margin-bottom: 1rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    font-weight: 700;
+
+    &.box-link-offcert {
+      background-color: #ffb343;
+      color: #fff;
+
+      .box-link-title {
+        font-size: 1.3rem;
+        line-height: 1.2;
+
+        .span1 {
+          font-weight: normal;
+        }
+      }
+
+      .box-link-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+
+      .box-link-desc {
+        font-size: 0.75em;
+        line-height: 1.2;
+        font-weight: normal;
+        opacity: .58;
+      }
+    }
+
+    &.box-link-event {
+      background-color: rgba(155, 154, 155, 1.0);
+      color: #fff;
+
+      .box-link-title {
+        font-size: 1rem;
+        line-height: 1.2;
+
+        .span2 {
+          font-weight: normal;
+        }
+      }
+    }
+
+    .box-link-arrow {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translate(-50%, -50%);
+      z-index: 99;
+    }
+
   }
 }
