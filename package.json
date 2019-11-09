@@ -3,7 +3,23 @@
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git@github.com:opencloset/opencloset.git"
+    "url": "git@github.com:opencloset/OpenCloset-Visit-Web.git"
+  },
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:index": "npx parcel build --out-dir=public/dist --public-url=/dist/ src/index.html",
+    "build:js": "npx parcel build --out-dir=public/dist --public-url=/dist/ src/es6/app.es6",
+    "build:css:common": "npx parcel build --out-dir=public/dist --out-file=common.css --public-url=/dist/ src/scss/common.scss",
+    "build:css:style": "npx parcel build --out-dir=public/dist --public-url=/dist/ src/scss/style.scss",
+    "build:css": "npm run build:css:common && npm run build:css:style",
+    "build-no-cache": "npm run build-no-cache:css && npm run build-no-cache:js",
+    "build-no-cache:index": "npx parcel build --out-dir=public/dist --public-url=/dist/ --no-cache src/index.html",
+    "build-no-cache:js": "npx parcel build --out-dir=public/dist --public-url=/dist/ --no-cache src/es6/app.es6",
+    "build-no-cache:css": "npx parcel build --out-dir=public/dist --public-url=/dist/ --no-cache src/es6/style.scss",
+    "clean:cache": "rm -rf .cache",
+    "clean:dist": "rm -rf public/dist",
+    "clean": "npm run clean:cache && npm run clean:dist",
+    "watch": "script/watcher.pl"
   },
   "devDependencies": {
     "bower": "^1.8.8",
@@ -19,6 +35,9 @@
     "grunt-csscomb": "^3.1.0",
     "grunt-dump-dir": "~0.1.2",
     "load-grunt-tasks": "^3.4.1",
-    "time-grunt": "^1.3.0"
+    "time-grunt": "^1.3.0",
+    "@babel/core": "^7.1.6",
+    "parcel-bundler": "^1.10.3",
+    "sass": "^1.15.1"
   }
 }

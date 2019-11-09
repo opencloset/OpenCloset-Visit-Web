@@ -33,6 +33,10 @@ public/components/
 # yarn
 yarn.lock
 
+# parcel
+.cache/
+public/dist/
+
 # database file
 *.sqlite
 *.db
