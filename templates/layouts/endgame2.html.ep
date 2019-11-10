@@ -42,9 +42,11 @@ if ( stash("bg_image") ) {
         </div>
       </div> <!-- .flex-fill -->
       <!-- footer -->
+      % if ( stash("bg_image") ) {
       <div class="logo-box">
         <img class="float-right" src="<%= url_for("/endgame/img/oc-bg-bottom-logo.png") %>">
       </div>
+      % }
       % if ( stash("footer") ) {
       %= include "layouts/endgame2/footer"
       % }

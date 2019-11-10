@@ -47,6 +47,7 @@ sub startup {
         bg_image    => [],
         header      => 1,
         footer      => 1,
+        back_link   => q{},
         alert       => q{},
         type        => q{},
         %{ $self->plugin('Config') }
