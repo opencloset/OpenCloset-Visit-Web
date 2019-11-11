@@ -44,7 +44,7 @@ sub startup {
     $self->defaults(
         jses        => [],
         csses       => [],
-        bg_image    => [],
+        bg_image    => q{},
         header      => 1,
         footer      => 1,
         back_link   => q{},
