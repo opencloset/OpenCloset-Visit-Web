@@ -1,140 +1,120 @@
-% layout "endgame", page_id => "offcert";
-% title "방문 예약 본인 인증";
-                <div class="bgwhite">
+<%
+layout(
+    "endgame2",
+    page_id   => "offcert",
+    back_link => url_for("/endgame/offmain"),
+);
+title "방문 예약 본인 인증";
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">열린옷장</span><br>
+            <span class="span2 text-left">방문 예약 본인 인증</span>
+          </span>
+          <span class="d-block align-self-center">
+            <button class="btn btn-sm btn-danger" id="btn-input-reset"><i class="fa fa-repeat mr-2"></i>다시 입력</button>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body">
+        <form>
+          <div class="cert">
+            <div class="row">
+              <div class="col-7">
+                <div class="form-group">
+                  <label class="form-label">이름</label>
+                  <input class="form-control" placeholder="이름을 입력하세요." name="certnum-realname" value="" />
                 </div>
-                <div class="bars">
-                    <div class="barnav">
-                        <div class="bgwhite1">
-                        </div>
-                        <img anima-src="<%= url_for("/endgame/img/onlinelogin-barunder.png") %>" class="barunder" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        <div class="iconopencloset">
-                            <img anima-src="<%= url_for('/endgame/img/onlineside02-277255270260277eu0302au0300au030a-267iu0302260iu0301-jpeg@2x.png') %>" class="a277255270260277eu0302au0300au030a267iu0302260iu0301jpeg" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                        <a href="<%= url_for("/endgame/offmain") %>">
-                        <div class="iconback">
-                            <div class="rectangle">
-                            </div>
-                            <img anima-src="<%= url_for('/endgame/img/onlineprocessitem03-path@2x.png') %>" class="path" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                        </a>
-                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-7">
+                <div class="form-group">
+                  <label class="form-label">휴대폰 번호</label>
+                  <input class="form-control" placeholder="본인 휴대폰 번호를 입력하세요." name="certnum-phone" value="" />
                 </div>
-                <div class="texttitle anima-valign-text-middle">
-                    <span><span class="span1">열린옷장 <br /></span><span class="span2">방문예약 본인인증</span>
-    </span>
+              </div>
+              <div class="col-5">
+                <div class="cert-button">
+                  <button class="btn btn-primary btn-block h-100" id="btn-certnum-send">인증 번호 발송</button>
                 </div>
-                <div class="name">
-                    <div class="label02name">
-                        <div class="background">
-                        </div>
-                        <div class="label02 anima-valign-text-middle">
-                            이름
-                        </div>
-                        <div class="content02 anima-valign-text-middle">
-                            정선민
-                        </div>
-                        <img anima-src="<%= url_for('/endgame/img/onlinesignup02-path-2@2x.png') %>" class="path" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        <div class="icondelete">
-                            <div class="rectangle">
-                            </div>
-                            <img anima-src="<%= url_for('/endgame/img/offpopup-shape@2x.png') %>" class="shape" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-7">
+                <div class="form-group">
+                  <label class="form-label">인증 번호</label>
+                  <input class="form-control" placeholder="전송된 인증 번호를 입력하세요." name="certnum-otp" disabled="" value="" />
                 </div>
-                <div class="cell">
-                    <div class="label02cell">
-                        <div class="background">
-                        </div>
-                        <div class="label02 anima-valign-text-middle">
-                            핸드폰번호
-                        </div>
-                        <div class="content02 anima-valign-text-middle">
-                            01028800449
-                        </div>
-                        <img anima-src="<%= url_for('/endgame/img/onlinesignup02-path-2@2x.png') %>" class="path" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        <div class="icondelete">
-                            <div class="rectangle">
-                            </div>
-                            <img anima-src="<%= url_for('/endgame/img/offpopup-shape@2x.png') %>" class="shape" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                    </div>
-                    <div class="btnblue">
-                        <div class="btnsend">
-                            <div class="rectangle">
-                            </div>
-                            <div class="button anima-valign-text-middle">
-                                인증번호 발송
-                            </div>
-                        </div>
-                    </div>
+              </div>
+              <div class="col-5">
+                <div class="cert-button">
+                  <button class="btn btn-gray-dark btn-block h-100 disabled" id="btn-certnum-validate">인증 번호 확인</button>
                 </div>
-                <div class="cert">
-                    <div class="label02cert">
-                        <div class="background">
-                        </div>
-                        <div class="label02 anima-valign-text-middle">
-                            인증번호
-                        </div>
-                        <div class="content02 anima-valign-text-middle">
-                            93827
-                        </div>
-                        <img anima-src="<%= url_for('/endgame/img/onlinesignup02-path-2@2x.png') %>" class="path" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                    </div>
-                    <div class="a0300ub0b4uc5d0uc785ub825ud558uc138uc694 anima-valign-text-middle">
-                        <span><span class="span1">03:00</span><span class="span2">내에 입력하세요</span>
-    </span>
-                    </div>
-                    <div class="btngrey">
-                        <div class="btnconfirm">
-                            <div class="rectanglecopy">
-                            </div>
-                            <div class="button anima-valign-text-middle">
-                                인증번호 확인
-                            </div>
-                        </div>
-                    </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="agree">
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-0">
+                  <label class="custom-switch form-control agree-all agree-before-validate">
+                    <input type="checkbox" name="agree-all-checkbox" class="custom-switch-input">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">모두 확인 후 동의합니다.</span>
+                  </label>
                 </div>
-                <div class="linethick">
-                    <div class="dividinglinethick">
-                    </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-0">
+                  <label class="custom-switch form-control agree-service agree-before-validate">
+                    <input type="checkbox" name="agree-service-checkbox" class="custom-switch-input">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">서비스 이용 약관에 대한 동의(필수)</span>
+                  </label>
                 </div>
-                <div class="radioterms">
-                    <div class="all">
-                        <div class="ubaa8ub450ud655uc778ud6c4ub3d9uc758ud569ub2c8ub2e4 anima-valign-text-middle">
-                            모두 확인 후 동의합니다.
-                        </div>
-                        <div class="btnroundwhite">
-                            <img anima-src="<%= url_for('/endgame/img/offinfo02-oval-copy-4@2x.png') %>" class="ovalcopy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                    </div>
-                    <div class="linethin">
-                        <img anima-src="<%= url_for("/endgame/img/onlineprocessdelivery05-dividing-linethin-1.png") %>" class="dividinglinethin" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                    </div>
-                    <div class="service">
-                        <div class="uc11cube44uc2a4uc774uc6a9uc57duad00uc5d0ub300ud55cub3d9uc758ud544uc218 anima-valign-text-middle">
-                            서비스 이용 약관에 대한 동의(필수)
-                        </div>
-                        <div class="btnroundwhite">
-                            <img anima-src="<%= url_for('/endgame/img/offinfo02-oval-copy-4@2x.png') %>" class="ovalcopy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                    </div>
-                    <div class="individual">
-                        <div class="uac1cuc778uc815ubcf4ucde8uae09ubc29uce68uc5d0ub300ud55cub3d9uc758ud544uc218 anima-valign-text-middle">
-                            개인정보 취급방침에 대한 동의(필수)
-                        </div>
-                        <div class="btnroundwhite">
-                            <img anima-src="<%= url_for('/endgame/img/offinfo02-oval-copy-4@2x.png') %>" class="ovalcopy" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="/>
-                        </div>
-                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group mb-0">
+                  <label class="custom-switch form-control agree-privacy agree-before-validate">
+                    <input type="checkbox" name="agree-privacy-checkbox" class="custom-switch-input">
+                    <span class="custom-switch-indicator"></span>
+                    <span class="custom-switch-description">개인 정보 취급 방침에 대한 동의(필수)</span>
+                  </label>
                 </div>
-                <div class="btnbottom">
-                    <div class="rectangle">
-                    </div>
-                    <div class="btnbottom1">
-                        <div class="rectangle1">
-                        </div>
-                        <div class="ub2e4uc74cub2e8uacc4ub85cuc9c4ud589ud569ub2c8ub2e4">
-                            다음단계로 진행합니다
-                        </div>
-                    </div>
-                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <button class="btn btn-block disabled" id="btn-offcert-next" data-label1="본인 인증이 필요합니다" data-label2="다음 단계로 진행합니다">본인 인증이 필요합니다</button>
+          </div>
+        </form>
+      </div> <!-- card-body -->
+
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->
+
+<script id="template-privacy" type="text/template">
+%= include "privacy"
+</script>
+
+<script id="template-service" type="text/template">
+%= include "service"
+</script>

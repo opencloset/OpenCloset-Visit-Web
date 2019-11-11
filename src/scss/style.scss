@@ -130,6 +130,105 @@
   }
 }
 
+#offcert {
+  .card {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .card-header,
+  .card-body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card-header {
+    border: none;
+
+    .card-title {
+      font-size: 1.3rem;
+      line-height: 1.2;
+      .span1 {
+        font-weight: normal;
+      }
+      .span2 {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .card-body {
+    padding-top: 10px;
+
+    input {
+      outline: 0;
+      border-width: 0 0 2px;
+      border-radius: 0;
+      background-color: transparent;
+
+      &:focus {
+        border-color: green;
+        box-shadow: none;
+      }
+
+      &::placeholder {
+        font-size: 0.78rem;
+      }
+    }
+
+    .cert {
+      .form-group {
+        margin-bottom: 12px;
+
+        .form-label {
+          margin-bottom: 0;
+          font-size: 0.75rem;
+        }
+
+        .form-control {
+          padding-top: 0.1rem;
+          padding-bottom: 0.1rem;
+          padding-left: 0.2rem;
+          padding-right: 0.2rem;
+        }
+      }
+
+      .cert-button {
+        height: 100%;
+        padding-bottom: 12px;
+      }
+    }
+  }
+
+  .agree {
+    hr {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .custom-switch {
+      padding-left: 0;
+    }
+    .agree-before-validate {
+      background: transparent;
+      border: none;
+    }
+
+    .agree-all {
+      .custom-switch-description {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .form-footer {
+    button {
+      color: #fff;
+      background-color: #ffb343;
+    }
+  }
+}
+
 .header {
   .header-back-button,
   .header-brand {
@@ -163,4 +262,9 @@
       font-size: 0.8rem;
     }
   }
+}
+
+// bootbox close button patch
+.bootbox-close-button.close::before {
+  content: "";
 }
