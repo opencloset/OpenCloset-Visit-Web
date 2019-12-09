@@ -243,7 +243,8 @@ const domLoaded = () => {
     e.preventDefault();
 
     // .disabled 클래스일 경우 클릭 무시
-    if ($(e.target).hasClass("disabled")) {
+    let $target = $(e.target);
+    if ($target.hasClass("disabled")) {
       return false;
     }
 
@@ -261,7 +262,7 @@ const domLoaded = () => {
     }
 
     // success
-    //...
+    window.location = $target.data("url");
 
     return false;
   });

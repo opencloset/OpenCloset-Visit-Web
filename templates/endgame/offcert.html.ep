@@ -102,7 +102,13 @@ title "방문 예약 본인 인증";
           </div>
 
           <div class="form-footer">
-            <button class="btn btn-block disabled" id="btn-offcert-next" data-label1="본인 인증이 필요합니다" data-label2="다음 단계로 진행합니다">본인 인증이 필요합니다</button>
+            <button
+              class="btn btn-block disabled"
+              id="btn-offcert-next"
+              data-url="<%= url_for("/endgame/offlist") %>"
+              data-label1="본인 인증이 필요합니다"
+              data-label2="다음 단계로 진행합니다"
+              >본인 인증이 필요합니다</button>
           </div>
         </form>
       </div> <!-- card-body -->
