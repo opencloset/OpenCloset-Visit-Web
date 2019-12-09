@@ -1,0 +1,93 @@
+<%
+layout(
+    "endgame2",
+    page_id   => "offdate",
+    back_link => url_with("/endgame/offlist"),
+);
+title "새로운 방문 예약";
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">방문 예약일</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body pt-0">
+        <div class="caution pl-2 pr-1 mb-3">
+          <i class="fa fa-asterisk"></i> 예약자 본인의 정보를 입력해주세요.
+          이전 입력 정보와 달라진 부분이 있다면 최신 내용으로 변경해주세요.
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="bookingYmd">방문 예약일</label>
+          <div
+            id="offdateDatetimepicker"
+            class="input-group date datetimepicker"
+            data-format="YYYY-MM-DD"
+            data-use-current="false"
+            data-show-today-button="true"
+            data-locale="ko"
+            data-day-view-header-format="YYYY년 MM월"
+            >
+            <input class="form-control" id="bookingYmd" placeholder="날짜를 선택하세요." placeholder="YYYY-MM-DD" name="booking-ymd" value="">
+            <span class="input-group-append input-group-addon" value="2019-12-05">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-controls-stacked offdate-booking-hm">
+            <legend class="form-label" for="bookingHm">방문 예약 가능 시간</legend>
+            <div class="offdate-booking-hm-list">
+            </div>
+          </div>
+        </div>
+        <script id="template-booking-list-success" type="text/template">
+          {{#bookingList}}
+            {{^old}}
+              <label class="custom-control custom-radio {{^remainSlot}}disabled{{/remainSlot}}">
+                <input type="radio" class="custom-control-input" name="booking-hm" id="bookingHm{{id}}" value="{{id}}" {{^remainSlot}}disabled=""{{/remainSlot}}>
+                <div class="custom-control-label" for="bookingHm{{id}}">
+                  <span class="booking-hm"> {{hm}} </span>
+                  <span class="booking-slot">
+                    {{#remainSlot}}{{remainSlot}}명 가능{{/remainSlot}}
+                    {{^remainSlot}}예약 인원 초과{{/remainSlot}}
+                  </span>
+                </div>
+              </label>
+            {{/old}}
+          {{/bookingList}}
+        </script>
+        <script id="template-booking-list-failure" type="text/template">
+          <div>
+            예약 가능한 시간이 없습니다.
+            다른 날짜를 선택하세요.
+          </div>
+        </script>
+
+        <div class="form-footer">
+          <button
+            class="btn btn-block disabled"
+            id="btn-offdate-next"
+            data-url="<%= url_for("/endgame/offuserinfo") %>"
+            data-label1="방문 예약 시간을 선택하세요"
+            data-label2="다음 단계로 진행합니다"
+            >방문 예약 시간을 선택하세요</button>
+        </div>
+      </div>
+
+      <script id="template-offdate-booking-time" type="text/template">
+        <i class="fa fa-check-circle"></i> {{bookingHm}} {{slotMsg}}
+      </script>
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->

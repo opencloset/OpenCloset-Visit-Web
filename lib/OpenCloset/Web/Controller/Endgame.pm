@@ -70,4 +70,13 @@ sub offlist ($self) {
     $self->stash( reserved_list => $reserved_list );
 }
 
+=head2 offdate
+
+    GET /endgame/offdate
+
+=cut
+
+sub offdate ($self) {
+}
+
 1;
