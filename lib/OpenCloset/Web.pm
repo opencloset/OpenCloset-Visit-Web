@@ -162,6 +162,7 @@ sub _endgame_routes {
     $endgame->get("/offintro")->to("endgame#offintro");
     $endgame->get("/offmain")->to("endgame#offmain");
     $endgame->get("/offcert")->to("endgame#offcert");
+    $endgame->get("/offlist")->to("endgame#offlist");
 }
 
 sub _hooks {

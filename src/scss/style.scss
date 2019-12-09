@@ -229,6 +229,34 @@
   }
 }
 
+#offlist {
+  .heading {
+    .page-title {
+      font-size: 1.3rem;
+      line-height: 1.2;
+      .span1 {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .reserved-list {
+    .card {
+      .card-title {
+        font-weight: 700;
+      }
+      .reserved-info {
+        .reserved-info-key {
+          font-weight: 700;
+          font-size: 0.8rem;
+        }
+        .reserved-info-val {
+        }
+      }
+    }
+  }
+}
+
 .header {
   .header-back-button,
   .header-brand {
@@ -268,3 +296,38 @@
 .bootbox-close-button.close::before {
   content: "";
 }
+// bootbox vertical center
+// https://stackoverflow.com/questions/38045320/bootstrap-and-bootbox-set-dialog-box-center-of-the-screen
+// https://github.com/makeusabrew/bootbox/issues/166
+.modal-open .modal {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+// circle button
+// https://www.geeksforgeeks.org/how-to-get-circular-buttons-in-bootstrap-4/
+.btn-circle.btn-sm { 
+    width: 30px; 
+    height: 30px; 
+    padding: 6px 0px; 
+    border-radius: 15px; 
+    font-size: 8px; 
+    text-align: center; 
+} 
+.btn-circle.btn-md { 
+    width: 50px; 
+    height: 50px; 
+    padding: 7px 10px; 
+    border-radius: 25px; 
+    font-size: 10px; 
+    text-align: center; 
+} 
+.btn-circle.btn-xl { 
+    width: 70px; 
+    height: 70px; 
+    padding: 10px 16px; 
+    border-radius: 35px; 
+    font-size: 12px; 
+    text-align: center; 
+} 

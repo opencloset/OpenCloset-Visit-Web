@@ -1,0 +1,140 @@
+<%
+layout(
+    "endgame2",
+    page_id => "offlist",
+);
+title "방문 예약 정보";
+
+my @label_order = (
+    qw/
+        booking_ymd
+        booking_hms
+        wear_self
+        wear_gender
+        wear_date
+        prefer_style
+        prefer_color
+        purpose
+        address1
+        address2
+        /
+);
+my %labels = (
+    booking_ymd  => "방문 예약 날짜",
+    booking_hms  => "방문 예약 시간",
+    wear_self    => "본인 착용 여부",
+    wear_gender  => "착용인 성별",
+    wear_date    => "착용일",
+    prefer_style => "선호 스타일",
+    prefer_color => "선호 색상",
+    purpose      => "대여 목적",
+    address1     => "주소",
+    address2     => q{},
+);
+my %wear_gender = (
+    male   => "남성",
+    female => "여성",
+);
+my %prefer_style = (
+    basic => "기본 정장",
+);
+my %prefer_color = (
+    navy => "네이비",
+);
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+    <div class="heading mt-1 mb-3">
+      <h3 class="page-title w-100 d-flex flex-row justify-content-between">
+        <span class="d-block">
+          <span class="span1 text-left">방문 예약 정보</span>
+        </span>
+      </h3>
+    </div>
+
+    <div class="reserved-list" data-url="<%= url_for("/api/v1/") %>">
+
+      <div class="d-flex justify-content-center mb-3">
+        <button type="button" class="btn btn-primary btn-md w-100"><i class="fa fa-plus"></i> 새로 방문 예약 하기</button> 
+      </div>
+
+      % for my $reserved (@$reserved_list) {
+      <div
+        class="card mb-2 reserved"
+        data-order-id="<%= $reserved->{order_id} %>"
+        data-booking-ymd="<%= $reserved->{booking_ymd} %>"
+        data-booking-hms="<%= $reserved->{booking_hms} %>"
+        >
+        <div class="card-header">
+          <h3 class="card-title"><%= $reserved->{booking_ymd} %> <%= $reserved->{booking_hms} %></h3>
+          <div class="card-options">
+            <button class="btn btn-sm btn-info   btn-offlist-order-edit"        >예약 수정</button>
+            <button class="btn btn-sm btn-danger btn-offlist-order-remove ml-2 ">예약 취소</button>
+          </div>
+        </div>
+        <div class="card-body">
+          % for my $k (@label_order) {
+          %   my $v = $labels{$k};
+          <div class="row align-items-center reserved-info mb-1">
+            <div class="col col-5">
+              <span class="reserved-info-key"><%= $v %></span>
+            </div>
+            <div class="col col-7">
+              <span class="reserved-info-val">
+                % use experimental qw( switch smartmatch );
+                % {
+                %   given ($k) {
+                %     when ("wear_self") {
+                <i class="fa <%= $reserved->{$k} ? "fa-check-circle" : "fa-times-circle" %>"></i>
+                %     }
+                %     when ("prefer_style") {
+                <%= $prefer_style{ $reserved->{$k} } %>
+                %     }
+                %     when ("prefer_color") {
+                <%= $prefer_color{ $reserved->{$k} } %>
+                %     }
+                %     when ("wear_gender") {
+                <%= $wear_gender{ $reserved->{$k} } %>
+                %     }
+                %     default {
+                <%= $reserved->{$k} %>
+                %     }
+                %   }
+                % }
+              </span>
+            </div>
+          </div>
+          % }
+        </div> <!-- card-body -->
+      </div>
+      % }
+
+      <script id="template-offlist-modal-remove-title" type="text/template">
+        방문 예약 취소
+      </script>
+      <script id="template-offlist-modal-remove-message" type="text/template">
+        <p>
+          {{bookingYmd}} {{bookingHms}} 방문 예약을 취소하시겠습니까?
+        </p>
+        <p>
+          선택하면 되돌릴 수 없습니다.
+        </p>
+      </script>
+
+      % my $n_reserved_list = @$reserved_list;
+      <div class="<%= $n_reserved_list ? q{d-flex} : q{d-none} %> justify-content-center mt-2 mb-3 offlist-booking-new-bottom-button">
+        <button type="button" class="btn btn-primary btn-circle btn-md"><i class="fa fa-plus"></i></button> 
+      </div>
+      <div class="<%= $n_reserved_list ? q{d-none} : q{} %> card offlist-booking-new-bottom-message">
+        <div class="card-header">
+          <h3 class="card-title">예약 내역이 없습니다</h3>
+        </div>
+        <div class="card-body">
+          방문 예약을 진행하세요.
+        </div> <!-- card-body -->
+      </div>
+
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->
