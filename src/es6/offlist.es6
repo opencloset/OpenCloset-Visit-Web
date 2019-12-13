@@ -3,8 +3,6 @@ import bootbox from "bootbox/bootbox.all";
 import Mustache from "mustache/mustache";
 
 const domLoaded = () => {
-  console.log("offlist");
-
   $(".btn-offlist-order-edit").on("click", (e) => {
     e.preventDefault();
     let $target = $(e.target);
@@ -49,6 +47,21 @@ const domLoaded = () => {
       }
     });
     modal.animate({ scrollTop: 0 }, "slow");
+
+    return false;
+  });
+
+  $(".btn-offlist-next").on("click", e => {
+    e.preventDefault();
+
+    // .disabled 클래스일 경우 클릭 무시
+    let $target = $(e.target);
+    if ($target.hasClass("disabled")) {
+      return false;
+    }
+
+    // success
+    window.location = `${$target.data("url")}`;
 
     return false;
   });

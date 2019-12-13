@@ -56,7 +56,7 @@ my %prefer_color = (
     <div class="reserved-list" data-url="<%= url_for("/api/v1/") %>">
 
       <div class="d-flex justify-content-center mb-3">
-        <button type="button" class="btn btn-primary btn-md w-100"><i class="fa fa-plus"></i> 새로 방문 예약 하기</button> 
+        <button type="button" class="btn btn-primary btn-offlist-next btn-md w-100" data-url="<%= url_with("/endgame/offdate") %>"><i class="fa fa-plus"></i> 새로 방문 예약 하기</button>
       </div>
 
       % for my $reserved (@$reserved_list) {
@@ -124,7 +124,7 @@ my %prefer_color = (
 
       % my $n_reserved_list = @$reserved_list;
       <div class="<%= $n_reserved_list ? q{d-flex} : q{d-none} %> justify-content-center mt-2 mb-3 offlist-booking-new-bottom-button">
-        <button type="button" class="btn btn-primary btn-circle btn-md"><i class="fa fa-plus"></i></button> 
+        <button type="button" class="btn btn-primary btn-circle btn-md btn-offlist-next" data-url="<%= url_with("/endgame/offdate") %>"><i class="fa fa-plus"></i></button>
       </div>
       <div class="<%= $n_reserved_list ? q{d-none} : q{} %> card offlist-booking-new-bottom-message">
         <div class="card-header">
