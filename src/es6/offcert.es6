@@ -261,8 +261,18 @@ const domLoaded = () => {
       return false;
     }
 
+    let phone = $("input[name=certnum-phone]").val();
+    let sms = $("input[name=certnum-otp]").val();
+    let gender = "male";
+
+    let reqData = {
+      phone: phone,
+      sms: sms,
+      gender: gender,
+    };
+
     // success
-    window.location = $target.data("url");
+    window.location = `${$target.data("url")}?${$.param(reqData)}`;
 
     return false;
   });
