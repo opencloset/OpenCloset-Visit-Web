@@ -38,7 +38,7 @@ title "새로운 방문 예약";
             data-day-view-header-format="YYYY년 MM월"
             >
             <input class="form-control" id="bookingYmd" placeholder="날짜를 선택하세요." placeholder="YYYY-MM-DD" name="booking-ymd" value="">
-            <span class="input-group-append input-group-addon" value="2019-12-05">
+            <span class="input-group-append input-group-addon" value="">
               <span class="input-group-text"><i class="fa fa-calendar"></i></span>
             </span>
           </div>
