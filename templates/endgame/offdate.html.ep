@@ -51,28 +51,6 @@ title "새로운 방문 예약";
             </div>
           </div>
         </div>
-        <script id="template-booking-list-success" type="text/template">
-          {{#bookingList}}
-            {{^old}}
-              <label class="custom-control custom-radio {{^remainSlot}}disabled{{/remainSlot}}">
-                <input type="radio" class="custom-control-input" name="booking-hm" id="bookingHm{{id}}" value="{{id}}" {{^remainSlot}}disabled=""{{/remainSlot}}>
-                <div class="custom-control-label" for="bookingHm{{id}}">
-                  <span class="booking-hm"> {{hm}} </span>
-                  <span class="booking-slot">
-                    {{#remainSlot}}{{remainSlot}}명 가능{{/remainSlot}}
-                    {{^remainSlot}}예약 인원 초과{{/remainSlot}}
-                  </span>
-                </div>
-              </label>
-            {{/old}}
-          {{/bookingList}}
-        </script>
-        <script id="template-booking-list-failure" type="text/template">
-          <div>
-            예약 가능한 시간이 없습니다.
-            다른 날짜를 선택하세요.
-          </div>
-        </script>
 
         <div class="form-footer">
           <button
@@ -85,8 +63,27 @@ title "새로운 방문 예약";
         </div>
       </div>
 
-      <script id="template-offdate-booking-time" type="text/template">
-        <i class="fa fa-check-circle"></i> {{bookingHm}} {{slotMsg}}
+      <script id="template-booking-list-success" type="text/template">
+        {{#bookingList}}
+          {{^old}}
+            <label class="custom-control custom-radio {{^remainSlot}}disabled{{/remainSlot}}">
+              <input type="radio" class="custom-control-input" name="booking-hm" id="bookingHm{{id}}" value="{{id}}" {{^remainSlot}}disabled=""{{/remainSlot}}>
+              <div class="custom-control-label" for="bookingHm{{id}}">
+                <span class="booking-hm"> {{hm}} </span>
+                <span class="booking-slot">
+                  {{#remainSlot}}{{remainSlot}}명 가능{{/remainSlot}}
+                  {{^remainSlot}}예약 인원 초과{{/remainSlot}}
+                </span>
+              </div>
+            </label>
+          {{/old}}
+        {{/bookingList}}
+      </script>
+      <script id="template-booking-list-failure" type="text/template">
+        <div>
+          예약 가능한 시간이 없습니다.
+          다른 날짜를 선택하세요.
+        </div>
       </script>
     </div> <!-- row row-cards -->
   </div> <!-- col-lg-4 -->
