@@ -78,7 +78,7 @@ title "새로운 방문 예약";
           <button
             class="btn btn-block disabled"
             id="btn-offdate-next"
-            data-url="<%= url_for("/endgame/offuserinfo") %>"
+            data-url="<%= url_with("/endgame/offorder1") %>"
             data-label1="방문 예약 시간을 선택하세요"
             data-label2="다음 단계로 진행합니다"
             >방문 예약 시간을 선택하세요</button>

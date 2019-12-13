@@ -52,25 +52,15 @@ const registerCallbackNextClick = () => {
     }
 
     let bookingId = $("input[name=booking-hm]:checked").val();
-
     if (!(bookingId && bookingId > 0)) {
       return false;
     }
 
-    let currentUrl = new URL(window.location.href);
-    let phone = currentUrl.searchParams.get("phone");
-    let sms = currentUrl.searchParams.get("sms");
-    let gender = currentUrl.searchParams.get("gender");
-
-    let reqData = {
-      phone: phone,
-      sms: sms,
-      gender: gender,
-      booking_id: bookingId,
-    };
+    let reqUrl = new URL($target.data("url"), window.location.origin);
+    reqUrl.searchParams.set("booking_id", bookingId);
 
     // success
-    window.location = `${$target.data("url")}?${$.param(reqData)}`;
+    window.location = reqUrl.href;
 
     return false;
   });
@@ -81,26 +71,17 @@ const updateAvailableBookingList = ymd => {
     return;
   }
 
-  let currentUrl = new URL(window.location.href);
-  let phone = currentUrl.searchParams.get("phone");
-  let sms = currentUrl.searchParams.get("sms");
-  let gender = currentUrl.searchParams.get("gender");
-
-  let reqUrl = "/api/gui/booking-list.json";
-  let reqData = {
-    phone: phone,
-    sms: sms,
-    gender: gender,
-    ymd: ymd, // "2019-12-13",
-  };
-
   let templateSuccess = $("#template-booking-list-success").html();
   let templateFailure = $("#template-booking-list-failure").html();
   let $bookingHmList = $(".offdate-booking-hm-list");
   let now = moment();
-  fetch(`${reqUrl}?${$.param(reqData)}`, {
-    method: "GET",
-  })
+
+  let reqUrl = new URL(
+    `/api/gui/booking-list.json${window.location.search}`,
+    window.location.origin,
+  );
+  reqUrl.searchParams.set("ymd", ymd);
+  fetch(reqUrl, { method: "GET" })
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText);
