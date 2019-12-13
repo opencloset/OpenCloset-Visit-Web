@@ -34,6 +34,10 @@ const registerCallbackDatetimepickerChange = () => {
 const registerCallbackBookingTimeListClick = () => {
   $(".offdate-booking-hm-list input[type=radio]").on("click", e => {
     updateNextButton();
+    $(".custom-control").removeClass("selected");
+    $(e.target)
+      .closest(".custom-control")
+      .addClass("selected");
   });
 };
 

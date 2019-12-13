@@ -303,6 +303,10 @@
         &.disabled {
           background-color: #d4d4d4;
         }
+        &.selected {
+          background-color: darken( $bg-color, 15% );
+          border: darken( $bg-color, 25% ) solid 1px;
+        }
         .booking-hm {
           padding-left: 0.2rem;
         }
