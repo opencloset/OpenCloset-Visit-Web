@@ -8,6 +8,7 @@ const domLoaded = () => {
 
   registerCallbackNextClick();
   registerCallbackFormInput();
+  loadSession();
   updateNextButton();
 };
 
@@ -31,7 +32,6 @@ const registerCallbackNextClick = () => {
     if (!phone) {
       return false;
     }
-
     session.save(phone, getFormField());
 
     let reqUrl = new URL($target.data("url"), window.location.origin);
@@ -49,6 +49,30 @@ const registerCallbackFormInput = () => {
   $("#wearDatetimepicker").on("dp.change", e => updateNextButton());
   $("#offorder1Purpose").on("change", e => updateNextButton());
   $("#offorder1Purpose2").on("change", e => updateNextButton());
+};
+
+const loadSession = () => {
+  let phone = new URL(window.location.href).searchParams.get("phone");
+  if (!phone) {
+    return false;
+  }
+
+  let data = session.load(phone, getFormField());
+  if (data.wear_self) {
+    $("#offorder1WearSelf")[0].selectize.setValue(data.wear_self, false);
+  }
+  if (data.wear_gender) {
+    $("#offorder1WearGender")[0].selectize.setValue(data.wear_gender, false);
+  }
+  if (data.wear_ymd) {
+    $("#offorder1WearYmd").val(data.wear_ymd);
+  }
+  if (data.purpose) {
+    $("#offorder1Purpose")[0].selectize.setValue(data.purpose, false);
+  }
+  if (data.purpose2) {
+    $("#offorder1Purpose2").val(data.purpose2);
+  }
 };
 
 const getFormField = () => {

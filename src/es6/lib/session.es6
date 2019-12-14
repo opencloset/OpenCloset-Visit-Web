@@ -1,4 +1,8 @@
 const save = (key, data) => {
+  if (!key) {
+    return;
+  }
+
   let sessionData = JSON.parse(sessionStorage.getItem(key));
   if (!sessionData) {
     sessionData = {};
@@ -7,4 +11,17 @@ const save = (key, data) => {
   sessionStorage.setItem(key, JSON.stringify(sessionData));
 };
 
-export default { save };
+const load = key => {
+  if (!key) {
+    return;
+  }
+
+  let sessionData = JSON.parse(sessionStorage.getItem(key));
+  if (!sessionData) {
+    sessionData = {};
+  }
+
+  return sessionData;
+};
+
+export default { save, load };
