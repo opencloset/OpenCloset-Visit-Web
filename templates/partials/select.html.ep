@@ -1,0 +1,19 @@
+<div class="form-group">
+  <label class="form-label" for="<%= $id %>"><%= $label %></label>
+  <select
+    name="<%= $name %>"
+    id="<%= $id %>"
+    class="form-control custom-select selectize"
+    data-placeholder="<%= $placeholder %>"
+    >
+    <option value=""></option>
+    % for my $i (@$items) {
+    %   if ( ref $i eq "HASH" ) {
+    <option value="<%= $i->{value} %>"><%= $i->{label} %></option>
+    %   }
+    %   elsif ( !(ref $i) ) {
+    <option value="<%= $i %>"><%= $i %></option>
+    %   }
+    % }
+  </select>
+</div>
