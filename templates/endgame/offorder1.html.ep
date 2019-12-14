@@ -9,7 +9,6 @@ title "방문 대여 정보";
 
 <div class="row row-cards justify-content-md-center">
   <div class="col-lg-4">
-
     <div class="card">
 
       <div class="card-header">
@@ -117,9 +116,6 @@ title "방문 대여 정보";
         </div>
       </div>
 
-      <script id="template-test" type="text/template">
-        ...
-      </script>
     </div> <!-- row row-cards -->
   </div> <!-- col-lg-4 -->
 </div> <!-- row -->
