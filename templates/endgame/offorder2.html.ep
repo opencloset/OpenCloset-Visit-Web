@@ -1,0 +1,79 @@
+<%
+layout(
+    "endgame2",
+    page_id   => "offorder2",
+    back_link => url_with("/endgame/offorder1"),
+);
+title "방문 대여 정보 (2/2)";
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">방문 대여 정보 (2/2)</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body pt-0">
+        <div class="caution pl-2 pr-1 mb-3">
+          <i class="fa fa-asterisk"></i> 예약자 본인의 정보를 입력해주세요.
+          이전 입력 정보와 달라진 부분이 있다면 최신 내용으로 변경해주세요.
+        </div>
+
+        <%=
+        include(
+            "partials/select",
+            id          => "offorder2PreferStyle",
+            name        => "offorder2-prefer-style",
+            label       => "선호 스타일",
+            placeholder => "선호하는 스타일을 선택하세요",
+            items       => [
+                { value => "basic",  label => "기본 정장" },
+                { value => "casual", label => "비니지스 캐주얼" },
+            ],
+        );
+        %>
+
+        <%=
+        include(
+            "partials/select",
+            id          => "offorder2PreferColor",
+            name        => "offorder2-prefer-color",
+            label       => "선호 색상",
+            placeholder => "선호하는 색상을 선택하세요",
+            items       => [
+                { value => "staff",        label => "직원 추천" },
+                { value => "dark",         label => "어두운 계열 " },
+                { value => "black",        label => "블랙" },
+                { value => "navy",         label => "네이비" },
+                { value => "charcoalgray", label => "차콜그레이" },
+                { value => "gray",         label => "그레이" },
+                { value => "brown",        label => "브라운" },
+                { value => "etc",          label => "기타" },
+            ],
+        );
+        %>
+
+        <div class="form-footer">
+          <button
+            class="btn btn-block disabled"
+            id="btn-offorder2-next"
+            data-url="<%= url_with("/endgame/offuser") %>"
+            data-label1="모든 항목을 입력해주세요"
+            data-label2="다음 단계로 진행합니다"
+            >모든 항목을 입력해주세요</button>
+        </div>
+      </div>
+
+      <script id="template-test" type="text/template">
+        ...
+      </script>
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->

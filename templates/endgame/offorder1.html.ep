@@ -4,7 +4,7 @@ layout(
     page_id   => "offorder1",
     back_link => url_with("/endgame/offdate"),
 );
-title "방문 대여 정보";
+title "방문 대여 정보 (1/2)";
 %>
 
 <div class="row row-cards justify-content-md-center">
@@ -14,7 +14,7 @@ title "방문 대여 정보";
       <div class="card-header">
         <h3 class="card-title w-100 d-flex flex-row justify-content-between">
           <span class="d-block">
-            <span class="span1 text-left">방문 대여 정보</span>
+            <span class="span1 text-left">방문 대여 정보 (1/2)</span>
           </span>
         </h3>
       </div>

@@ -372,6 +372,53 @@
   }
 }
 
+#offorder2 {
+  .card {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .card-header,
+  .card-body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .card-header {
+    border: none;
+    min-height: 0;
+
+    .card-title {
+      font-size: 1.3rem;
+      line-height: 1.2;
+      .span1 {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .card-body {
+    .caution {
+      font-size: 0.75rem;
+    }
+    .form-group {
+      small {
+        font-size: 0.75rem;
+        padding-left: 0.5rem;
+        padding-right: 0.3rem;
+      }
+    }
+  }
+
+  .form-footer {
+    button {
+      color: #fff;
+      background-color: #ffb343;
+    }
+  }
+}
+
 .header {
   .header-back-button,
   .header-brand {

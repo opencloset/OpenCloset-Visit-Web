@@ -79,7 +79,6 @@ sub offlist ($self) {
 sub offdate ($self) {
 }
 
-
 =head2 offorder1
 
     GET /endgame/offorder1
@@ -87,6 +86,15 @@ sub offdate ($self) {
 =cut
 
 sub offorder1 ($self) {
+}
+
+=head2 offorder2
+
+    GET /endgame/offorder2
+
+=cut
+
+sub offorder2 ($self) {
 }
 
 1;
