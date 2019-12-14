@@ -55,6 +55,7 @@
     "moment": "^2.24.0",
     "mustache": "^3.1.0",
     "perfect-scrollbar": "^1.4.0",
+    "selectize": "^0.12.6",
     "tabler-ui": "^0.0.32"
   }
 }

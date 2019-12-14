@@ -1,0 +1,138 @@
+<%
+layout(
+    "endgame2",
+    page_id   => "offorder1",
+    back_link => url_with("/endgame/offdate"),
+);
+title "방문 대여 정보";
+
+my @purpose_list = (
+    "입사면접",
+    "결혼식",
+    "상견례",
+    "대학(원)면접",
+    "모의면접",
+    "인턴면접",
+    "장례식",
+    "사진촬영",
+    "세미나",
+    "발표",
+    "공연(연주회)",
+    "축제(행사)",
+    "OT",
+    "아르바이트",
+    "졸업식",
+    "입학식",
+    "기타",
+);
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">방문 대여 정보</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body pt-0">
+        <div class="caution pl-2 pr-1 mb-3">
+          <i class="fa fa-asterisk"></i> 예약자 본인의 정보를 입력해주세요.
+          이전 입력 정보와 달라진 부분이 있다면 최신 내용으로 변경해주세요.
+        </div>
+
+	<div class="form-group">
+          <label class="form-label" for="offorder1WearSelf">본인 착용 여부</label>
+	  <select
+            name="offorder1-wear-self"
+            id="offorder1WearSelf"
+            class="form-control custom-select selectize"
+            data-placeholder="본인 착용 여부를 선택하세요"
+            >
+	    <option value=""></option>
+	    <option value="self">제가 입을 의류입니다</option>
+	    <option value="other">다른 사람이 입을 의류입니다</option>
+	  </select>
+	</div>
+
+	<div class="form-group">
+          <label class="form-label" for="offorder1WearGender">착용자 성별</label>
+	  <select
+            name="offorder1-wear-gender"
+            id="offorder1WearGender"
+            class="form-control custom-select selectize"
+            data-placeholder="착용자 성별을 선택하세요"
+            >
+	    <option value=""></option>
+	    <option value="male">남성</option>
+	    <option value="female">여성</option>
+	  </select>
+	</div>
+
+        <div class="form-group">
+          <label class="form-label" for="wearYmd">착용일</label>
+          <div
+            id="wearDatetimepicker"
+            class="input-group date datetimepicker"
+            data-format="YYYY-MM-DD"
+            data-use-current="false"
+            data-show-today-button="true"
+            data-locale="ko"
+            data-day-view-header-format="YYYY년 MM월"
+            >
+            <input class="form-control" id="wearYmd" placeholder="날짜를 선택하세요." placeholder="YYYY-MM-DD" name="wear-ymd" value="">
+            <span class="input-group-append input-group-addon" value="">
+              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+            </span>
+          </div>
+        </div>
+
+        <hr>
+
+	<div class="form-group">
+          <label class="form-label" for="offorder1Purpose">대여 목적</label>
+	  <select
+            name="offorder1-purpose"
+            id="offorder1Purpose"
+            class="form-control custom-select selectize"
+            data-placeholder="대여 목적을 선택하세요"
+            >
+	    <option value=""></option>
+            % for my $purpose (@purpose_list) {
+            <option value="<%= $purpose %>"><%= $purpose %></option>
+            % }
+	  </select>
+	</div>
+
+        <div class="form-group">
+          <label class="form-label" for="offorder1Purpose2">대여 목적 설명</label>
+          <input class="form-control" id="offorder1Purpose2" placeholder="자세한 대여 목적을 남겨주세요." name="offorder1-purpose2" value="" />
+          <small id="offorder1Purpose2Help" class="form-text text-muted">
+            <i class="fa fa-asterisk"></i>
+            입사 면접인 경우 응시기업 및 분야와 면접 복장 규정을 자세히 입력해주세요.
+            적합한 의류를 준비해드리기 위해 최선을 다하겠습니다.
+          </small>
+        </div>
+
+        <div class="form-footer">
+          <button
+            class="btn btn-block disabled"
+            id="btn-offorder1-next"
+            data-url="<%= url_with("/endgame/offorder2") %>"
+            data-label1="모든 항목을 입력해주세요"
+            data-label2="다음 단계로 진행합니다"
+            >모든 항목을 입력해주세요</button>
+        </div>
+      </div>
+
+      <script id="template-test" type="text/template">
+        ...
+      </script>
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->
