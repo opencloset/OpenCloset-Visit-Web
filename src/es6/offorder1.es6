@@ -1,7 +1,11 @@
 import "./lib/import-jquery";
 import session from "./lib/session";
 
+const pageId = "offorder1";
+
 const domLoaded = () => {
+  if (!$(`#page-${pageId}`).length) return;
+
   registerCallbackNextClick();
   registerCallbackFormInput();
   updateNextButton();

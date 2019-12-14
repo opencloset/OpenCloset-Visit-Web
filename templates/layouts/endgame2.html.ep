@@ -27,7 +27,7 @@ if ( stash("bg_image") ) {
     <link href="<%= url_for("/dist/style.css") %>" rel="stylesheet" />
     <script src="<%= url_for("/dist/app.js") %>"></script>
   </head>
-  <body class="">
+  <body <% if ($page_id) { %>id="page-<%= $page_id %>"<% } %> class="">
     <div class="page <%= $bg_image_class %>" style="<%= $bg_image_style %>">
       <div class="flex-fill">
         <!-- header -->

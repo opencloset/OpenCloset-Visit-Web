@@ -2,7 +2,11 @@ import "./lib/import-jquery";
 import moment from "moment/src/moment";
 import Mustache from "mustache/mustache";
 
+const pageId = "offdate";
+
 const domLoaded = () => {
+  if (!$(`#page-${pageId}`).length) return;
+
   registerCallbackDatetimepickerChange();
   registerCallbackBookingTimeListClick();
   registerCallbackNextClick();

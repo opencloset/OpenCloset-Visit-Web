@@ -2,7 +2,11 @@ import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
 import Mustache from "mustache/mustache";
 
+const pageId = "offlist";
+
 const domLoaded = () => {
+  if (!$(`#page-${pageId}`).length) return;
+
   $(".btn-offlist-order-edit").on("click", (e) => {
     e.preventDefault();
     let $target = $(e.target);

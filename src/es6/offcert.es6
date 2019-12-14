@@ -1,7 +1,11 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
 
+const pageId = "offcert";
+
 const domLoaded = () => {
+  if (!$(`#page-${pageId}`).length) return;
+
   /**
    * 초기 상태
    */
