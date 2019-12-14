@@ -26,23 +26,16 @@ title "새로운 방문 예약";
           이전 입력 정보와 달라진 부분이 있다면 최신 내용으로 변경해주세요.
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="bookingYmd">방문 예약일</label>
-          <div
-            id="offdateDatetimepicker"
-            class="input-group date datetimepicker"
-            data-format="YYYY-MM-DD"
-            data-use-current="false"
-            data-show-today-button="true"
-            data-locale="ko"
-            data-day-view-header-format="YYYY년 MM월"
-            >
-            <input class="form-control" id="bookingYmd" placeholder="날짜를 선택하세요." placeholder="YYYY-MM-DD" name="booking-ymd" value="">
-            <span class="input-group-append input-group-addon" value="">
-              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-            </span>
-          </div>
-        </div>
+        <%=
+        include(
+            "partials/date",
+            id          => "bookingYmd",
+            name        => "booking-ymd",
+            picker_id   => "offdateDatetimepicker",
+            label       => "방문 예약일",
+            placeholder => "날짜를 선택하세요.",
+        );
+        %>
 
         <div class="form-group">
           <div class="custom-controls-stacked offdate-booking-hm">
