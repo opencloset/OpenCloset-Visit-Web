@@ -1,0 +1,17 @@
+<div class="form-group">
+  <label class="form-label" for="<%= $id %>">착용일</label>
+  <div
+    id="<%= $picker_id %>"
+    class="input-group date datetimepicker"
+    data-format="YYYY-MM-DD"
+    data-use-current="false"
+    data-show-today-button="true"
+    data-locale="ko"
+    data-day-view-header-format="YYYY년 MM월"
+    >
+    <input class="form-control" id="<%= $id %>" placeholder="<%= $placeholder %>" placeholder="YYYY-MM-DD" name="<%= $name %>" value="">
+    <span class="input-group-append input-group-addon" value="">
+      <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+    </span>
+  </div>
+</div>

@@ -51,7 +51,7 @@ const getFormField = () => {
   let formData = {
     wear_self: $("#offorder1WearSelf").val(),
     wear_gender: $("#offorder1WearGender").val(),
-    wear_ymd: $("#wearYmd").val(),
+    wear_ymd: $("#offorder1WearYmd").val(),
     purpose: $("#offorder1Purpose").val(),
     purpose2: $("#offorder1Purpose2").val(),
   };
@@ -61,7 +61,6 @@ const getFormField = () => {
     }
     formData[key] = value.trim();
   }
-  console.log(formData);
 
   return formData;
 };
