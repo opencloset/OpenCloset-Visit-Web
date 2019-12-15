@@ -9,3 +9,4 @@ import './offlist.es6';
 import './offdate.es6';
 import './offorder1.es6';
 import './offorder2.es6';
+import './offuser.es6';

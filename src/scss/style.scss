@@ -133,7 +133,8 @@
 #offcert,
 #offdate,
 #offorder1,
-#offorder2 {
+#offorder2,
+#offuser {
   .card {
     border: none;
     background-color: transparent;
@@ -321,6 +322,9 @@
 }
 
 #offorder2 {
+}
+
+#offuser {
 }
 
 .header {

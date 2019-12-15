@@ -1,0 +1,67 @@
+<%
+layout(
+    "endgame2",
+    page_id   => "offuser",
+    back_link => url_with("/endgame/offorder2"),
+);
+title "방문 예약자 정보";
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">방문 예약자 정보</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body pt-0">
+        <div class="caution pl-2 pr-1 mb-3">
+          <i class="fa fa-asterisk"></i> 예약자 본인의 정보를 입력해주세요.
+          이전 입력 정보와 달라진 부분이 있다면 최신 내용으로 변경해주세요.
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="offuserEmail">이메일 주소</label>
+          <input class="form-control" id="offuserEmail" placeholder="이메일(전자우편) 주소를 입력하세요" name="offuser-email" value="" />
+        </div>
+
+        <%=
+        include(
+            "partials/select",
+            id          => "offuserBirth",
+            name        => "offuser-birth",
+            label       => "출생년도",
+            placeholder => "출생년도를 선택하세요",
+            items       => [ reverse( 1950 .. 2010 ) ],
+        );
+        %>
+
+        <div class="form-group">
+          <label class="form-label" for="offuserAddress1">주소</label>
+          <input class="form-control" id="offuserAddress1" placeholder="주소를 검색하세요" name="offuser-address1" value="" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="offuserAddress2">상세 주소</label>
+          <input class="form-control" id="offuserAddress2" placeholder="나머지 주소를 입력하세요" name="offuser-address2" value="" />
+        </div>
+
+        <div class="form-footer">
+          <button
+            class="btn btn-block disabled"
+            id="btn-offuser-next"
+            data-url="<%= url_with("/endgame/offbooked") %>"
+            data-label1="모든 항목을 입력해주세요"
+            data-label2="다음 단계로 진행합니다"
+            >모든 항목을 입력해주세요</button>
+        </div>
+      </div>
+
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->
