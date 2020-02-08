@@ -1,3 +1,7 @@
+$opencloset-color-ok:     #355ece;
+$opencloset-color-cancel: #474747;
+$opencloset-color-next:   #ffb343;
+
 .image-box {
   background-image: var(--image-url);
   background-repeat: no-repeat;
@@ -34,12 +38,12 @@
     font-weight: 700;
 
     &.box-link-delivery {
-      background-color: #355ecd;
+      background-color: $opencloset-color-ok;
       color: #fff;
     }
 
     &.box-link-visit {
-      background-color: #ffb343;
+      background-color: $opencloset-color-next;
       color: #fff;
     }
 
@@ -80,7 +84,7 @@
     font-weight: 700;
 
     &.box-link-offcert {
-      background-color: #ffb343;
+      background-color: $opencloset-color-next;
       color: #fff;
 
       .box-link-title {
@@ -176,7 +180,7 @@
   .form-footer {
     button {
       color: #fff;
-      background-color: #ffb343;
+      background-color: $opencloset-color-next;
     }
   }
 }
