@@ -90,7 +90,6 @@ const domLoaded = () => {
         return true;
       }
     });
-    modal.animate({ scrollTop: 0 }, "slow");
     e.preventDefault();
     return false;
   });
@@ -128,7 +127,6 @@ const domLoaded = () => {
         return true;
       }
     });
-    modal.animate({ scrollTop: 0 }, "slow");
     e.preventDefault();
     return false;
   });
@@ -166,7 +164,6 @@ const domLoaded = () => {
         return true;
       }
     });
-    modal.animate({ scrollTop: 0 }, "slow");
     e.preventDefault();
     return false;
   });

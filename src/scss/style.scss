@@ -386,6 +386,19 @@ $opencloset-color-next:   #ffb343;
   align-items: center;
   justify-content: center;
 }
+// bootbox long text scroll
+// https://stackoverflow.com/questions/35973435/how-to-add-a-scroll-to-bootbox-dialog
+.modal-body {
+  overflow-y: auto;
+  height: 300px;
+}
+// opencloset bootbox heading rule
+.modal-body {
+  h4 {
+    margin-top: 1.32em;
+    margin-bottom: 0.66em;
+  }
+}
 
 // circle button
 // https://www.geeksforgeeks.org/how-to-get-circular-buttons-in-bootstrap-4/
