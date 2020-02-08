@@ -11,6 +11,9 @@ $sidebar-font-family-base:        'Poppins', 'Noto Sans KR', sans-serif;
 @import 'sidebar';
 @import 'perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'selectize/dist/css/selectize.css';
+.selectize-control.single .selectize-input::after {
+    top: 50%;
+}
 
 //
 // bootstrap-datetimepicker
