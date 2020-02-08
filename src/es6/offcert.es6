@@ -281,7 +281,7 @@ const domLoaded = () => {
 
     let phone = $("input[name=certnum-phone]").val();
     let sms = $("input[name=certnum-otp]").val();
-    let gender = "male";
+    let gender = $("select[name=certnum-gender]").val();
 
     let reqData = {
       phone: phone,
