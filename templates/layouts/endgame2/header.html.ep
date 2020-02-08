@@ -10,7 +10,7 @@
               </div>
               <div class="col-8 text-center">
                 <a class="align-self-center header-brand" href="<%= url_for("/") %>">
-                  <img src="<%= url_for("/endgame/img/oc-logo.png") %>" class="header-brand-img" alt="OpenCloset">
+                  <img src="<%= url_for("/endgame/img/opencloset-logo-02.svg") %>" class="header-brand-img" alt="OpenCloset">
                 </a>
               </div>
             </div>

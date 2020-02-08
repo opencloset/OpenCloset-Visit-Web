@@ -20,7 +20,7 @@ if ( stash("bg_image") ) {
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
-    <link href="<%= url_for("/icon.png") %>" rel="shortcut icon"/>
+    <link href="<%= url_for("/icon.svg") %>" rel="shortcut icon"/>
     <title><%= title %> &middot; 열린옷장</title>
     <link href="//fonts.googleapis.com/css?family=Black+Han+Sans|Noto+Sans+KR:400,700|Noto+Serif+KR:400,700&amp;display=swap" rel="stylesheet" />
     <link href="<%= url_for("/dist/common.css") %>" rel="stylesheet" />
