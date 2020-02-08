@@ -45,7 +45,6 @@ const registerCallbackNextClick = () => {
 
 const registerCallbackFormInput = () => {
   $("#offorder1WearSelf").on("change", e => updateNextButton());
-  $("#offorder1WearGender").on("change", e => updateNextButton());
   $("#wearDatetimepicker").on("dp.change", e => updateNextButton());
   $("#offorder1Purpose").on("change", e => updateNextButton());
   $("#offorder1Purpose2").on("change", e => updateNextButton());
@@ -61,9 +60,6 @@ const loadSession = () => {
   if (data.wear_self) {
     $("#offorder1WearSelf")[0].selectize.setValue(data.wear_self, false);
   }
-  if (data.wear_gender) {
-    $("#offorder1WearGender")[0].selectize.setValue(data.wear_gender, false);
-  }
   if (data.wear_ymd) {
     $("#offorder1WearYmd").val(data.wear_ymd);
   }
@@ -78,7 +74,6 @@ const loadSession = () => {
 const getFormField = () => {
   let formData = {
     wear_self: $("#offorder1WearSelf").val(),
-    wear_gender: $("#offorder1WearGender").val(),
     wear_ymd: $("#offorder1WearYmd").val(),
     purpose: $("#offorder1Purpose").val(),
     purpose2: $("#offorder1Purpose2").val(),

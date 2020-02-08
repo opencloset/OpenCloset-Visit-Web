@@ -231,6 +231,14 @@ $opencloset-color-next:   #ffb343;
           padding-left: 0.2rem;
           padding-right: 0.2rem;
         }
+
+        .selectize-control {
+          background: transparent;
+        }
+
+        .selectize-input.select-invalid {
+          border: 2px solid #cd201f !important;
+        }
       }
 
       .cert-button {

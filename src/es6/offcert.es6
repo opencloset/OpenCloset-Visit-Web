@@ -11,6 +11,12 @@ const domLoaded = () => {
    */
   let resetAll = () => {
     $("input[name=certnum-realname]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
+
+    let $certnumGender = $("select[name=certnum-gender]")[0].selectize;
+    $certnumGender.$control.removeClass("select-invalid");
+    $certnumGender.clear(false);
+    $certnumGender.enable();
+
     $("input[name=certnum-phone]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
     $("input[name=certnum-otp]").val("").removeClass("state-invalid is-invalid").prop("disabled", true);
     $("input[name=agree-service-checkbox]").prop("checked", false);
@@ -169,6 +175,10 @@ const domLoaded = () => {
     $(e.target).removeClass("state-invalid is-invalid");
   });
 
+  $("select[name=certnum-gender]")[0].selectize.$wrapper.on("click", (e) => {
+    $("select[name=certnum-gender]")[0].selectize.$control.removeClass("select-invalid");
+  });
+
   $("input[name=certnum-phone]").on("click", (e) => {
     $(e.target).removeClass("state-invalid is-invalid");
   });
@@ -192,18 +202,25 @@ const domLoaded = () => {
     if (!realname) {
       $("input[name=certnum-realname]").addClass("state-invalid is-invalid");
     }
+
+    let gender = $("select[name=certnum-gender]").val();
+    if (!gender) {
+      $("select[name=certnum-gender]")[0].selectize.$control.addClass("select-invalid");
+    }
+
     let phone = $("input[name=certnum-phone]").val();
     if (!phone) {
       $("input[name=certnum-phone]").addClass("state-invalid is-invalid");
     }
 
-    if (!(realname && phone)) {
+    if (!(realname && gender && phone)) {
       return false;
     }
 
     // success
     $(e.target).addClass("disabled");
     $("input[name=certnum-realname]").prop("disabled", true);
+    $("select[name=certnum-gender]")[0].selectize.disable();
     $("input[name=certnum-phone]").prop("disabled", true);
     $("input[name=certnum-otp]").prop("disabled", false);
     $("input[name=certnum-otp]").focus();
