@@ -182,7 +182,7 @@ sub api_gui_booking_list {
     #
     # fetch params
     #
-    my %params = $self->get_params(qw/ gender ymd /);
+    my %params = $self->get_params(qw/ gender ymd include_empty /);
 
     #
     # validate params
@@ -252,6 +252,8 @@ sub api_gui_booking_list {
         }
     }
 
+    my $include_empty = $params{include_empty};
+
     #
     # [GH 1366] 서울시 쿠폰 유효기간의 수정
     #
@@ -306,7 +308,7 @@ sub api_gui_booking_list {
         }
     }
 
-    my @booking_list = $self->booking_list( $params{gender}, $from, $to );
+    my @booking_list = $self->booking_list( $params{gender}, $from, $to, $include_empty );
     return unless @booking_list;
 
     #

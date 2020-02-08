@@ -85,6 +85,7 @@ const updateAvailableBookingList = ymd => {
     window.location.origin,
   );
   reqUrl.searchParams.set("ymd", ymd);
+  reqUrl.searchParams.set("include_empty", 1);
   fetch(reqUrl, { method: "GET" })
     .then(response => {
       if (!response.ok) {
@@ -96,12 +97,55 @@ const updateAvailableBookingList = ymd => {
     .then(resData => {
       let countAvailable = 0;
       resData.forEach(val => {
+        let valDate = moment(val.date);
         let isRemain = val.slot > val.user_count;
-        let isNew = now.unix() < moment(val.date).unix();
+        let isNew = now.unix() < valDate.unix();
 
         val.hm = val.date.substring(11, 16);
         val.remainSlot = isRemain ? val.slot - val.user_count : 0;
+        val.breakTime = false;
+        val.display = false;
         val.old = !isNew;
+
+        // break time
+        let weekDay = valDate.day();
+        switch (weekDay) {
+          case 1: // Mon
+          case 2: // Tue
+          case 3: // Wed
+          case 4: // Thu
+          case 5: // Fri
+            let hm = valDate.format("HH:mm");
+            switch (hm) {
+              case "15:30":
+              case "16:00":
+              case "16:30":
+                val.breakTime = true;
+                val.remainSlot = 0;
+            }
+          case 0: // Sun
+          case 6: // Sat
+        }
+
+        // display
+        {
+          let hmInt = parseInt(valDate.format("Hmm"), 10);
+          switch (weekDay) {
+            case 1: // Mon
+            case 2: // Tue
+            case 3: // Wed
+            case 4: // Thu
+            case 5: // Fri
+              if (900 <= hmInt && hmInt <= 1900) {
+                val.display = true;
+              }
+            case 0: // Sun
+            case 6: // Sat
+              if (900 <= hmInt && hmInt <= 1700) {
+                val.display = true;
+              }
+          }
+        }
 
         if (isRemain && isNew) {
           countAvailable++;

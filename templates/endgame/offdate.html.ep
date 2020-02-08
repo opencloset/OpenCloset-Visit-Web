@@ -58,18 +58,23 @@ title "새로운 방문 예약";
 
       <script id="template-booking-list-success" type="text/template">
         {{#bookingList}}
-          {{^old}}
-            <label class="custom-control custom-radio {{^remainSlot}}disabled{{/remainSlot}}">
-              <input type="radio" class="custom-control-input" name="booking-hm" id="bookingHm{{id}}" value="{{id}}" {{^remainSlot}}disabled=""{{/remainSlot}}>
-              <div class="custom-control-label" for="bookingHm{{id}}">
-                <span class="booking-hm"> {{hm}} </span>
-                <span class="booking-slot">
-                  {{#remainSlot}}{{remainSlot}}명 가능{{/remainSlot}}
-                  {{^remainSlot}}예약 인원 초과{{/remainSlot}}
-                </span>
-              </div>
-            </label>
-          {{/old}}
+          {{#display}}
+            {{^old}}
+              <label class="custom-control custom-radio {{^remainSlot}}disabled{{/remainSlot}}">
+                <input type="radio" class="custom-control-input" name="booking-hm" id="bookingHm{{id}}" value="{{id}}" {{^remainSlot}}disabled=""{{/remainSlot}}>
+                <div class="custom-control-label" for="bookingHm{{id}}">
+                  <span class="booking-hm"> {{hm}} </span>
+                  <span class="booking-slot">
+                    {{#breakTime}} 브레이크 타임 {{/breakTime}}
+                    {{^breakTime}}
+                      {{#remainSlot}}{{remainSlot}}명 가능{{/remainSlot}}
+                      {{^remainSlot}}예약 마감{{/remainSlot}}
+                    {{/breakTime}}
+                  </span>
+                </div>
+              </label>
+            {{/old}}
+          {{/display}}
         {{/bookingList}}
       </script>
       <script id="template-booking-list-failure" type="text/template">

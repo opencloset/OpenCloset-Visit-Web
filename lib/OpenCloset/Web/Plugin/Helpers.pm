@@ -305,7 +305,7 @@ sub get_nearest_booked_order {
 =cut
 
 sub booking_list {
-    my ( $self, $gender, $from, $to ) = @_;
+    my ( $self, $gender, $from, $to, $include_empty ) = @_;
 
     #
     # find booking
@@ -397,7 +397,9 @@ sub booking_list {
             && $self->current_user->user_info
             && $self->current_user->user_info->staff )
         {
-            next unless $flat->{slot} > 0;
+            unless ( $include_empty ) {
+                next unless $flat->{slot} > 0;
+            }
 
             $flat->{id} = 0 unless $flat->{slot} > $flat->{user_count};
         }
