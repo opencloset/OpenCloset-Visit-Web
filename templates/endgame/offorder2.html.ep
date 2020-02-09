@@ -60,8 +60,8 @@ title "방문 대여 정보 (2/2)";
         );
         %>
 
-	<div class="form-group">
-	  <label class="form-label">의류 선택</label>
+        <div class="form-group">
+          <label class="form-label">의류 선택</label>
           <div class="table-responsive">
             <table data-classes="table table-striped table-hover" id="offorder2SelectClothes">
               <thead>
@@ -75,7 +75,7 @@ title "방문 대여 정보 (2/2)";
                     data-formatter="countFormatter">개수</th>
                   <th
                     data-field="totalPrice"
-                    data-formatter="totalPriceFormatter">총 금액</th>
+                    data-formatter="totalPriceFormatter">금액</th>
                 </tr>
               </thead>
             </table>
@@ -88,7 +88,8 @@ title "방문 대여 정보 (2/2)";
             id="btn-offorder2-next"
             data-url="<%= url_with("/endgame/offuser") %>"
             data-label1="모든 항목을 입력해주세요"
-            data-label2="다음 단계로 진행합니다"
+            data-label2="예상 결제 금액은 {{ totalPrice }}원 입니다"
+            data-total-price="0"
             >모든 항목을 입력해주세요</button>
         </div>
       </div>

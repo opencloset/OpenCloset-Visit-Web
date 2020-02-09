@@ -1,4 +1,5 @@
 import "./lib/import-jquery";
+import Mustache from "mustache/mustache";
 import session from "./lib/session";
 import opencloset from "./lib/opencloset";
 
@@ -31,6 +32,22 @@ const selectClothesData = [
   { state: false, id: "shoes",  count: 0 },
 ];
 
+const registerSelectClothesStateCallback = () => {
+  $("#offorder2SelectClothes input[type=number]").on("change", (e) => { // "propertychange change keyup paste input"
+    let $target = $(e.target);
+    let $tr = $target.closest("tr");
+    let $table = $("#offorder2SelectClothes");
+    let currentVal = parseInt($target.val(), 10);
+    let index = $tr.data("index");
+    let data = $table.bootstrapTable("getData");
+
+    data[index].count = currentVal;
+    $table.bootstrapTable("load", data);
+    updateNextButton();
+    registerSelectClothesCountCallback();
+  });
+}
+
 const registerSelectClothesCountCallback = () => {
   $("#offorder2SelectClothes input[type=number]").on("change", (e) => { // "propertychange change keyup paste input"
     let $target = $(e.target);
@@ -42,14 +59,45 @@ const registerSelectClothesCountCallback = () => {
 
     data[index].count = currentVal;
     $table.bootstrapTable("load", data);
+    updateTotalPrice();
+    updateNextButton();
     registerSelectClothesCountCallback();
   });
 }
 
+const getTotalPrice = (data) => {
+  let totalPrice = 0;
+  if (!Array.isArray(data)) {
+    return totalPrice;
+  }
+  for (let c of data.values()) {
+    let data = opencloset.category(c.id);
+    totalPrice += data.price * c.count;
+  }
+  return totalPrice;
+}
+
+const updateTotalPrice = () => {
+  let $table = $("#offorder2SelectClothes");
+  let data = $table.bootstrapTable("getSelections");
+  let totalPrice = getTotalPrice(data);
+  let $nextBtn = $("#btn-offorder2-next");
+  $nextBtn.data("total-price", totalPrice);
+}
+
 const initSelectClothes = () => {
-  $("#offorder2SelectClothes").bootstrapTable({
+  let $selectClothes = $("#offorder2SelectClothes");
+  $selectClothes.bootstrapTable({
     columns: selectClothesColumns,
     data: selectClothesData,
+  });
+  $selectClothes.on("check.bs.table", (e, row) => {
+    updateTotalPrice();
+    updateNextButton();
+  });
+  $selectClothes.on("uncheck.bs.table", (e, row) => {
+    updateTotalPrice();
+    updateNextButton();
   });
   registerSelectClothesCountCallback();
 };
@@ -75,7 +123,6 @@ const registerCallbackNextClick = () => {
       return false;
     }
     session.save(phone, getFormField());
-    console.log(getFormField());
 
     let reqUrl = new URL($target.data("url"), window.location.origin);
 
@@ -111,6 +158,7 @@ const getFormField = () => {
     prefer_style: $("#offorder2PreferStyle").val(),
     prefer_color: $("#offorder2PreferColor").val(),
   };
+
   for (let [key, value] of Object.entries(formData)) {
     if (!value) {
       continue;
@@ -132,6 +180,13 @@ const validateForm = () => {
     }
   }
 
+  let $table = $("#offorder2SelectClothes");
+  let data = $table.bootstrapTable("getSelections");
+  let totalPrice = getTotalPrice(data);
+  if (totalPrice <= 0) {
+    isValid = false;
+  }
+
   return isValid;
 };
 
@@ -139,7 +194,8 @@ const updateNextButton = () => {
   let $nextBtn = $("#btn-offorder2-next");
   let isFormValid = validateForm();
   if (isFormValid) {
-    $nextBtn.html($nextBtn.data("label2")).removeClass("disabled");
+    let totalPrice = parseInt($nextBtn.data("total-price"), 10);
+    $nextBtn.html(Mustache.render($nextBtn.data("label2"), { totalPrice: opencloset.commify(totalPrice) })).removeClass("disabled");
   } else {
     $nextBtn.html($nextBtn.data("label1")).addClass("disabled");
   }
