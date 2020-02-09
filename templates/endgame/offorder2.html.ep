@@ -60,6 +60,28 @@ title "방문 대여 정보 (2/2)";
         );
         %>
 
+	<div class="form-group">
+	  <label class="form-label">의류 선택</label>
+          <div class="table-responsive">
+            <table data-classes="table table-striped table-hover" id="offorder2SelectClothes">
+              <thead>
+                <tr>
+                  <th data-field="state">#</th>
+                  <th
+                    data-field="category"
+                    data-formatter="categoryFormatter">종류</th>
+                  <th
+                    data-field="count"
+                    data-formatter="countFormatter">개수</th>
+                  <th
+                    data-field="totalPrice"
+                    data-formatter="totalPriceFormatter">총 금액</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+
         <div class="form-footer">
           <button
             class="btn btn-block disabled"

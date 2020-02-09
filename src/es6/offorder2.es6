@@ -1,5 +1,6 @@
 import "./lib/import-jquery";
 import session from "./lib/session";
+import opencloset from "./lib/opencloset";
 
 const pageId = "offorder2";
 
@@ -10,6 +11,47 @@ const domLoaded = () => {
   registerCallbackFormInput();
   loadSession();
   updateNextButton();
+  initSelectClothes();
+};
+
+const selectClothesColumns = [
+  { field: "state",      align: "center", valign: "middle", checkbox: true },
+  { field: "category",   align: "left",   valign: "middle" },
+  { field: "count",      align: "left",   valign: "middle" },
+  { field: "totalPrice", align: "right",  valign: "middle" },
+];
+const selectClothesData = [
+  { state: false, id: "jacket", count: 0 },
+  { state: false, id: "shirt",  count: 0 },
+  { state: false, id: "blouse", count: 0 },
+  { state: false, id: "pants",  count: 0 },
+  { state: false, id: "skirt",  count: 0 },
+  { state: false, id: "tie",    count: 0 },
+  { state: false, id: "belt",   count: 0 },
+  { state: false, id: "shoes",  count: 0 },
+];
+
+const registerSelectClothesCountCallback = () => {
+  $("#offorder2SelectClothes input[type=number]").on("change", (e) => { // "propertychange change keyup paste input"
+    let $target = $(e.target);
+    let $tr = $target.closest("tr");
+    let $table = $("#offorder2SelectClothes");
+    let currentVal = parseInt($target.val(), 10);
+    let index = $tr.data("index");
+    let data = $table.bootstrapTable("getData");
+
+    data[index].count = currentVal;
+    $table.bootstrapTable("load", data);
+    registerSelectClothesCountCallback();
+  });
+}
+
+const initSelectClothes = () => {
+  $("#offorder2SelectClothes").bootstrapTable({
+    columns: selectClothesColumns,
+    data: selectClothesData,
+  });
+  registerSelectClothesCountCallback();
 };
 
 if (document.readyState === "loading") {
@@ -101,4 +143,29 @@ const updateNextButton = () => {
   } else {
     $nextBtn.html($nextBtn.data("label1")).addClass("disabled");
   }
+};
+
+window.countFormatter = (value, row, index) => {
+  let adjustedValue = value;
+  if (adjustedValue < 0) {
+    adjustedValue = 0;
+  }
+  return [
+    `<input type="number" min="0" class="form-control w-8" value="${value}">`,
+  ].join("");
+};
+
+window.categoryFormatter = (value, row, index) => {
+  let data = opencloset.category(row.id);
+  return [
+    data.label,
+  ].join("");
+};
+
+window.totalPriceFormatter = (value, row, index) => {
+  let data = opencloset.category(row.id);
+  return [
+    opencloset.commify(data.price * row.count),
+    "원",
+  ].join("");
 };

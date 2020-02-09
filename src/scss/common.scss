@@ -166,3 +166,12 @@ $sidebar-font-family-base:        'Poppins', 'Noto Sans KR', sans-serif;
   }
 
 }
+
+//
+// bootstrap-table
+//
+@import "bootstrap-table/dist/bootstrap-table.min.css";
+// fix bootstrap-table
+.table-hover tbody tr:hover {
+  background-color: rgba(0,0,0,.075);
+}
