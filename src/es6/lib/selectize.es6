@@ -17,6 +17,7 @@ const enableSelectize = () => {
 
     let option = {};
     if ($elem.data("placeholder")) option.placeholder = $elem.data("placeholder");
+    if ($elem.data("create")) option.create = $elem.data("create");
 
     $elem.selectize(option);
   });

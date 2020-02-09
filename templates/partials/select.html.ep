@@ -4,7 +4,8 @@
     name="<%= $name %>"
     id="<%= $id %>"
     class="form-control custom-select selectize"
-    data-placeholder="<%= $placeholder %>"
+    data-placeholder="<%= stash("placeholder") || q{} %>"
+    data-create="<%= stash("create") || "false" %>"
     >
     <option value=""></option>
     % for my $i (@$items) {
