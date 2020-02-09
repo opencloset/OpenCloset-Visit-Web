@@ -1,4 +1,5 @@
 import "./lib/import-jquery";
+import moment from "moment/src/moment";
 import session from "./lib/session";
 
 const pageId = "offorder1";
@@ -10,6 +11,8 @@ const domLoaded = () => {
   registerCallbackFormInput();
   loadSession();
   updateNextButton();
+
+  $("#offorder1WearDatetimepicker").data("DateTimePicker").minDate(moment().format("YYYY-MM-DD"));
 };
 
 if (document.readyState === "loading") {
