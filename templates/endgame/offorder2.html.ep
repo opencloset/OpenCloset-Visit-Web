@@ -84,7 +84,7 @@ title "방문 대여 정보 (2/2)";
 
         <div class="form-footer">
           <button
-            class="btn btn-block disabled"
+            class="btn btn-block opencloset-btn-next disabled"
             id="btn-offorder2-next"
             data-url="<%= url_with("/endgame/offuser") %>"
             data-label1="모든 항목을 입력해주세요"

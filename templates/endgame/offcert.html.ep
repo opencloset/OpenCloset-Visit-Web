@@ -18,7 +18,7 @@ title "방문 예약 본인 인증";
             <span class="span2 text-left">방문 예약 본인 인증</span>
           </span>
           <span class="d-block align-self-center">
-            <button class="btn btn-sm btn-danger" id="btn-input-reset"><i class="fa fa-repeat mr-2"></i>다시 입력</button>
+            <button class="btn btn-sm opencloset-btn-cancel" id="btn-input-reset"><i class="fa fa-repeat mr-2"></i>다시 입력</button>
           </span>
         </h3>
       </div>

@@ -2,6 +2,10 @@ $opencloset-color-ok:     #355ece;
 $opencloset-color-cancel: #474747;
 $opencloset-color-next:   #ffb343;
 
+.opencloset-btn-ok     { color: #fff; background-color: $opencloset-color-ok; }
+.opencloset-btn-cancel { color: #fff; background-color: $opencloset-color-cancel; }
+.opencloset-btn-next   { color: #fff; background-color: $opencloset-color-next; }
+
 .image-box {
   background-image: var(--image-url);
   background-repeat: no-repeat;
@@ -176,13 +180,6 @@ $opencloset-color-next:   #ffb343;
       }
     }
   }
-
-  .form-footer {
-    button {
-      color: #fff;
-      background-color: $opencloset-color-next;
-    }
-  }
 }
 
 #offcert {
@@ -340,9 +337,6 @@ $opencloset-color-next:   #ffb343;
   .form-footer {
     button {
       min-height: 4rem;
-    }
-    #btn-offuser-cancel {
-      background-color: $opencloset-color-cancel;
     }
   }
 }
