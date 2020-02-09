@@ -62,7 +62,7 @@ title "방문 대여 정보 (2/2)";
 
         <div class="form-group">
           <label class="form-label">의류 선택</label>
-          <div class="table-responsive">
+          <div class="table-responsive modern-form">
             <table data-classes="table table-striped table-hover" id="offorder2SelectClothes">
               <thead>
                 <tr>
