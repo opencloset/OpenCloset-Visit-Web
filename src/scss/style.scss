@@ -337,6 +337,14 @@ $opencloset-color-next:   #ffb343;
 }
 
 #offuser {
+  .form-footer {
+    button {
+      min-height: 4rem;
+    }
+    #btn-offuser-cancel {
+      background-color: $opencloset-color-cancel;
+    }
+  }
 }
 
 .header {

@@ -52,13 +52,24 @@ title "방문 예약자 정보";
         </div>
 
         <div class="form-footer">
-          <button
-            class="btn btn-block disabled"
-            id="btn-offuser-next"
-            data-url="<%= url_with("/endgame/offbooked") %>"
-            data-label1="모든 항목을 입력해주세요"
-            data-label2="다음 단계로 진행합니다"
-            >모든 항목을 입력해주세요</button>
+
+          <div class="row">
+            <div class="col-6">
+              <button
+                class="btn btn-block"
+                id="btn-offuser-cancel"
+                data-url="<%= url_with("/endgame/offlist") %>"
+                >예약 취소</button>
+            </div>
+            <div class="col-6">
+              <button
+                class="btn btn-block disabled"
+                id="btn-offuser-next"
+                data-url="<%= url_with("/endgame/offbooked") %>"
+                data-label1="모든 항목을 입력해주세요"
+                data-label2="예약 신청"
+                >모든 항목을 입력해주세요</button>
+            </div>
         </div>
       </div>
 

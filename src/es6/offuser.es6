@@ -6,6 +6,7 @@ const pageId = "offuser";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  registerCallbackCancelClick();
   registerCallbackNextClick();
   registerCallbackFormInput();
   loadSession();
@@ -17,6 +18,25 @@ if (document.readyState === "loading") {
 } else {
   domLoaded();
 }
+
+const registerCallbackCancelClick = () => {
+  $("#btn-offuser-cancel").on("click", e => {
+    e.preventDefault();
+
+    // .disabled 클래스일 경우 클릭 무시
+    let $target = $(e.target);
+    if ($target.hasClass("disabled")) {
+      return false;
+    }
+
+    let reqUrl = new URL($target.data("url"), window.location.origin);
+
+    // success
+    window.location = reqUrl.href;
+
+    return false;
+  });
+};
 
 const registerCallbackNextClick = () => {
   $("#btn-offuser-next").on("click", e => {
