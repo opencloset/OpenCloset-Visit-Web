@@ -94,9 +94,6 @@ title "방문 대여 정보 (2/2)";
         </div>
       </div>
 
-      <script id="template-test" type="text/template">
-        ...
-      </script>
     </div> <!-- row row-cards -->
   </div> <!-- col-lg-4 -->
 </div> <!-- row -->
