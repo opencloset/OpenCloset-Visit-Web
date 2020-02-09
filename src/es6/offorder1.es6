@@ -46,7 +46,7 @@ const registerCallbackNextClick = () => {
 const registerCallbackFormInput = () => {
   $("#offorder1WearSelf").on("change", e => updateNextButton());
   $("#offorder1WearGender").on("change", e => updateNextButton());
-  $("#wearDatetimepicker").on("dp.change", e => updateNextButton());
+  $("#offorder1WearDatetimepicker").on("dp.change", e => updateNextButton());
   $("#offorder1Purpose").on("change", e => updateNextButton());
   $("#offorder1Purpose2").on("change", e => updateNextButton());
 };
