@@ -356,6 +356,35 @@ $opencloset-color-next:   #ffb343;
   }
 }
 
+#offbooked {
+  .heading {
+    .page-title {
+      font-size: 1.3rem;
+      line-height: 1.2;
+      .span1 {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .card {
+    .card-title {
+      font-weight: 700;
+    }
+    .card-body {
+      .offbooked-realname,
+      .offbooked-date {
+        font-weight: 700;
+      }
+
+      dt {
+        width: 30%;
+        float: left;
+      }
+    }
+  }
+}
+
 .header {
   .header-back-button,
   .header-brand {

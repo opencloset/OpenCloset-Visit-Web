@@ -167,6 +167,7 @@ sub _endgame_routes {
     $endgame->get("/offorder1")->to("endgame#offorder1");
     $endgame->get("/offorder2")->to("endgame#offorder2");
     $endgame->get("/offuser")->to("endgame#offuser");
+    $endgame->get("/offbooked")->to("endgame#offbooked");
 }
 
 sub _hooks {

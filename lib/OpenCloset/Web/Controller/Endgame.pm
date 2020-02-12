@@ -106,4 +106,13 @@ sub offorder2 ($self) {
 sub offuser ($self) {
 }
 
+=head2 offbooked
+
+    GET /endgame/offbooked
+
+=cut
+
+sub offbooked ($self) {
+}
+
 1;
