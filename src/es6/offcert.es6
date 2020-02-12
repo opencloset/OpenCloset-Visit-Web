@@ -6,32 +6,52 @@ const pageId = "offcert";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
-  /**
-   * 초기 상태
-   */
-  let resetAll = () => {
-    $("input[name=certnum-realname]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
-
-    let $certnumGender = $("select[name=certnum-gender]")[0].selectize;
-    $certnumGender.$control.removeClass("select-invalid");
-    $certnumGender.clear(false);
-    $certnumGender.enable();
-
-    $("input[name=certnum-phone]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
-    $("input[name=certnum-otp]").val("").removeClass("state-invalid is-invalid").prop("disabled", true);
-    $("input[name=agree-service-checkbox]").prop("checked", false);
-    $("input[name=agree-privacy-checkbox]").prop("checked", false);
-    $("input[name=agree-all-checkbox]").prop("checked", false);
-
-    $(".agree-service").removeClass("state-invalid is-invalid").addClass("agree-before-validate");
-    $(".agree-privacy").removeClass("state-invalid is-invalid").addClass("agree-before-validate");
-
-    $("#btn-certnum-send").removeClass("disabled");
-    $("#btn-certnum-validate").addClass("disabled");
-    $("#btn-offcert-next").addClass("disabled").html($("#btn-offcert-next").data("label1"));
-  };
   resetAll();
+  registerCallback();
+}
 
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", domLoaded);
+}
+else {
+  domLoaded();
+}
+
+const resetAll = () => {
+  $("input[name=certnum-realname]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
+
+  let $certnumGender = $("select[name=certnum-gender]")[0].selectize;
+  $certnumGender.$control.removeClass("select-invalid");
+  $certnumGender.clear(false);
+  $certnumGender.enable();
+
+  $("input[name=certnum-phone]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
+  $("input[name=certnum-otp]").val("").removeClass("state-invalid is-invalid").prop("disabled", true);
+  $("input[name=agree-service-checkbox]").prop("checked", false);
+  $("input[name=agree-privacy-checkbox]").prop("checked", false);
+  $("input[name=agree-all-checkbox]").prop("checked", false);
+
+  $(".agree-service").removeClass("state-invalid is-invalid").addClass("agree-before-validate");
+  $(".agree-privacy").removeClass("state-invalid is-invalid").addClass("agree-before-validate");
+
+  $("#btn-certnum-send").removeClass("disabled");
+  $("#btn-certnum-validate").addClass("disabled");
+  $("#btn-offcert-next").addClass("disabled").html($("#btn-offcert-next").data("label1"));
+};
+
+const updateToggleAll = () => {
+  let $toggleService = $("input[name=agree-service-checkbox]");
+  let $togglePrivacy = $("input[name=agree-privacy-checkbox]");
+  let $toggleAll = $("input[name=agree-all-checkbox]");
+  if ( $toggleService.prop("checked") && $togglePrivacy.prop("checked") ) {
+    $toggleAll.prop("checked", true);
+  }
+  else {
+    $toggleAll.prop("checked", false);
+  }
+}
+
+const registerCallback = () => {
   /**
    * 버튼 클릭: 다시 입력
    */
@@ -40,18 +60,6 @@ const domLoaded = () => {
     resetAll();
     return false;
   });
-
-  let updateToggleAll = () => {
-    let $toggleService = $("input[name=agree-service-checkbox]");
-    let $togglePrivacy = $("input[name=agree-privacy-checkbox]");
-    let $toggleAll = $("input[name=agree-all-checkbox]");
-    if ( $toggleService.prop("checked") && $togglePrivacy.prop("checked") ) {
-      $toggleAll.prop("checked", true);
-    }
-    else {
-      $toggleAll.prop("checked", false);
-    }
-  }
 
   /**
    * 버튼 클릭: 모두 확인 후 동의
@@ -294,11 +302,4 @@ const domLoaded = () => {
 
     return false;
   });
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", domLoaded);
-}
-else {
-  domLoaded();
-}
+};
