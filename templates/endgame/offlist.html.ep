@@ -69,7 +69,7 @@ my %prefer_color = (
         <div class="card-header">
           <h3 class="card-title"><%= $reserved->{booking_ymd} %> <%= $reserved->{booking_hms} %></h3>
           <div class="card-options">
-            <button class="btn btn-sm opencloset-btn-ok   btn-offlist-order-edit"        >변경</button>
+            <button class="btn btn-sm opencloset-btn-ok   btn-offlist-order-edit"          >변경</button>
             <button class="btn btn-sm opencloset-btn-cancel btn-offlist-order-remove ml-2 ">삭제</button>
           </div>
         </div>

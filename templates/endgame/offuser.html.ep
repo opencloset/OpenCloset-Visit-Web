@@ -70,8 +70,9 @@ title "방문 예약자 정보";
                 data-label2="예약 신청"
                 >모든 항목을 입력해주세요</button>
             </div>
-        </div>
-      </div>
+          </div>
+
+        </div> <!-- .form-footer -->
 
     </div> <!-- row row-cards -->
   </div> <!-- col-lg-4 -->
