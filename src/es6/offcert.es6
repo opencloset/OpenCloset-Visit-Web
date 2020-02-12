@@ -1,11 +1,13 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
+import selectize from "./lib/selectize";
 
 const pageId = "offcert";
 
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  selectize.fixSelectizeReadonly(["#certnumGender"]);
   resetAll();
   registerCallback();
 }

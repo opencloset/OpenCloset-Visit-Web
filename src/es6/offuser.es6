@@ -1,4 +1,5 @@
 import "./lib/import-jquery";
+import selectize from "./lib/selectize";
 import session from "./lib/session";
 
 const pageId = "offuser";
@@ -6,6 +7,7 @@ const pageId = "offuser";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  selectize.fixSelectizeReadonly(["#offuserBirth"]);
   registerCallbackCancelClick();
   registerCallbackNextClick();
   registerCallbackFormInput();

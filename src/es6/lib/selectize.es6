@@ -22,3 +22,13 @@ const enableSelectize = () => {
     $elem.selectize(option);
   });
 };
+
+// javascript - selectize causes keyboard to appear on Android - Stack Overflow
+// https://stackoverflow.com/questions/28510878/selectize-causes-keyboard-to-appear-on-android/30087408
+const fixSelectizeReadonly = (selectorList) => {
+  for (let selector of selectorList) {
+    $(`${selector} + .selectize-control .selectize-input input`).attr("readonly", "readonly");
+  }
+};
+
+export default { fixSelectizeReadonly };

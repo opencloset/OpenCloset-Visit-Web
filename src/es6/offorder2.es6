@@ -1,5 +1,6 @@
 import "./lib/import-jquery";
 import Mustache from "mustache/mustache";
+import selectize from "./lib/selectize";
 import session from "./lib/session";
 import opencloset from "./lib/opencloset";
 
@@ -8,6 +9,7 @@ const pageId = "offorder2";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  selectize.fixSelectizeReadonly(["#offorder2PreferStyle", "#offorder2PreferColor"]);
   registerCallbackNextClick();
   registerCallbackFormInput();
   loadSession();

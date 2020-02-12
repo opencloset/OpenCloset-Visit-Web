@@ -1,5 +1,6 @@
 import "./lib/import-jquery";
 import moment from "moment/src/moment";
+import selectize from "./lib/selectize";
 import session from "./lib/session";
 
 const pageId = "offorder1";
@@ -7,6 +8,7 @@ const pageId = "offorder1";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  selectize.fixSelectizeReadonly(["#offorder1WearSelf", "#offorder1WearGender", "#offorder1Purpose"]);
   registerCallbackNextClick();
   registerCallbackFormInput();
   loadSession();
