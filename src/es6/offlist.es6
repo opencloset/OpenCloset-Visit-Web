@@ -7,6 +7,17 @@ const pageId = "offlist";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  registerCallback();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", domLoaded);
+}
+else {
+  domLoaded();
+}
+
+const registerCallback = () => {
   $(".btn-offlist-order-edit").on("click", (e) => {
     e.preventDefault();
     let $target = $(e.target);
@@ -69,11 +80,4 @@ const domLoaded = () => {
 
     return false;
   });
-}
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", domLoaded);
-}
-else {
-  domLoaded();
-}
+};
