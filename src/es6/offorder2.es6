@@ -12,9 +12,9 @@ const domLoaded = () => {
   selectize.fixSelectizeReadonly(["#offorder2PreferStyle", "#offorder2PreferColor"]);
   registerCallbackNextClick();
   registerCallbackFormInput();
+  initSelectClothes();
   loadSession();
   updateNextButton();
-  initSelectClothes();
 };
 
 const selectClothesColumns = [
@@ -45,6 +45,7 @@ const registerSelectClothesStateCallback = () => {
 
     data[index].count = currentVal;
     $table.bootstrapTable("load", data);
+    updateTotalPrice();
     updateNextButton();
     registerSelectClothesCountCallback();
   });
@@ -153,6 +154,13 @@ const loadSession = () => {
   if (data.prefer_color) {
     $("#offorder2PreferColor")[0].selectize.setValue(data.prefer_color, false);
   }
+  if (data.pre_category) {
+    let $table = $("#offorder2SelectClothes");
+    $table.bootstrapTable("load", data.pre_category);
+    updateTotalPrice();
+    updateNextButton();
+    registerSelectClothesCountCallback();
+  }
 };
 
 const getFormField = () => {
@@ -166,6 +174,14 @@ const getFormField = () => {
       continue;
     }
     formData[key] = value.trim();
+  }
+
+  {
+    let $table = $("#offorder2SelectClothes");
+    let data = $table.bootstrapTable("getData");
+    if (Array.isArray(data)) {
+      formData["pre_category"] = data;
+    }
   }
 
   return formData;
