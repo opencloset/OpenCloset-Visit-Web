@@ -25,7 +25,6 @@ if ( stash("bg_image") ) {
     <link href="//fonts.googleapis.com/css?family=Black+Han+Sans|Noto+Sans+KR:400,700|Noto+Serif+KR:400,700&amp;display=swap" rel="stylesheet" />
     <link href="<%= url_for("/dist/common.css") %>" rel="stylesheet" />
     <link href="<%= url_for("/dist/style.css") %>" rel="stylesheet" />
-    <script src="<%= url_for("/dist/app.js") %>"></script>
   </head>
   <body <% if ($page_id) { %>id="page-<%= $page_id %>"<% } %> class="">
     <div class="page <%= $bg_image_class %>" style="<%= $bg_image_style %>">
@@ -51,5 +50,7 @@ if ( stash("bg_image") ) {
       %= include "layouts/endgame2/footer"
       % }
     </div> <!-- .page -->
+
+    <script src="<%= url_for("/dist/app.js") %>"></script>
   </body>
 </html>
