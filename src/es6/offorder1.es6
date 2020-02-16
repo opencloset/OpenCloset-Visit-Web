@@ -62,7 +62,7 @@ const loadSession = () => {
     return false;
   }
 
-  let data = session.load(phone, getFormField());
+  let data = session.load(phone);
   if (data.wear_self) {
     $("#offorder1WearSelf")[0].selectize.setValue(data.wear_self, false);
   }

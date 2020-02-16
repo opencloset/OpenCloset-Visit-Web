@@ -146,7 +146,7 @@ const loadSession = () => {
     return false;
   }
 
-  let data = session.load(phone, getFormField());
+  let data = session.load(phone);
   if (data.prefer_style) {
     $("#offorder2PreferStyle")[0].selectize.setValue(data.prefer_style, false);
   }

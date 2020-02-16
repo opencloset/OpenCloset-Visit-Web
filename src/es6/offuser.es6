@@ -78,7 +78,7 @@ const loadSession = () => {
     return false;
   }
 
-  let data = session.load(phone, getFormField());
+  let data = session.load(phone);
   if (data.email) {
     $("#offuserEmail").val(data.email);
   }
