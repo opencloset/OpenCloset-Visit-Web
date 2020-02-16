@@ -68,8 +68,8 @@ const registerCallbackNextClick = () => {
 const registerCallbackFormInput = () => {
   $("#offuserEmail").on("change", e => updateNextButton());
   $("#offuserBirth").on("change", e => updateNextButton());
-  $("#offuserAddress1").on("change", e => updateNextButton());
   $("#offuserAddress2").on("change", e => updateNextButton());
+  $("#offuserAddress4").on("change", e => updateNextButton());
 };
 
 const loadSession = () => {
@@ -91,6 +91,12 @@ const loadSession = () => {
   if (data.address2) {
     $("#offuserAddress2").val(data.address2);
   }
+  if (data.address3) {
+    $("#offuserAddress3").val(data.address3);
+  }
+  if (data.address4) {
+    $("#offuserAddress4").val(data.address4);
+  }
 };
 
 const getFormField = () => {
@@ -99,6 +105,8 @@ const getFormField = () => {
     birth: $("#offuserBirth").val(),
     address1: $("#offuserAddress1").val(),
     address2: $("#offuserAddress2").val(),
+    address3: $("#offuserAddress3").val(),
+    address4: $("#offuserAddress4").val(),
   };
   for (let [key, value] of Object.entries(formData)) {
     if (!value) {

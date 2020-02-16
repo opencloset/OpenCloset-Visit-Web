@@ -4,6 +4,7 @@ import './lib/nav-header.es6';
 import "./lib/bootstrap-datetimepicker.es6";
 import "./lib/bootstrap-table.es6";
 import "./lib/selectize";
+import "./lib/postcodify";
 
 import "./lib/opencloset";
 

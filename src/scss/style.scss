@@ -599,3 +599,12 @@ $opencloset-color-next:   #ffb343;
     }
   }
 }
+
+//
+// postcodify
+//
+div.postcodify_popup_layer div.postcodify_controls,
+div.postcodify_popup_layer button.search_button,
+div.postcodify_popup_layer button.close_button {
+  background-color: $opencloset-color-next;
+}
