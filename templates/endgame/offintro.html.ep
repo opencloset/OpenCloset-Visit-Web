@@ -11,11 +11,11 @@ title "환영합니다";
 
 <div class="row row-cards pt-2">
   <div class="col-7 col-sm-4 col-lg-2">
-    <a class="box-link" href="<%= $urls->{share} %>">
-      <div class="card box-link-delivery">
+    <a class="box-link" href="<%= url_for("/endgame/offmain") %>">
+      <div class="card box-link-visit">
         <div class="card-body p-5">
-          <div class="box-link-title m-0">택배</div>
-          <div class="box-link-subtitle mt-2">Delivery</div>
+          <div class="box-link-title m-0">방문</div>
+          <div class="box-link-subtitle mt-2">Visit</div>
           <div class="box-link-desc mt-2">열린옷장<br>택배 대여 서비스</div>
           <div class="m-5 h3 box-link-arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
         </div>
@@ -23,11 +23,11 @@ title "환영합니다";
     </a>
   </div>
   <div class="col-7 col-sm-4 col-lg-2">
-    <a class="box-link" href="<%= url_for("/endgame/offmain") %>">
-      <div class="card box-link-visit">
+    <a class="box-link" href="<%= $urls->{share} %>">
+      <div class="card box-link-delivery">
         <div class="card-body p-5">
-          <div class="box-link-title m-0">방문</div>
-          <div class="box-link-subtitle mt-2">Visit</div>
+          <div class="box-link-title m-0">택배</div>
+          <div class="box-link-subtitle mt-2">Delivery</div>
           <div class="box-link-desc mt-2">열린옷장<br>택배 대여 서비스</div>
           <div class="m-5 h3 box-link-arrow"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
         </div>
