@@ -4,7 +4,7 @@ layout(
     page_id   => "offcert",
     back_link => url_for("/endgame/offmain"),
 );
-title "방문 예약 본인 인증";
+title "방문예약 본인인증";
 %>
 
 <div class="row row-cards justify-content-md-center">
@@ -14,8 +14,7 @@ title "방문 예약 본인 인증";
       <div class="card-header">
         <h3 class="card-title w-100 d-flex flex-row justify-content-between">
           <span class="d-block">
-            <span class="span1 text-left">열린옷장</span><br>
-            <span class="span2 text-left">방문 예약 본인 인증</span>
+            <span class="span1 text-left">방문예약 본인인증</span>
           </span>
           <span class="d-block align-self-center">
             <button class="btn btn-sm opencloset-btn-cancel" id="btn-input-reset"><i class="fa fa-repeat mr-2"></i>다시 입력</button>
@@ -60,20 +59,20 @@ title "방문 예약 본인 인증";
               </div>
               <div class="col-5">
                 <div class="cert-button">
-                  <button class="btn btn-primary btn-block h-100" id="btn-certnum-send">인증 번호 발송</button>
+                  <button class="btn btn-primary btn-block h-100" id="btn-certnum-send">인증번호 발송</button>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-7">
                 <div class="form-group">
-                  <label class="form-label">인증 번호</label>
-                  <input class="form-control" placeholder="전송된 인증 번호를 입력하세요." name="certnum-otp" disabled="" value="" />
+                  <label class="form-label">인증번호</label>
+                  <input class="form-control" placeholder="전송된 인증번호를 입력하세요." name="certnum-otp" disabled="" value="" />
                 </div>
               </div>
               <div class="col-5">
                 <div class="cert-button">
-                  <button class="btn btn-gray-dark btn-block h-100 disabled" id="btn-certnum-validate">인증 번호 확인</button>
+                  <button class="btn btn-gray-dark btn-block h-100 disabled" id="btn-certnum-validate">인증번호 확인</button>
                 </div>
               </div>
             </div>
@@ -123,9 +122,9 @@ title "방문 예약 본인 인증";
               class="btn btn-block opencloset-btn-next disabled"
               id="btn-offcert-next"
               data-url="<%= url_for("/endgame/offlist") %>"
-              data-label1="본인 인증이 필요합니다"
+              data-label1="본인인증이 필요합니다"
               data-label2="다음 단계로 진행합니다"
-              >본인 인증이 필요합니다</button>
+              >본인인증이 필요합니다</button>
           </div>
         </form>
       </div> <!-- card-body -->

@@ -195,7 +195,7 @@ const registerCallback = () => {
   });
 
   /**
-   * 버튼 클릭: 인증 번호 발송
+   * 버튼 클릭: 인증번호 발송
    */
   $("#btn-certnum-send").on("click", (e) => {
     e.preventDefault();
@@ -238,7 +238,7 @@ const registerCallback = () => {
   });
 
   /**
-   * 버튼 클릭: 인증 번호 확인
+   * 버튼 클릭: 인증번호 확인
    */
   $("#btn-certnum-validate").on("click", (e) => {
     e.preventDefault();
