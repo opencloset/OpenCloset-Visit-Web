@@ -92,12 +92,8 @@ $opencloset-color-next:   #ffb343;
       color: #fff;
 
       .box-link-title {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         line-height: 1.2;
-
-        .span1 {
-          font-weight: normal;
-        }
       }
 
       .box-link-subtitle {
@@ -108,8 +104,8 @@ $opencloset-color-next:   #ffb343;
       .box-link-desc {
         font-size: 0.75em;
         line-height: 1.2;
-        font-weight: normal;
-        opacity: .58;
+        font-weight: 700;
+        opacity: .88;
       }
     }
 

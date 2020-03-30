@@ -15,7 +15,7 @@ title "방문";
       <div class="card box-link-offcert">
         <div class="card-body pt-6 pb-6 pl-3 ">
           <div class="box-link-title m-0">
-            <span class="span1">열린옷장</span><span class="span2"><br />방문시간 예약하기</span>
+            방문시간 예약하기
           </div>
           <div class="box-link-subtitle mt-2">
             · 방문시간 예약<br />
