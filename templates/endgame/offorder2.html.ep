@@ -35,7 +35,7 @@ title "방문 대여 정보 (2/2)";
             placeholder => "선호하는 스타일을 선택하세요",
             items       => [
                 { value => "basic",  label => "기본 정장" },
-                { value => "casual", label => "비지니스 캐주얼" },
+                { value => "casual", label => "비즈니스 캐주얼" },
             ],
         );
         %>
