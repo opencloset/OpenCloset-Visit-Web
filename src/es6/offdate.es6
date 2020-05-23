@@ -1,4 +1,5 @@
 import "./lib/import-jquery";
+import session from "./lib/session";
 import moment from "moment/src/moment";
 import Mustache from "mustache/mustache";
 
@@ -7,16 +8,10 @@ const pageId = "offdate";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
-  registerCallbackDatetimepickerChange();
+  registerCallbackDatetimeChange();
   registerCallbackBookingTimeListClick();
   registerCallbackNextClick();
-
-  let ymd = $("#bookingYmd").val();
-  if (!ymd) {
-    ymd = moment().format("YYYY-MM-DD");
-    $("#bookingYmd").val(ymd);
-  }
-  updateAvailableBookingList(ymd);
+  loadSession();
 };
 
 if (document.readyState === "loading") {
@@ -25,7 +20,16 @@ if (document.readyState === "loading") {
   domLoaded();
 }
 
-const registerCallbackDatetimepickerChange = () => {
+const registerCallbackDatetimeChange = () => {
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event
+  // https://stackoverflow.com/questions/3025396/how-do-you-handle-a-form-change-in-jquery
+  // https://stackoverflow.com/questions/6458840/detecting-input-change-in-jquery
+  $("#bookingYmd").on("change input paste", e => {
+    let ymd = $("#bookingYmd").val();
+    updateAvailableBookingList(ymd);
+    e.preventDefault();
+  });
+
   // https://stackoverflow.com/questions/31858920/jquery-bootstrap-datetimepicker-change-event
   $("#offdateDatetimepicker").on("dp.change", e => {
     // use specific "YYYY-MM-DD" rather than e.date._f
@@ -45,13 +49,37 @@ const registerCallbackBookingTimeListClick = () => {
   });
 };
 
+const loadSession = () => {
+  let phone = new URL(window.location.href).searchParams.get("phone");
+
+  let ymd = moment().format("YYYY-MM-DD");
+  if (phone) {
+    let data = session.load(phone);
+    if (data.ymd) {
+      ymd = data.ymd;
+    }
+  }
+  $("#bookingYmd").val(ymd);
+  $("#bookingYmd").trigger("input");
+};
+
 const registerCallbackNextClick = () => {
   $("#btn-offdate-next").on("click", e => {
     e.preventDefault();
 
+    let phone = new URL(window.location.href).searchParams.get("phone");
+    if (!phone) {
+      return false;
+    }
+
     // .disabled 클래스일 경우 클릭 무시
     let $target = $(e.target);
     if ($target.hasClass("disabled")) {
+      return false;
+    }
+
+    let ymd = $("#bookingYmd").val();
+    if (!ymd) {
       return false;
     }
 
@@ -60,10 +88,13 @@ const registerCallbackNextClick = () => {
       return false;
     }
 
-    let reqUrl = new URL($target.data("url"), window.location.origin);
-    reqUrl.searchParams.set("booking_id", bookingId);
+    let data = session.load(phone);
+    data.ymd = ymd;
+    data.booking_id = bookingId;
+    session.save(phone, data);
 
     // success
+    let reqUrl = new URL($target.data("url"), window.location.origin);
     window.location = reqUrl.href;
 
     return false;
@@ -147,7 +178,7 @@ const updateAvailableBookingList = ymd => {
           }
         }
 
-        if (isRemain && isNew) {
+        if (isRemain && isNew && val.display && !val.breakTime) {
           countAvailable++;
         }
       });
@@ -160,6 +191,15 @@ const updateAvailableBookingList = ymd => {
       $bookingHmList.html(
         Mustache.render(templateSuccess, { bookingList: resData }),
       );
+      {
+        let phone = new URL(window.location.href).searchParams.get("phone");
+        if (phone) {
+          let data = session.load(phone);
+          if (data.booking_id) {
+            $(`input[name=booking-hm][value=${data.booking_id}]`).prop("checked", true);
+          }
+        }
+      }
       registerCallbackBookingTimeListClick();
       updateNextButton();
     })
