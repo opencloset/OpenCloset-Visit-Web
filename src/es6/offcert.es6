@@ -224,15 +224,33 @@ const registerCallback = () => {
       return false;
     }
 
-    // success
-    $(e.target).addClass("disabled");
-    $("input[name=certnum-realname]").prop("disabled", true);
-    $("select[name=certnum-gender]")[0].selectize.disable();
-    $("input[name=certnum-phone]").prop("disabled", true);
-    $("input[name=certnum-otp]").prop("disabled", false);
-    $("input[name=certnum-otp]").focus();
-    $("#btn-certnum-validate").removeClass("disabled");
-    //...
+    let reqUrl = $(e.target).data("url");
+    let data = new FormData();
+    data.append("name", realname);
+    data.append("to", phone);
+    data.append("gender", gender);
+    fetch(reqUrl, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      },
+      body: data,
+    })
+      .then(response => response.json())
+      .then(response => {
+        // success
+        $(e.target).addClass("disabled");
+        $("input[name=certnum-realname]").prop("disabled", true);
+        $("select[name=certnum-gender]")[0].selectize.disable();
+        $("input[name=certnum-phone]").prop("disabled", true);
+        $("input[name=certnum-otp]").prop("disabled", false);
+        $("input[name=certnum-otp]").focus();
+        $("#btn-certnum-validate").removeClass("disabled");
+      })
+      .catch(error => {
+        console.log("Error");
+        console.log(error);
+      });
 
     return false;
   });
@@ -248,18 +266,67 @@ const registerCallback = () => {
       return false;
     }
 
+    let realname = $("input[name=certnum-realname]").val();
+    if (!realname) {
+      $("input[name=certnum-realname]").addClass("state-invalid is-invalid");
+    }
+
+    let gender = $("select[name=certnum-gender]").val();
+    if (!gender) {
+      $("select[name=certnum-gender]")[0].selectize.$control.addClass("select-invalid");
+    }
+
+    let phone = $("input[name=certnum-phone]").val();
+    if (!phone) {
+      $("input[name=certnum-phone]").addClass("state-invalid is-invalid");
+    }
+
     let otp = $("input[name=certnum-otp]").val();
     if (!otp) {
       $("input[name=certnum-otp]").addClass("state-invalid is-invalid");
       return false;
     }
 
-    // success
-    $(e.target).addClass("disabled");
-    $("input[name=certnum-otp]").prop("disabled", true);
-    $("#btn-offcert-next").html($("#btn-offcert-next").data("label2")).removeClass("disabled");
-
-    //...
+    let reqUrl = $(e.target).data("url");
+    let data = new FormData();
+    data.append("name", realname);
+    data.append("gender", gender);
+    data.append("phone", phone);
+    data.append("sms", otp);
+    fetch(reqUrl, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+      },
+      body: data,
+    })
+      .then(response => {
+        if (response.status != 200) {
+          class LoginError extends Error {
+            constructor(...params) {
+              super(...params)
+              if (Error.captureStackTrace) {
+                Error.captureStackTrace(this, LoginError);
+              }
+              this.name = "LoginError";
+            }
+          }
+          return Promise.reject( new LoginError(`invalid http response ${response.status}`) );
+        }
+        return response.json();
+      })
+      .then(response => {
+        // success
+        $(e.target).addClass("disabled");
+        $("input[name=certnum-realname]").prop("disabled", true);
+        $("select[name=certnum-gender]")[0].selectize.disable();
+        $("input[name=certnum-phone]").prop("disabled", true);
+        $("input[name=certnum-otp]").prop("disabled", true);
+        $("#btn-offcert-next").html($("#btn-offcert-next").data("label2")).removeClass("disabled");
+      })
+      .catch(error => {
+        console.log(`${error.name}: ${error.message}`);
+      });
 
     return false;
   });
@@ -289,18 +356,8 @@ const registerCallback = () => {
       return false;
     }
 
-    let phone = $("input[name=certnum-phone]").val();
-    let sms = $("input[name=certnum-otp]").val();
-    let gender = $("select[name=certnum-gender]").val();
-
-    let reqData = {
-      phone: phone,
-      sms: sms,
-      gender: gender,
-    };
-
     // success
-    window.location = `${$target.data("url")}?${$.param(reqData)}`;
+    window.location = $target.data("url");
 
     return false;
   });

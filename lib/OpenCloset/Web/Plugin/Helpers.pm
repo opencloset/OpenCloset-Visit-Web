@@ -31,6 +31,7 @@ sub register {
 
     $app->helper( error                    => \&error );
     $app->helper( flatten_booking          => \&flatten_booking );
+    $app->helper( flatten_user             => \&flatten_user );
     $app->helper( get_params               => \&get_params );
     $app->helper( update_user              => \&update_user );
     $app->helper( get_nearest_booked_order => \&get_nearest_booked_order );
@@ -58,6 +59,7 @@ sub error {
         no warnings 'experimental';
         given ($status) {
             $template = 'bad_request' when 400;
+            $template = 'unauthorized' when 401;
             $template = 'not_found' when 404;
             $template = 'exception' when 500;
             default { $template = 'unknown' }
@@ -82,6 +84,21 @@ sub flatten_booking {
     return unless $booking;
 
     my %data = $booking->get_columns;
+
+    return \%data;
+}
+
+=head2 flatten_user( $user )
+
+=cut
+
+sub flatten_user {
+    my ( $self, $user ) = @_;
+
+    return unless $user;
+
+    my %data = ( $user->user_info->get_columns, $user->get_columns, );
+    delete @data{qw/ user_id password /};
 
     return \%data;
 }
@@ -153,36 +170,58 @@ sub update_user {
     #
     # validate params
     #
-    my $v = $self->create_validator;
-    $v->field('id')->required(1)->regexp(qr/^\d+$/);
-    $v->field('name')->trim(0)->callback(
-        sub {
-            my $value = shift;
-
-            return 1 unless $value =~ m/(^\s+|\s+$)/;
-            return ( 0, "name has trailing space" );
-        }
+    my $v = $self->app->validator->validation->input( %$user_params, %$user_info_params );
+    $v->required("id")->like(qr/^\d+$/);
+    $v->optional( "name", "trim" )->size( 2, undef );
+    $v->optional("email")->email();
+    $v->optional("expires")->like(qr/^\d+$/);
+    $v->optional("phone", "trim")->phone();
+    $v->optional("gender")->in( "male", "female" );
+    $v->optional("birth")->num( 1900, 2099 );
+    $v->optional($_)->num( 0, 999 )
+        for
+        qw( height weight neck bust waist hip topbelly belly thigh arm leg knee foot pants );
+    $v->optional("staff")->num( 0, 1 );
+    my @invalid_fields;
+    my @fields = qw(
+        id
+        name
+        email
+        expires
+        phone
+        gender
+        birth
+        height
+        weight
+        neck
+        bust
+        waist
+        hip
+        topbelly
+        belly
+        thigh
+        arm
+        leg
+        knee
+        foot
+        pants
+        staff
     );
-    $v->field('email')->email;
-    $v->field('expires')->regexp(qr/^\d+$/);
-    $v->field('phone')->regexp(qr/^\d+$/);
-    $v->field('gender')->in(qw/ male female /);
-    $v->field('birth')->regexp(qr/^(0|((19|20)\d{2}))$/);
-    $v->field(
-        qw/ height weight neck bust waist hip topbelly belly thigh arm leg knee foot pants /
-        )->each(
-        sub {
-            shift->regexp(qr/^\d{1,3}$/);
-        }
-        );
-    $v->field('staff')->in( 0, 1 );
-    unless ( $self->validate( $v, { %$user_params, %$user_info_params } ) ) {
-        my @error_str;
-        while ( my ( $k, $v ) = each %{ $v->errors } ) {
-            push @error_str, "$k:$v";
-        }
-        $self->error( 400, { str => join( ',', @error_str ), data => $v->errors, } );
-        return ( undef, join( ',', @error_str ) );
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
+    }
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {}, } );
+        return;
+    }
+
+    if ( $v->param("name") ) {
+        $user_params->{name} = $v->param("name");
+    }
+    if ( $v->param("phone") ) {
+        $user_info_params->{phone} = $v->param("phone");
+        $user_info_params->{phone} =~ s/\D//gms;
     }
 
     #

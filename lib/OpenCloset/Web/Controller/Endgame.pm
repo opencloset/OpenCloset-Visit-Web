@@ -30,6 +30,7 @@ sub offmain ($self) {
 =cut
 
 sub offcert ($self) {
+    $self->logout if $self->is_user_authenticated; # logout if already logged in
 }
 
 =head2 offlist

@@ -1,6 +1,7 @@
 requires "Mojolicious";
-requires 'Mojolicious::Plugin::Authentication';
-requires 'Mojolicious::Plugin::Validator';
+requires "Mojolicious::Plugin::AdditionalValidationChecks" => "0.16";
+requires "Mojolicious::Plugin::Authentication";
+requires "Mojolicious::Plugin::Validator";
 
 requires "Capture::Tiny";
 requires "DateTime";

@@ -59,7 +59,7 @@ title "방문예약 본인인증";
               </div>
               <div class="col-5">
                 <div class="cert-button">
-                  <button class="btn btn-primary btn-block h-100" id="btn-certnum-send">인증번호 발송</button>
+                  <button class="btn btn-primary btn-block h-100" id="btn-certnum-send" data-url="<%= url_for("/api/sms/validation") %>">인증번호 발송</button>
                 </div>
               </div>
             </div>
@@ -72,7 +72,7 @@ title "방문예약 본인인증";
               </div>
               <div class="col-5">
                 <div class="cert-button">
-                  <button class="btn btn-gray-dark btn-block h-100 disabled" id="btn-certnum-validate">인증번호 확인</button>
+                  <button class="btn btn-gray-dark btn-block h-100 disabled" id="btn-certnum-validate" data-url="<%= url_for("/login/phone") %>">인증번호 확인</button>
                 </div>
               </div>
             </div>

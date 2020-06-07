@@ -53,12 +53,13 @@ sub startup {
         %{ $self->plugin('Config') }
     );
 
-    $self->plugin('validator');
     $self->plugin('OpenCloset::Plugin::Helpers');
     $self->plugin('OpenCloset::Web::Plugin::Helpers');
 
+    $self->_validator;
     $self->_authentication;
     $self->_public_routes;
+    $self->_private_routes;
     $self->_endgame_routes;
     $self->_hooks;
 
@@ -72,47 +73,112 @@ sub startup {
     $self->app->log->info("restarted...");
 }
 
-=head2 _authentication
+sub _validator {
+    my $self = shift;
 
-=cut
+    $self->plugin("validator");
+    $self->plugin("AdditionalValidationChecks");
+}
 
 sub _authentication {
     my $self = shift;
 
     $self->plugin(
-        'authentication' => {
+        "authentication" => {
             autoload_user => 1,
             load_user     => sub {
                 my ( $app, $uid ) = @_;
 
-                my $user_obj = $self->DB->resultset('User')->find( { id => $uid } );
+                my $user_obj = $self->app->DB->resultset("User")->find( { id => $uid } );
 
                 return $user_obj;
             },
-            session_key   => 'access_token',
+            session_key   => "access_token",
             validate_user => sub {
                 my ( $self, $user, $pass, $extradata ) = @_;
 
-                my $user_obj = $self->DB->resultset('User')->find( { email => $user } );
-                unless ($user_obj) {
-                    $self->log->warn("cannot find such user: $user");
-                    return;
-                }
+                my $user_obj;
+                if ( $extradata && ref($extradata) eq "HASH" && %$extradata ) {
+                    use experimental qw( smartmatch switch );
+                    given ( $extradata->{type} ) {
+                        when ("phone") {
+                            # phone login
+                            my $phone  = $user;
+                            my $sms    = $pass;
+                            my $name   = $extradata->{opts}{name};
+                            my $gender = $extradata->{opts}{gender};
 
-                #
-                # GitHub #199
-                #
-                # check expires when login
-                #
-                my $now = DateTime->now( time_zone => $self->config->{timezone} )->epoch;
-                unless ( $user_obj->expires && $user_obj->expires > $now ) {
-                    $self->log->warn("$user\'s password is expired");
-                    return;
-                }
+                            #
+                            # find user
+                            #
+                            $user_obj = $self->app->DB->resultset("User")->search(
+                                {
+                                    "me.name"          => $name,
+                                    "user_info.phone"  => $phone,
+                                    "user_info.gender" => $gender,
+                                },
+                                {
+                                    join     => "user_info",
+                                    prefetch => "user_info",
+                                },
+                            )->first;
+                            unless ($user_obj) {
+                                $self->log->warn("cannot find such user: $phone, $name, $gender");
+                                return;
+                            }
+                            unless ( $user_obj->user_info ) {
+                                $self->log->warn("user_info not found: $phone, $name, $gender");
+                                return;
+                            }
 
-                unless ( $user_obj->check_password($pass) ) {
-                    $self->log->warn("$user\'s password is wrong");
-                    return;
+                            #
+                            # validate code
+                            #
+                            my $now = DateTime->now( time_zone => $self->config->{timezone} )->epoch;
+                            unless ( $user_obj->expires && $user_obj->expires > $now ) {
+                                $self->log->warn( "authcode is expired: " . $user_obj->email );
+                                return;
+                            }
+                            if ( $user_obj->authcode ne $sms ) {
+                                $self->log->warn( "authcode is wrong: " . $user_obj->email );
+                                return;
+                            }
+
+                            #
+                            # expire the user.expires
+                            #
+                            $user_obj->update( { expires => $now } );
+                        }
+                        default {
+                            # not supported
+                            $self->log->warn( "not supported auth type: " . $extradata->{type} || "N/A" );
+                            return;
+                        }
+                    }
+                }
+                else {
+                    # email login
+                    $user_obj = $self->app->DB->resultset("User")->find( { email => $user } );
+                    unless ($user_obj) {
+                        $self->log->warn("cannot find such user: $user");
+                        return;
+                    }
+
+                    #
+                    # GitHub #199
+                    #
+                    # check expires when login
+                    #
+                    my $now = DateTime->now( time_zone => $self->config->{timezone} )->epoch;
+                    unless ( $user_obj->expires && $user_obj->expires > $now ) {
+                        $self->log->warn("password is expired: $user");
+                        return;
+                    }
+
+                    unless ( $user_obj->check_password($pass) ) {
+                        $self->log->warn("password is wrong: $user");
+                        return;
+                    }
                 }
 
                 return $user_obj->id;
@@ -120,10 +186,6 @@ sub _authentication {
         }
     );
 }
-
-=head2 _public_routes
-
-=cut
 
 sub _public_routes {
     my $self = shift;
@@ -139,6 +201,10 @@ sub _public_routes {
     $auth->get('/booking/edit')->to('order#booking');
     $auth->put('/booking')->to('order#update_booking');
 
+    ## auth public routes
+    $r->post("/login/email")->to("Auth#email");
+    $r->post("/login/phone")->to("Auth#phone");
+
     ## common public routes
     $r->options('/api/postcode/search')->to('API#api_postcode_preflight_cors');
     $r->get('/api/postcode/search')->to('API#api_postcode_search');
@@ -148,9 +214,14 @@ sub _public_routes {
     $api->get('/gui/booking-list')->to('API#api_gui_booking_list');
 }
 
-=head2 _endgame_routes
+sub _private_routes {
+    my $self = shift;
+    my $r    = $self->routes;
 
-=cut
+    my $auth = $r->under("/")->to("Auth#loggedin");
+    $auth->get("/auth/whoami")->to("Auth#whoami");
+    $auth->get("/logout")->to("Auth#auth_logout");
+}
 
 sub _endgame_routes {
     my $self = shift;
@@ -158,16 +229,18 @@ sub _endgame_routes {
 
     $r->get( "/", sub ($c) { $c->redirect_to( $c->url_for("/endgame/offintro") ); } );
 
-    my $endgame = $r->under('/endgame');
+    my $endgame = $r->under("/endgame");
     $endgame->get("/offintro")->to("endgame#offintro");
     $endgame->get("/offmain")->to("endgame#offmain");
     $endgame->get("/offcert")->to("endgame#offcert");
-    $endgame->get("/offlist")->to("endgame#offlist");
-    $endgame->get("/offdate")->to("endgame#offdate");
-    $endgame->get("/offorder1")->to("endgame#offorder1");
-    $endgame->get("/offorder2")->to("endgame#offorder2");
-    $endgame->get("/offuser")->to("endgame#offuser");
-    $endgame->get("/offbooked")->to("endgame#offbooked");
+
+    my $auth = $r->under("/endgame")->to("Auth#loggedin");
+    $auth->get("/offlist")->to("endgame#offlist");
+    $auth->get("/offdate")->to("endgame#offdate");
+    $auth->get("/offorder1")->to("endgame#offorder1");
+    $auth->get("/offorder2")->to("endgame#offorder2");
+    $auth->get("/offuser")->to("endgame#offuser");
+    $auth->get("/offbooked")->to("endgame#offbooked");
 }
 
 sub _hooks {

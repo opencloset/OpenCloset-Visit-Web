@@ -21,37 +21,46 @@ sub api_create_sms_validation {
     #
     # fetch params
     #
-    my %params = $self->get_params(qw/ name to /);
+    my %params = $self->get_params(qw/ name to gender /);
 
     #
     # validate params
     #
-    my $v = $self->create_validator;
-    $v->field('name')->required(1)->trim(0)->callback(
-        sub {
-            my $value = shift;
-
-            return 1 unless $value =~ m/(^\s+|\s+$)/;
-            return ( 0, "name has trailing space" );
-        }
+    my $v = $self->app->validator->validation->input(\%params);
+    $v->required( "name", "trim" )->size( 2, undef );
+    $v->required( "to", "trim" )->phone();
+    $v->required("gender")->in( "male", "female" );
+    my @invalid_fields;
+    my @fields = qw(
+        name
+        to
+        gender
     );
-    $v->field('to')->required(1)->regexp(qr/^\d+$/);
-
-    unless ( $self->validate( $v, \%params ) ) {
-        my @error_str;
-        while ( my ( $k, $v ) = each %{ $v->errors } ) {
-            push @error_str, "$k:$v";
-        }
-        $self->error( 400, { str => join( ',', @error_str ), data => $v->errors, } ), return;
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
     }
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {}, } );
+        return;
+    }
+
+    $params{name} = $v->param("name");
+    $params{to}   = $v->param("to");
+    $params{to} =~ s/\D//gms;
 
     #
     # find user
     #
-    my @users = $self->app->DB->resultset('User')
-        ->search( { 'user_info.phone' => $params{to} }, { join => 'user_info' }, );
-    my $user = shift @users;
-
+    my $user = $self->app->DB->resultset("User")->search(
+        {
+            "user_info.phone"  => $params{to},
+        },
+        {
+            join     => "user_info",
+            prefetch => "user_info",
+        },
+    )->first;
     if ($user) {
         #
         # fail if name and phone does not match
@@ -63,7 +72,19 @@ sub api_create_sms_validation {
             );
             $self->app->log->warn($msg);
 
-            $self->error( 400, { str => 'name and phone does not match', } ), return;
+            $self->error( 400, { str => "name and phone does not match", } ), return;
+        }
+        #
+        # fail if gender and phone does not match
+        #
+        unless ( $user->user_info->gender eq $params{gender} ) {
+            my $msg = sprintf(
+                'gender and phone does not match: input(%s,%s), db(%s,%s)',
+                $params{gender}, $params{to}, $user->user_info->gender, $user->user_info->phone,
+            );
+            $self->app->log->warn($msg);
+
+            $self->error( 400, { str => "gender and phone does not match", } ), return;
         }
     }
     else {
@@ -73,16 +94,21 @@ sub api_create_sms_validation {
         {
             my $guard = $self->app->DB->txn_scope_guard;
 
-            my $_user = $self->app->DB->resultset('User')->create( { name => $params{name} } );
+            my $_user = $self->app->DB->resultset("User")->create( { name => $params{name} } );
             unless ($_user) {
-                $self->app->log->warn('failed to create a user');
+                $self->app->log->warn("failed to create a user");
                 last;
             }
 
-            my $_user_info = $self->app->DB->resultset('UserInfo')
-                ->create( { user_id => $_user->id, phone => $params{to}, } );
+            my $_user_info = $self->app->DB->resultset("UserInfo")->create(
+                {
+                    user_id => $_user->id,
+                    phone   => $params{to},
+                    gender  => $params{gender},
+                }
+            );
             unless ($_user_info) {
-                $self->app->log->warn('failed to create a user_info');
+                $self->app->log->warn("failed to create a user_info");
                 last;
             }
 
@@ -91,41 +117,43 @@ sub api_create_sms_validation {
             $user = $_user;
         }
 
-        $self->app->log->info("create a user: name($params{name}), phone($params{to})");
+        $self->app->log->info("create a user: name($params{name}), phone($params{to}), gender($params{gender})");
     }
 
     #
     # fail if creating user is failed
     #
     unless ($user) {
-        $self->error( 400, { str => 'failed to create a user', } ), return;
+        $self->error( 400, { str => "failed to create a user", } ), return;
     }
 
     my $authcode = String::Random->new->randregex('\d\d\d\d\d\d');
     my $expires =
         DateTime->now( time_zone => $self->config->{timezone} )->add( minutes => 20 );
     $user->update( { authcode => $authcode, expires => $expires->epoch, } )
-        or return $self->error( 500, { str => 'failed to update a user', data => {}, } );
+        or return $self->error( 500, { str => "failed to update a user", data => {}, } );
     $self->app->log->debug(
         "sent temporary authcode: to($params{to}) authcode($authcode)");
 
-    my $sms = $self->app->DB->resultset('SMS')->create(
+    my $sms = $self->app->DB->resultset("SMS")->create(
         {
             to   => $params{to},
             from => $self->config->{sms}{ $self->config->{sms}{driver} }{_from},
             text => "열린옷장 인증번호: $authcode",
         }
     );
-    return $self->error( 404, { str => 'failed to create a new sms', data => {}, } )
+    return $self->error( 404, { str => "failed to create a new sms", data => {}, } )
         unless $sms;
 
     #
     # response
     #
     my %data = ( $sms->get_columns );
+    delete $data{text};
+    use DDP; $self->log->info( np(%data) );
 
     $self->res->headers->header(
-        'Location' => $self->url_for( '/api/sms/' . $sms->id ),
+        "Location" => $self->url_for( "/api/sms/" . $sms->id ),
     );
     $self->respond_to( json => { status => 201, json => \%data } );
 }
