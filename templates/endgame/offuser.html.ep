@@ -76,7 +76,8 @@ title "방문 예약자 정보";
               <button
                 class="btn btn-block opencloset-btn-next disabled"
                 id="btn-offuser-next"
-                data-url="<%= url_with("/endgame/offbooked") %>"
+                data-url="<%= url_with("/api/order") %>"
+                data-finish-url="<%= url_with("/endgame/offbooked") %>"
                 data-label1="모든 항목을<br>입력해주세요"
                 data-label2="예약 신청"
                 >모든 항목을 입력해주세요</button>

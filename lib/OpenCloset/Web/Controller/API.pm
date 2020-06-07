@@ -1,11 +1,16 @@
 package OpenCloset::Web::Controller::API;
 use Mojo::Base 'Mojolicious::Controller';
 
-use DateTime  ();
-use Encode    ();
-use Try::Tiny ();
+use Capture::Tiny ();
+use DateTime      ();
+use Encode        ();
+use Try::Tiny     ();
 
 use Postcodify ();
+
+use OpenCloset::Constants::Status ();
+
+use OpenCloset::API::Order ();
 
 =head1 METHODS
 
@@ -215,41 +220,22 @@ sub api_gui_booking_list {
     #
     # validate params
     #
-    my $v = $self->create_validator;
-    $v->field('gender')->in(qw/ male female /);
-    $v->field('ymd')->callback(
-        sub {
-            my $val = shift;
-
-            unless ( $val =~ m/^(\d{4})-(\d{2})-(\d{2})$/ ) {
-                my $msg = "invalid ymd format: $params{ymd}";
-                $self->app->log->warn($msg);
-                return ( 0, $msg );
-            }
-
-            my $dt = Try::Tiny::try {
-                DateTime->new(
-                    time_zone => $self->config->{timezone},
-                    year      => $1,
-                    month     => $2,
-                    day       => $3,
-                );
-            };
-            unless ($dt) {
-                my $msg = "cannot create start datetime object: $params{ymd}";
-                $self->app->log->warn($msg);
-                return ( 0, $msg );
-            }
-
-            return 1;
-        }
+    my $v = $self->app->validator->validation->input(\%params);
+    $v->required("gender")->in( "male", "female" );
+    $v->required("ymd")->booking_ymd();
+    $v->optional("include_empty");
+    my @invalid_fields;
+    my @fields = qw(
+        gender
+        ymd
     );
-    unless ( $self->validate( $v, \%params ) ) {
-        my @error_str;
-        while ( my ( $k, $v ) = each %{ $v->errors } ) {
-            push @error_str, "$k:$v";
-        }
-        return $self->error( 400, { str => join( ',', @error_str ), data => $v->errors, } );
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
+    }
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {}, } );
+        return;
     }
 
     #
@@ -343,6 +329,347 @@ sub api_gui_booking_list {
     # response
     #
     $self->respond_to( json => { status => 200, json => \@booking_list } );
+}
+
+=head2 api_create_order
+
+    POST /api/order
+
+=cut
+
+sub api_create_order {
+    my $self = shift;
+
+    my $data = $self->req->json;
+    use DDP; $self->app->log->info("api_create_order: " . np($data));
+    my $v = $self->app->validator->validation->input($data);
+
+    # 개인 기본 정보: sms, gender, name 은 인증번호 확인 시점에 확인이 끝났음
+    $v->required("phone")->phone;
+
+    # 개인 추가 정보
+    $v->required("birth")->num(1950, 2010);
+    $v->required("email")->email;
+    $v->required("address1")->length(1);
+    $v->required("address2")->length(1);
+    $v->required("address3")->length(1);
+    $v->required("address4")->length(1);
+
+    # 주문 정보
+    $v->required("booking_id")->num( 1, undef );
+    $v->required("wear_self")->in( "self", "other" );
+    $v->optional("wear_gender")->in( "male", "female" );
+    $v->required("purpose")->length(1);
+    $v->required("purpose2")->length(1);
+    $v->required("prefer_style")->in( "basic", "casual" );
+    $v->required("prefer_color")->in( "staff", "dark", "black", "navy", "charcoalgray", "gray", "brown", "etc" );
+    $v->required("pre_category")->pre_category();
+    $v->required("wear_ymd")->like(qr/^\d{4}-\d{2}-\d{2}$/);
+
+    my @invalid_fields;
+    my @fields = qw(
+        phone
+        birth
+        email
+        address1
+        address2
+        address3
+        address4
+        booking_id
+        wear_self
+        wear_gender
+        purpose
+        purpose2
+        prefer_style
+        prefer_color
+        pre_category
+        wear_ymd
+    );
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
+    }
+
+    # Check if validation is failed
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {}, } );
+        return;
+    }
+
+    # Check relation between wear_self & wear_gender
+    my $wear_self = $v->param("wear_self");
+    my $wear_gender = $v->param("wear_gender");
+    if ( $wear_self eq "self" ) {
+        if ($wear_gender) {
+            my $msg = "wear_gender must be empty if wear_self is self";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+    }
+    else {
+        unless ($wear_gender) {
+            my $msg = "wear_gender must exist unless wear_self is self";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+    }
+
+    #
+    # find user
+    #
+    my $user;
+    my $user_info;
+    my $phone = $v->param("phone");
+    {
+        my @users = $self->app->DB->resultset("User")->search(
+            { "user_info.phone" => $phone },
+            { join              => "user_info" },
+        );
+        $user = shift @users;
+        unless ($user) {
+            my $msg = "cannot find user using phone: [$phone]";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+        $user_info = $user->user_info;
+        unless ($user_info) {
+            my $msg = "cannot find user_info using phone: [$phone]";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+    }
+    $self->log->debug("u.name: " . $user->name);
+    $self->log->debug("ui.gender: " . $user_info->gender);
+
+    # check email & birth
+    my $email = $v->param("email");
+    my $birth = $v->param("birth");
+    {
+        if ( $user->email && !( $email eq $user->email ) ) {
+            my $msg = "unmatched email: $email";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+        if ( $user_info->birth && !( $birth eq $user_info->birth ) ) {
+            my $msg = "unmatched birth: $birth";
+            $self->error( 400, { str => $msg, data => {}, } );
+            return;
+        }
+    }
+    $self->log->debug("email: " . $email);
+    $self->log->debug("birth: " . $birth);
+
+    # 신규 예약 신청
+    my %data;
+    my ( $success, $error ) = Try::Tiny::try {
+        my $schema = $self->app->DB;
+        my $guard  = $schema->txn_scope_guard;
+
+        # $booking_obj 이 없다면 오류
+        my $booking_obj;
+        do {
+            #
+            # SELECT
+            #     `me`.`id`,
+            #     `me`.`date`,
+            #     `me`.`gender`,
+            #     `me`.`slot`,
+            #     COUNT( `user`.`id` ) AS `user_count`
+            # FROM `booking` `me`
+            # LEFT JOIN `order` `orders`
+            #     ON `orders`.`booking_id` = `me`.`id`
+            # LEFT JOIN `user` `user`
+            #     ON `user`.`id` = `orders`.`user_id`
+            # WHERE `me`.`id` = ?
+            # GROUP BY `me`.`id` HAVING COUNT(user.id) < me.slot
+            #
+            # http://stackoverflow.com/questions/5285448/mysql-select-only-not-null-values
+            # https://metacpan.org/pod/DBIx::Class::Manual::Joining#Across-multiple-relations
+            #
+            my $booking_rs = $self->app->DB->resultset("Booking")->search(
+                { "me.id" => $v->param("booking_id") },
+                {
+                    "+columns" => [ { user_count => { count => "user.id", -as => "user_count" } }, ],
+                    join       => { "orders" => "user" },
+                    group_by   => [qw/ me.id /],
+                },
+            );
+            $booking_obj = $booking_rs->first;
+            unless ($booking_obj) {
+                my $msg = "booking item not found";
+                $self->error( 500, { str => $msg, data => {}, } );
+                return;
+            }
+        };
+        $data{booking} = $self->app->flatten_booking($booking_obj);
+
+        $self->log->debug("b.date: " . $booking_obj->date);
+        $self->log->debug("b.gender: " . $booking_obj->gender);
+        $self->log->debug("b.slot: " . $booking_obj->slot);
+        $self->log->debug("b.user_count: " . $booking_obj->user_count);
+
+        # 슬롯이 부족하다면 오류
+        do {
+            unless ( $booking_obj->slot > 0 ) {
+                die "empty booking slot\n";
+            }
+            unless ( $booking_obj->slot > $booking_obj->user_count ) {
+                die "not enough booking slot\n";
+            }
+        };
+
+        # 슬롯 시간 이후면 오류
+        do {
+            my $dt_now = DateTime->now( time_zone => $self->config->{timezone} );
+            unless ( $dt_now->epoch < $booking_obj->date->epoch ) {
+                die "cannot book past slots\n";
+            }
+        };
+
+        # 동일 날짜에 예약 내역이 있다면 오류
+        do {
+            my $dt = $booking_obj->date->clone;
+            my $dtf = $self->app->DB->storage->datetime_parser;
+            my $rs = $user->search_related(
+                "orders",
+                {
+                    "me.status_id" => {
+                        -in => [
+                            $OpenCloset::Constants::Status::RESERVATED, # 방문예약
+                            $OpenCloset::Constants::Status::PAYMENT,    # 결제대기
+                        ],
+                    },
+                },
+                {
+                    join     => "booking",
+                    order_by => [
+                        { -asc => "booking.date" },
+                        { -asc => "me.id" },
+                    ],
+                },
+            )->search_literal(
+                "DATE_FORMAT(`booking`.`date`, '%Y-%m-%d') = ?",
+                $dt->ymd,
+            );
+
+            my @orders = $rs->all;
+            if (@orders) {
+                for my $order (@orders) {
+                    $self->log->debug( "  order: " . $order->id );
+                }
+                die "prohibit same day booking\n";
+            }
+        };
+
+        # 사용자 정보 갱신
+        do {
+            my %user_params;
+            my %user_info_params;
+
+            #
+            # id
+            #
+            $user_params{id} = $user->id;
+
+            #
+            # email & birth
+            #
+            $user_params{email}      = $v->param("email") unless $user->email;
+            $user_info_params{birth} = $v->param("birth") unless $user_info->birth;
+
+            #
+            # pre_category
+            #
+            {
+                my $col     = "pre_category";
+                my $param   = "pre_category";
+                my $col_val = $user_info->get_column($col);
+                next if $col_val && $col_val eq $v->param($param);
+                $user_info_params{$col} = $v->every_param($param);
+            }
+
+            #
+            # others
+            #
+            my @ui_items = (
+                { col => "address1",    param => "address1" },
+                { col => "address2",    param => "address2" },
+                { col => "address3",    param => "address3" },
+                { col => "address4",    param => "address4" },
+                { col => "wearon_date", param => "wear_ymd" },
+                { col => "purpose",     param => "purpose" },
+                { col => "purpose2",    param => "purpose2" },
+                { col => "pre_color",   param => "prefer_color" },
+            );
+            for my $item (@ui_items) {
+                my $col_val = $user_info->get_column($item->{col});
+                next if $col_val && $col_val eq $v->param($item->{param});
+                $user_info_params{$item->{col}} = $v->param($item->{param});
+            }
+
+            #
+            # tune pre_category
+            #
+            if ( $user_info_params{pre_category} ) {
+                my @items;
+                for my $item (@{ $user_info_params{pre_category} }) {
+                    next unless $item->{state};
+                    next unless $item->{count} > 0;
+                    push @items, join( q{:}, $item->{id}, $item->{count} );
+                }
+                $user_info_params{pre_category} = join q{,}, @items;
+            }
+
+            #
+            # tune pre_color
+            #
+            if ( 0 && $user_info_params{pre_color} ) {
+                my $items_str = $user_info_params{pre_color};
+                my @items = grep { $_ } map { s/^\s+|\s+$//g; $_ } split /,/, $items_str;
+                $user_info_params{pre_color} = join q{,}, @items;
+            }
+
+            $user = $self->update_user( \%user_params, \%user_info_params );
+        };
+
+        # 예약
+        my $order_api = OpenCloset::API::Order->new(
+            schema      => $self->app->DB,
+            monitor_uri => $self->config->{monitor_uri},
+        );
+        my $order_obj;
+        my %extra;
+        my ($stderr) = Capture::Tiny::capture_stderr {
+            $order_obj = $order_api->reservated( $user, $booking_obj->date, %extra );
+        };
+        $self->log->warn("reservated error: $stderr");
+
+        $guard->commit;
+
+        $data{user} = $self->app->flatten_user($user);
+        $data{order} = { id => $order_obj->id };
+        ( 1, undef );
+    }
+    Try::Tiny::catch {
+        chomp;
+        my $err = $_;
+        return ( undef, $err );
+    };
+    unless ($success) {
+        my $msg = "$error";
+        $self->error( 500, { str => $msg, data => {}, } );
+        return;
+    }
+
+    #$self->render( json => \%data );
+
+    #
+    # response
+    #
+    $self->res->headers->header(
+        "Location" => $self->url_for( "/api/order/" . $data->{order}{id} ),
+    );
+    $self->respond_to( json => { status => 201, json => \%data } );
 }
 
 1;

@@ -78,6 +78,52 @@ sub _validator {
 
     $self->plugin("validator");
     $self->plugin("AdditionalValidationChecks");
+
+    my $validator = $self->app->validator;
+    $validator->add_check(
+        pre_category => sub {
+            my ( $v, $name, $value, @args ) = @_;
+
+            use experimental qw( smartmatch );
+            my @invalid_ids;
+            unless ( $value->{id} ~~ [qw( jacket shirt blouse pants skirt tie belt shoes )] ) {
+                push @invalid_ids, $value->{id};
+                next;
+            }
+            return 1 if @invalid_ids;
+
+            # success
+            return undef;
+        }
+    );
+    $validator->add_check(
+        booking_ymd => sub {
+            my ( $v, $name, $value, @args ) = @_;
+
+            unless ( $value =~ m/^(\d{4})-(\d{2})-(\d{2})$/ ) {
+                my $msg = "invalid ymd format: $value";
+                $self->app->log->warn($msg);
+                return 1;
+            }
+
+            my $dt = Try::Tiny::try {
+                DateTime->new(
+                    time_zone => $self->config->{timezone},
+                    year      => $1,
+                    month     => $2,
+                    day       => $3,
+                );
+            };
+            unless ($dt) {
+                my $msg = "cannot create start datetime object: $value";
+                $self->app->log->warn($msg);
+                return 1;
+            }
+
+            # success
+            return undef;
+        }
+    );
 }
 
 sub _authentication {
@@ -193,7 +239,7 @@ sub _public_routes {
 
     $r->any('/visit')->to('booking#visit');
 
-    ## easy cancel order and update booking.date
+    # easy cancel order and update booking.date
     my $auth = $r->under('/order/:id')->to('order#auth');
     $auth->get('/cancel')->to('order#cancel_form');
     $auth->options('/')->to('order#delete_cors');
@@ -201,17 +247,13 @@ sub _public_routes {
     $auth->get('/booking/edit')->to('order#booking');
     $auth->put('/booking')->to('order#update_booking');
 
-    ## auth public routes
+    # public auth routes
     $r->post("/login/email")->to("Auth#email");
     $r->post("/login/phone")->to("Auth#phone");
 
-    ## common public routes
-    $r->options('/api/postcode/search')->to('API#api_postcode_preflight_cors');
-    $r->get('/api/postcode/search')->to('API#api_postcode_search');
-
-    my $api = $r->under('/api')->to('user#auth');
-    $api->post('/sms/validation')->to('API#api_create_sms_validation');
-    $api->get('/gui/booking-list')->to('API#api_gui_booking_list');
+    # public api routes
+    my $api = $r->under("/api");
+    $api->post("/sms/validation")->to("API#api_create_sms_validation");
 }
 
 sub _private_routes {
@@ -221,6 +263,12 @@ sub _private_routes {
     my $auth = $r->under("/")->to("Auth#loggedin");
     $auth->get("/auth/whoami")->to("Auth#whoami");
     $auth->get("/logout")->to("Auth#auth_logout");
+
+    my $auth_api = $auth->under("/api");
+    $auth->options("/postcode/search")->to("API#api_postcode_preflight_cors");
+    $auth->get("/postcode/search")->to("API#api_postcode_search");
+    $auth_api->get("/gui/booking-list")->to("API#api_gui_booking_list");
+    $auth_api->post("/order")->to("API#api_create_order");
 }
 
 sub _endgame_routes {

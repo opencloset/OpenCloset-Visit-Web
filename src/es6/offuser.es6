@@ -59,7 +59,26 @@ const registerCallbackNextClick = () => {
     let reqUrl = new URL($target.data("url"), window.location.origin);
 
     // success
-    window.location = reqUrl.href;
+    let data = session.load(phone);
+    data.phone = phone;
+    fetch(reqUrl, {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(response => {
+        let reqUrl = new URL($target.data("finish-url"), window.location.origin);
+        reqUrl.searchParams.set("order_id", response.order.id);
+        window.location = reqUrl.href;
+      })
+      .catch(error => {
+        console.log("Error");
+        console.log(error);
+      });
 
     return false;
   });
