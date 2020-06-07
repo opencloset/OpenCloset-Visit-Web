@@ -1,0 +1,47 @@
+<%
+layout(
+    "endgame2",
+    page_id => "exception",
+);
+title "500 Internal Server Error";
+%>
+
+<div class="row row-cards justify-content-md-center">
+  <div class="col-lg-4">
+    <div class="card">
+
+      <div class="card-header">
+        <h3 class="card-title w-100 d-flex flex-row justify-content-between">
+          <span class="d-block">
+            <span class="span1 text-left">500 Internal Server Error</span>
+          </span>
+        </h3>
+      </div>
+
+      <div class="card-body pt-4">
+        <div>
+          서버 오류입니다.
+        </div>
+
+        <div class="form-footer">
+
+          <div class="row">
+            <div class="col-6">
+              <a
+                class="btn btn-block opencloset-btn-cancel"
+                href="<%= url_with("/endgame/offintro") %>"
+                >처음으로</a>
+            </div>
+            <div class="col-6">
+              <a
+                class="btn btn-block opencloset-btn-cancel"
+                href="<%= url_with("/endgame/offcert") %>"
+                >휴대폰 인증</a>
+            </div>
+          </div>
+
+        </div> <!-- .form-footer -->
+
+    </div> <!-- row row-cards -->
+  </div> <!-- col-lg-4 -->
+</div> <!-- row -->
