@@ -24,4 +24,8 @@ const load = key => {
   return sessionData;
 };
 
-export default { save, load };
+const clear = () => {
+  sessionStorage.clear();
+}
+
+export default { save, load, clear };

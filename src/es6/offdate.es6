@@ -26,7 +26,8 @@ const registerCallbackDatetimeChange = () => {
   // https://stackoverflow.com/questions/6458840/detecting-input-change-in-jquery
   $("#bookingYmd").on("change input paste", e => {
     let ymd = $("#bookingYmd").val();
-    updateAvailableBookingList(ymd);
+    let gender = session.load("user").gender;
+    updateAvailableBookingList(ymd, gender);
     e.preventDefault();
   });
 
@@ -35,7 +36,8 @@ const registerCallbackDatetimeChange = () => {
     // use specific "YYYY-MM-DD" rather than e.date._f
     // since somtimes e.date._f is not ready to use
     let formatedValue = e.date.format("YYYY-MM-DD");
-    updateAvailableBookingList(formatedValue);
+    let gender = session.load("user").gender;
+    updateAvailableBookingList(formatedValue, gender);
   });
 };
 
@@ -50,7 +52,7 @@ const registerCallbackBookingTimeListClick = () => {
 };
 
 const loadSession = () => {
-  let phone = new URL(window.location.href).searchParams.get("phone");
+  let phone = session.load("user").phone;
 
   let ymd = moment().format("YYYY-MM-DD");
   if (phone) {
@@ -67,7 +69,7 @@ const registerCallbackNextClick = () => {
   $("#btn-offdate-next").on("click", e => {
     e.preventDefault();
 
-    let phone = new URL(window.location.href).searchParams.get("phone");
+    let phone = session.load("user").phone;
     if (!phone) {
       return false;
     }
@@ -101,8 +103,11 @@ const registerCallbackNextClick = () => {
   });
 };
 
-const updateAvailableBookingList = ymd => {
+const updateAvailableBookingList = (ymd, gender) => {
   if (ymd.match(/^\d{4}-\d{2}-\d{2}$/) === null) {
+    return;
+  }
+  if (!["male", "female"].includes(gender)) {
     return;
   }
 
@@ -111,11 +116,9 @@ const updateAvailableBookingList = ymd => {
   let $bookingHmList = $(".offdate-booking-hm-list");
   let now = moment();
 
-  let reqUrl = new URL(
-    `/api/gui/booking-list.json${window.location.search}`,
-    window.location.origin,
-  );
+  let reqUrl = new URL($(".offdate-booking-hm-list").data("url"), window.location.origin);
   reqUrl.searchParams.set("ymd", ymd);
+  reqUrl.searchParams.set("gender", gender);
   reqUrl.searchParams.set("include_empty", 1);
   fetch(reqUrl, { method: "GET" })
     .then(response => {
@@ -192,7 +195,7 @@ const updateAvailableBookingList = ymd => {
         Mustache.render(templateSuccess, { bookingList: resData }),
       );
       {
-        let phone = new URL(window.location.href).searchParams.get("phone");
+        let phone = session.load("user").phone;
         if (phone) {
           let data = session.load(phone);
           if (data.booking_id) {

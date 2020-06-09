@@ -1,6 +1,7 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
 import selectize from "./lib/selectize";
+import session from "./lib/session";
 
 const pageId = "offcert";
 
@@ -20,6 +21,10 @@ else {
 }
 
 const resetAll = () => {
+  // clear session
+  session.clear();
+
+
   $("input[name=certnum-realname]").val("").removeClass("state-invalid is-invalid").prop("disabled", false);
 
   let $certnumGender = $("select[name=certnum-gender]")[0].selectize;
@@ -323,6 +328,14 @@ const registerCallback = () => {
         $("input[name=certnum-phone]").prop("disabled", true);
         $("input[name=certnum-otp]").prop("disabled", true);
         $("#btn-offcert-next").html($("#btn-offcert-next").data("label2")).removeClass("disabled");
+
+        // save logged-in user info into client session storage
+        let data = {
+          phone: phone,
+          name: realname,
+          gender: gender,
+        };
+        session.save("user", data);
       })
       .catch(error => {
         console.log(`${error.name}: ${error.message}`);
