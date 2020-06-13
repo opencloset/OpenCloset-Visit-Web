@@ -121,7 +121,7 @@ const registerCallbackNextClick = () => {
       return false;
     }
 
-    let phone = new URL(window.location.href).searchParams.get("phone");
+    let phone = session.load("user").phone;
     if (!phone) {
       return false;
     }
@@ -142,7 +142,7 @@ const registerCallbackFormInput = () => {
 };
 
 const loadSession = () => {
-  let phone = new URL(window.location.href).searchParams.get("phone");
+  let phone = session.load("user").phone;
   if (!phone) {
     return false;
   }
