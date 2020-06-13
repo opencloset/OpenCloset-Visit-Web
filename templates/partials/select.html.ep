@@ -10,10 +10,10 @@
     <option value=""></option>
     % for my $i (@$items) {
     %   if ( ref $i eq "HASH" ) {
-    <option value="<%= $i->{value} %>"><%= $i->{label} %></option>
+    <option value="<%= $i->{value} %>" <%= $i->{value} eq $value ? qq{selected} : q{} %> <%= $readonly ? q{disabled} : q{} %>><%= $i->{label} %></option>
     %   }
     %   elsif ( !(ref $i) ) {
-    <option value="<%= $i %>"><%= $i %></option>
+    <option value="<%= $i %>" <%= $i eq $value ? qq{selected} : q{} %> <%= $readonly ? q{disabled} : q{} %>><%= $i %></option>
     %   }
     % }
   </select>

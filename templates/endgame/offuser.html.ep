@@ -5,6 +5,8 @@ layout(
     back_link => url_with("/endgame/offorder2"),
 );
 title "방문 예약자 정보";
+
+my $ui = $user->user_info;
 %>
 
 <div class="row row-cards justify-content-md-center">
@@ -29,7 +31,7 @@ title "방문 예약자 정보";
 
         <div class="form-group">
           <label class="form-label" for="offuserEmail">이메일 주소</label>
-          <input class="form-control" id="offuserEmail" placeholder="이메일(전자우편) 주소를 입력하세요" name="offuser-email" value="" />
+          <input class="form-control" id="offuserEmail" placeholder="이메일(전자우편) 주소를 입력하세요" name="offuser-email" value="<%= $user->email %>" <%= $user->email ? qq{readonly} : q{} %> />
         </div>
 
         <%=
@@ -40,26 +42,28 @@ title "방문 예약자 정보";
             label       => "출생년도",
             placeholder => "출생년도를 선택하세요",
             items       => [ reverse( 1950 .. 2010 ) ],
+            value       => $ui->birth || q{},
+            readonly    => $ui->birth ? 1 : 0,
         );
         %>
 
         <div class="form-group">
           <label class="form-label" for="offuserAddress2">주소</label>
-          <input type="hidden" class="postcodify_building_id" id="offuserAddress1" name="offuser-address1" value="" />
-          <input type="hidden" class="postcodify_jibeon_address" id="offuserAddress3" name="offser-address3" value="" />
+          <input type="hidden" class="postcodify_building_id" id="offuserAddress1" name="offuser-address1" value="<%= $ui->address1 %>" />
+          <input type="hidden" class="postcodify_jibeon_address" id="offuserAddress3" name="offser-address3" value="<%= $ui->address3 %>" />
           <input
             class="form-control postcodify postcodify_address"
             id="offuserAddress2"
             placeholder="주소를 검색하세요"
             name="offuser-address2"
-            value=""
+            value="<%= $ui->address2 %>"
             data-url="<%= url_for("/api/postcode/search.json") %>"
             />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="offuserAddress4">상세 주소</label>
-          <input class="form-control" id="offuserAddress4" placeholder="나머지 주소를 입력하세요" name="offuser-address4" value="" />
+          <input class="form-control" id="offuserAddress4" placeholder="나머지 주소를 입력하세요" name="offuser-address4" value="<%= $ui->address4 %>" />
         </div>
 
         <div class="form-footer">
