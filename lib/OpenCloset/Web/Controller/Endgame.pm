@@ -144,6 +144,13 @@ sub offbooked ($self) {
     my $user = $order->user;
     my $user_info = $user->user_info;
 
+    my $current_user = $self->stash("user");
+    unless ( $current_user->id == $user->id ) {
+        my $msg = sprintf( "invalid order.user.id: %d != %d", $current_user->id, $user->id );
+        $self->error( 401, { str => $msg, data => {} } );
+        return;
+    }
+
     $self->stash(
         order_id        => $order_id,
         booking_date    => $booking->date->strftime('%Y-%m-%d %H:%M'),
