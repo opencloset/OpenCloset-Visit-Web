@@ -170,7 +170,7 @@ sub update_user {
     #
     # validate params
     #
-    my $v = $self->app->validator->validation->input( %$user_params, %$user_info_params );
+    my $v = $self->app->validator->validation->input( { %$user_params, %$user_info_params } );
     $v->required("id")->like(qr/^\d+$/);
     $v->optional( "name", "trim" )->size( 2, undef );
     $v->optional("email")->email();
