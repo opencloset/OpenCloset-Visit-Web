@@ -135,7 +135,7 @@ sub offbooked ($self) {
     }
     if ( $v->has_error ) {
         my $msg = "invalid params: " . join(", ", @invalid_fields);
-        $self->error( 400, { str => $msg, data => {}, } );
+        $self->error( 400, { str => $msg, data => {} } );
         return;
     }
 
