@@ -61,6 +61,9 @@ const registerCallbackNextClick = () => {
     // success
     let data = session.load(phone);
     data.phone = phone;
+    if (data.wear_self === "self") {
+      delete data.wear_gender;
+    }
     fetch(reqUrl, {
       method: "POST",
       headers: {
