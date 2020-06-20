@@ -35,7 +35,16 @@ if ( stash("bg_image") ) {
         % }
         <!-- content -->
         <div class="my-3 my-md-5">
-          <div id="<%= stash("page_id") %>" class="container">
+          <div
+            id="<%= stash("page_id") %>"
+            class="container"
+            % if (stash("page_data")) {
+            %   my $page_data = stash("page_data");
+            %   for my $k ( sort keys %$page_data ) {
+            data-<%= $k %>="<%= $page_data->{$k} %>"
+            %   }
+            % }
+            >
             %= content
           </div> <!-- .container -->
         </div>
