@@ -24,8 +24,12 @@ const load = key => {
   return sessionData;
 };
 
-const clear = () => {
-  sessionStorage.clear();
+const clear = key => {
+  if (key) {
+    sessionStorage.removeItem(key);
+  } else {
+    sessionStorage.clear();
+  }
 }
 
 export default { save, load, clear };

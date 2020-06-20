@@ -1,5 +1,6 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
+import session from "./lib/session";
 import Mustache from "mustache/mustache";
 
 const pageId = "offbooked";
@@ -8,6 +9,7 @@ const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
   registerCallback();
+  clearSession();
 };
 
 if (document.readyState === "loading") {
@@ -72,3 +74,8 @@ const registerCallback = () => {
     return false;
   });
 };
+
+const clearSession = () => {
+  let phone = $(`#${pageId}`).data("user-info-phone");
+  session.clear(phone);
+}

@@ -3,6 +3,9 @@ layout(
     "endgame2",
     page_id   => "offbooked",
     back_link => url_with("/endgame/offlist"),
+    page_data => {
+        "user-info-phone" => $user_info_phone,
+    },
 );
 title "방문 예약 확인";
 %>
