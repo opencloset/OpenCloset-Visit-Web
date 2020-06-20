@@ -16,10 +16,10 @@
                 <div class="col-6 col-md-4 pr-5">
                   <ul class="list-unstyled mb-0">
 		    <li><a href="https://twitter.com/openclosetnet/"><i class="fa fa-twitter-square"></i> Twitter</a></li>
-		    <li><a href="https://www.facebook.com/TheOpenCloset/"><i class="fa fa-facebook-square"> Facebook</i></a></li>
-		    <li><a href="https://www.instagram.com/opencloset_people/"><i class="fa fa-instagram"> Instagram</i></a></li>
+                    <li><a href="https://www.facebook.com/TheOpenCloset/"><i class="fa fa-facebook-square"></i> Facebook</a></li>
+                    <li><a href="https://www.instagram.com/opencloset_people/"><i class="fa fa-instagram"></i> Instagram</a></li>
 		    <li><a href="http://theopencloset.tistory.com/"><i class="fa fa-rss-square"></i> Blog</a></li>
-		    <li><a href="https://github.com/opencloset/"><i class="fa fa-github"> GitHub</i></a></li>
+		    <li><a href="https://github.com/opencloset/"><i class="fa fa-github"></i> GitHub</a></li>
                   </ul>
                 </div>
               </div>
