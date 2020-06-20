@@ -28,13 +28,12 @@ const registerCallback = () => {
 
     let url = $target.data("url");
     let orderId = $target.data("order-id");
-    let bookingYmd = $target.data("booking-ymd");
-    let bookingHms = $target.data("booking-hms");
+    let bookingDate = $target.data("booking-date");
     console.log(`remove clicked: orderId(${orderId}) url(${url})`);
 
     let modal = bootbox.confirm({
       title: Mustache.render($("#template-offbooked-modal-remove-title").html()),
-      message: Mustache.render($("#template-offbooked-modal-remove-message").html(), { "bookingYmd": bookingYmd, "bookingHms": bookingHms }),
+      message: Mustache.render($("#template-offbooked-modal-remove-message").html(), { "bookingDate": bookingDate }),
       locale: "ko",
       buttons: {
         confirm: { label: "예약을 취소합니다", className: "opencloset-btn-next" },

@@ -81,6 +81,20 @@ sub _validator {
 
     my $validator = $self->app->validator;
     $validator->add_check(
+        obj_id => sub {
+            my ( $v, $name, $value, @args ) = @_;
+
+            unless ( $value =~ m/\A [1-9][0-9]* \z/x ) {
+                my $msg = "invalid obj_id format: $value";
+                $self->app->log->warn($msg);
+                return 1;
+            }
+
+            # success
+            return undef;
+        }
+    );
+    $validator->add_check(
         pre_category => sub {
             my ( $v, $name, $value, @args ) = @_;
 

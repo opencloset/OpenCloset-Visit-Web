@@ -114,6 +114,42 @@ sub offuser ($self) {
 =cut
 
 sub offbooked ($self) {
+    my $order_id = $self->param("order_id");
+
+    #
+    # fetch params
+    #
+    my %params = $self->get_params(qw/ order_id /);
+
+    #
+    # validate params
+    #
+    my $v = $self->app->validator->validation->input(\%params);
+    $v->required("order_id")->obj_id;
+    my @invalid_fields;
+    my @fields = qw(
+        order_id
+    );
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
+    }
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {}, } );
+        return;
+    }
+
+    my $order = $self->app->DB->resultset("Order")->find($order_id);
+    my $booking = $order->booking;
+    my $user = $order->user;
+    my $user_info = $user->user_info;
+
+    $self->stash(
+        order_id        => $order_id,
+        booking_date    => $booking->date->strftime('%Y-%m-%d %H:%M'),
+        user_name       => $user->name,
+        user_info_phone => $user_info->phone,
+    );
 }
 
 1;
