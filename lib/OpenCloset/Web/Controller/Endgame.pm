@@ -134,8 +134,6 @@ sub offuser ($self) {
 =cut
 
 sub offbooked ($self) {
-    my $order_id = $self->param("order_id");
-
     #
     # fetch params
     #
@@ -159,9 +157,10 @@ sub offbooked ($self) {
         return;
     }
 
-    my $order = $self->app->DB->resultset("Order")->find($order_id);
-    my $booking = $order->booking;
-    my $user = $order->user;
+    my $order_id  = $v->param("order_id");
+    my $order     = $self->app->DB->resultset("Order")->find($order_id);
+    my $booking   = $order->booking;
+    my $user      = $order->user;
     my $user_info = $user->user_info;
 
     my $current_user = $self->stash("user");
