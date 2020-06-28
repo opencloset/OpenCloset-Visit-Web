@@ -61,7 +61,7 @@ sub offlist ($self) {
                 { "user" => "user_info" },
             ],
             order_by => [
-                { -desc => "booking.date" },
+                { -asc => "booking.date" },
             ],
         },
     );

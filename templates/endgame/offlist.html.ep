@@ -7,6 +7,7 @@ title "방문예약 정보";
 
 my @label_order = (
     qw/
+        order_id
         booking_ymd
         booking_hms
         wear_self
@@ -20,6 +21,7 @@ my @label_order = (
         /
 );
 my %labels = (
+    order_id     => "주문서 번호",
     booking_ymd  => "방문예약 날짜",
     booking_hms  => "방문예약 시간",
     wear_self    => "본인 착용 여부",
@@ -30,16 +32,6 @@ my %labels = (
     purpose      => "대여 목적",
     address1     => "주소",
     address2     => q{},
-);
-my %wear_gender = (
-    male   => "남성",
-    female => "여성",
-);
-my %prefer_style = (
-    basic => "기본 정장",
-);
-my %prefer_color = (
-    navy => "네이비",
 );
 %>
 
@@ -89,13 +81,13 @@ my %prefer_color = (
                 <i class="fa <%= $reserved->{$k} ? "fa-check-circle" : "fa-times-circle" %>"></i>
                 %     }
                 %     when ("prefer_style") {
-                <%= $prefer_style{ $reserved->{$k} } %>
+                <span class="opencloset-id2str" data-type="style"><%= $reserved->{$k} %></span>
                 %     }
                 %     when ("prefer_color") {
-                <%= $prefer_color{ $reserved->{$k} } %>
+                <span class="opencloset-id2str" data-type="color"><%= $reserved->{$k} %></span>
                 %     }
                 %     when ("wear_gender") {
-                <%= $wear_gender{ $reserved->{$k} } %>
+                <span class="opencloset-id2str" data-type="gender"><%= $reserved->{$k} %></span>
                 %     }
                 %     default {
                 <%= $reserved->{$k} %>

@@ -1,12 +1,14 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
 import Mustache from "mustache/mustache";
+import opencloset from "./lib/opencloset";
 
 const pageId = "offlist";
 
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  opencloset.convertIdToString(".opencloset-id2str");
   registerCallback();
 }
 
