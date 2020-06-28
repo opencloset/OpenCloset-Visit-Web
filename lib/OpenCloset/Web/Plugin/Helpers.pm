@@ -45,9 +45,7 @@ sub register ( $self, $app, $conf ) {
 
 =cut
 
-sub error {
-    my ( $self, $status, $error, $template ) = @_;
-
+sub error ( $self, $status, $error, $template = q{} ) {
     if ( defined $error->{str} ) {
         $self->app->log->error( $error->{str} );
     }
@@ -108,9 +106,7 @@ sub flatten_user {
 
 =cut
 
-sub get_params {
-    my ( $self, @keys ) = @_;
-
+sub get_params ( $self, @keys ) {
     #
     # parameter can have multiple values
     #
@@ -165,9 +161,7 @@ sub get_params {
 
 =cut
 
-sub update_user {
-    my ( $self, $user_params, $user_info_params ) = @_;
-
+sub update_user ( $self, $user_params, $user_info_params ) {
     #
     # validate params
     #
@@ -309,9 +303,7 @@ sub update_user {
 
 =cut
 
-sub get_nearest_booked_order {
-    my ( $self, $user ) = @_;
-
+sub get_nearest_booked_order ( $self, $user ) {
     my $dt_now = DateTime->now( time_zone => $self->config->{timezone} );
     my $dtf = $self->app->DB->storage->datetime_parser;
 
@@ -338,15 +330,13 @@ sub get_nearest_booked_order {
     return $order;
 }
 
-=head2 booking_list( $gender [, $from, $to ] )
+=head2 booking_list( $gender [, $from, $to, $include_empty ] )
 
     my @list = $self->booking_list('male');
 
 =cut
 
-sub booking_list {
-    my ( $self, $gender, $from, $to, $include_empty ) = @_;
-
+sub booking_list ( $self, $gender, $from = undef, $to = undef, $include_empty = undef ) {
     #
     # find booking
     #
