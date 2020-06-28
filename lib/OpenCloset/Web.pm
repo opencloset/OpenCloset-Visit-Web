@@ -278,9 +278,9 @@ sub _private_routes {
     $auth->get("/auth/whoami")->to("Auth#whoami");
     $auth->get("/logout")->to("Auth#auth_logout");
 
-    my $auth_api = $auth->under("/api");
-    $auth->options("/postcode/search")->to("API#api_postcode_preflight_cors");
-    $auth->get("/postcode/search")->to("API#api_postcode_search");
+    my $auth_api = $r->under("/api")->to("Auth#loggedin");
+    $auth_api->options("/postcode/search")->to("API#api_postcode_preflight_cors");
+    $auth_api->get("/postcode/search")->to("API#api_postcode_search");
     $auth_api->get("/gui/booking-list")->to("API#api_gui_booking_list");
     $auth_api->post("/order")->to("API#api_create_order");
 }
