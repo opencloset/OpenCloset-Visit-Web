@@ -154,9 +154,9 @@ const loadSession = () => {
   if (data.prefer_color) {
     $("#offorder2PreferColor")[0].selectize.setValue(data.prefer_color, false);
   }
-  if (data.pre_category) {
+  if (data.prefer_category) {
     let $table = $("#offorder2SelectClothes");
-    $table.bootstrapTable("load", data.pre_category);
+    $table.bootstrapTable("load", data.prefer_category);
     updateTotalPrice();
     updateNextButton();
     registerSelectClothesCountCallback();
@@ -180,7 +180,7 @@ const getFormField = () => {
     let $table = $("#offorder2SelectClothes");
     let data = $table.bootstrapTable("getData");
     if (Array.isArray(data)) {
-      formData["pre_category"] = data;
+      formData["prefer_category"] = data;
     }
   }
 

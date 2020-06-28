@@ -95,8 +95,12 @@ sub _validator {
         }
     );
     $validator->add_check(
-        pre_category => sub {
+        prefer_category => sub {
             my ( $v, $name, $value, @args ) = @_;
+
+            return 1 unless exists $value->{id};
+            return 1 unless exists $value->{count};
+            return 1 unless exists $value->{state};
 
             use experimental qw( smartmatch );
             my @invalid_ids;

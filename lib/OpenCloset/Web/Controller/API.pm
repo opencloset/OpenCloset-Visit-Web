@@ -1,10 +1,13 @@
 package OpenCloset::Web::Controller::API;
 use Mojo::Base 'Mojolicious::Controller';
 
-use Capture::Tiny ();
-use DateTime      ();
-use Encode        ();
-use Try::Tiny     ();
+use experimental qw( signatures );
+
+use Capture::Tiny              ();
+use DateTime                   ();
+use DateTime::Format::Strptime ();
+use Encode                     ();
+use Try::Tiny                  ();
 
 use Postcodify ();
 
@@ -363,7 +366,7 @@ sub api_create_order {
     $v->required("purpose2")->length(1);
     $v->required("prefer_style")->in( "basic", "casual" );
     $v->required("prefer_color")->in( "staff", "dark", "black", "navy", "charcoalgray", "gray", "brown", "etc" );
-    $v->required("pre_category")->pre_category();
+    $v->required("prefer_category")->prefer_category();
     $v->required("wear_ymd")->like(qr/^\d{4}-\d{2}-\d{2}$/);
 
     my @invalid_fields;
@@ -382,7 +385,7 @@ sub api_create_order {
         purpose2
         prefer_style
         prefer_color
-        pre_category
+        prefer_category
         wear_ymd
     );
     for my $field (@fields) {
@@ -578,14 +581,14 @@ sub api_create_order {
             $user_info_params{birth} = $v->param("birth") unless $user_info->birth;
 
             #
-            # pre_category
+            # prefer_category
             #
             {
                 my $col     = "pre_category";
-                my $param   = "pre_category";
+                my $param   = "prefer_category";
                 my $col_val = $user_info->get_column($col);
                 next if $col_val && $col_val eq $v->param($param);
-                $user_info_params{$col} = $v->every_param($param);
+                $user_info_params{$col} = $self->prefer_category_to_string( $v->every_param($param) );
             }
 
             #
@@ -600,33 +603,12 @@ sub api_create_order {
                 { col => "purpose",     param => "purpose" },
                 { col => "purpose2",    param => "purpose2" },
                 { col => "pre_color",   param => "prefer_color" },
+                { col => "pre_style",   param => "prefer_style" },
             );
             for my $item (@ui_items) {
                 my $col_val = $user_info->get_column($item->{col});
                 next if $col_val && $col_val eq $v->param($item->{param});
                 $user_info_params{$item->{col}} = $v->param($item->{param});
-            }
-
-            #
-            # tune pre_category
-            #
-            if ( $user_info_params{pre_category} ) {
-                my @items;
-                for my $item (@{ $user_info_params{pre_category} }) {
-                    next unless $item->{state};
-                    next unless $item->{count} > 0;
-                    push @items, join( q{:}, $item->{id}, $item->{count} );
-                }
-                $user_info_params{pre_category} = join q{,}, @items;
-            }
-
-            #
-            # tune pre_color
-            #
-            if ( 0 && $user_info_params{pre_color} ) {
-                my $items_str = $user_info_params{pre_color};
-                my @items = grep { $_ } map { s/^\s+|\s+$//g; $_ } split /,/, $items_str;
-                $user_info_params{pre_color} = join q{,}, @items;
             }
 
             $user = $self->update_user( \%user_params, \%user_info_params );
@@ -643,6 +625,29 @@ sub api_create_order {
             $order_obj = $order_api->reservated( $user, $booking_obj->date, %extra );
         };
         $self->log->warn("reservated error: $stderr");
+
+        #
+        # 주문서도 동시에 갱신시킴
+        #
+        {
+            my $agent = $v->param("wear_self") eq "other" ? 1 : 0;
+            my $wearon_date = DateTime::Format::Strptime->new(
+                pattern   => q{%F},
+                time_zone => $self->config->{timezone},
+            )->parse_datetime( $v->param("wear_ymd") );
+
+            $order_obj->update(
+                {
+                    agent        => $agent,
+                    purpose      => $v->param("purpose"),
+                    purpose2     => $v->param("purpose2"),
+                    pre_category => $self->prefer_category_to_string( $v->every_param("prefer_category") ),
+                    pre_color    => $v->param("prefer_color"),
+                    pre_style    => $v->param("prefer_style"),
+                    wearon_date  => $wearon_date,
+                },
+            );
+        }
 
         $guard->commit;
 

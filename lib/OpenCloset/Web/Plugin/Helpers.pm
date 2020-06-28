@@ -2,6 +2,8 @@ package OpenCloset::Web::Plugin::Helpers;
 
 use Mojo::Base 'Mojolicious::Plugin';
 
+use experimental qw( signatures );
+
 use DateTime        ();
 use HTTP::Tiny      ();
 use List::MoreUtils ();
@@ -26,16 +28,15 @@ OpenCloset::Web::Plugin::Helpers - opencloset web mojo helper
 
 =cut
 
-sub register {
-    my ( $self, $app, $conf ) = @_;
-
-    $app->helper( error                    => \&error );
-    $app->helper( flatten_booking          => \&flatten_booking );
-    $app->helper( flatten_user             => \&flatten_user );
-    $app->helper( get_params               => \&get_params );
-    $app->helper( update_user              => \&update_user );
-    $app->helper( get_nearest_booked_order => \&get_nearest_booked_order );
-    $app->helper( booking_list             => \&booking_list );
+sub register ( $self, $app, $conf ) {
+    $app->helper( error                     => \&error );
+    $app->helper( flatten_booking           => \&flatten_booking );
+    $app->helper( flatten_user              => \&flatten_user );
+    $app->helper( get_params                => \&get_params );
+    $app->helper( update_user               => \&update_user );
+    $app->helper( get_nearest_booked_order  => \&get_nearest_booked_order );
+    $app->helper( booking_list              => \&booking_list );
+    $app->helper( prefer_category_to_string => \&prefer_category_to_string );
 }
 
 =head1 HELPERS
@@ -447,6 +448,34 @@ sub booking_list {
     }
 
     return @data;
+}
+
+=head2 prefer_category_to_string($prefer_category)
+
+    my $str = $self->prefer_category_to_string($prefer_category);
+
+=cut
+
+sub prefer_category_to_string ( $self, $items ) {
+    use experimental qw( smartmatch );
+
+    return unless $items;
+    return unless ref($items) ~~ [ "ARRAY", "HASH" ];
+
+    $items = [ $items ] if ref $items eq "HASH";
+
+    my @result;
+    for my $item (@$items) {
+        next unless exists $item->{id};
+        next unless exists $item->{count};
+        next unless exists $item->{state};
+
+        next unless $item->{state};
+        next unless $item->{count} > 0;
+        push @result, "$item->{id}:$item->{count}";
+    }
+
+    return join( q{,}, @result );
 }
 
 1;
