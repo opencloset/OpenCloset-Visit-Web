@@ -23,21 +23,22 @@ const registerCallback = () => {
   $(".btn-offlist-order-edit").on("click", (e) => {
     e.preventDefault();
     let $target = $(e.target);
-    let url = $target.closest(".reserved-list").data("url");
+    let apiUrl = $target.closest(".reserved-list").data("api-url");
     let orderId = $target.closest(".card.reserved").data("order-id");
-    console.log(`edit clicked: orderId(${orderId}) url(${url})`);
     return false;
   });
 
   $(".btn-offlist-order-remove").on("click", (e) => {
     e.preventDefault();
     let $target = $(e.target);
-    let url = $target.closest(".reserved-list").data("url");
+    let apiUrl = $target.closest(".reserved-list").data("api-url");
+    let url1 = $target.data("url1");
+    let url2 = $target.data("url2");
     let $card = $target.closest(".card.reserved");
     let orderId = $card.data("order-id");
     let bookingYmd = $card.data("booking-ymd");
     let bookingHms = $card.data("booking-hms");
-    console.log(`remove clicked: orderId(${orderId}) url(${url})`);
+    let reqUrl = apiUrl + url1 + orderId + url2;
 
     let modal = bootbox.confirm({
       title: Mustache.render($("#template-offlist-modal-remove-title").html()),
@@ -49,13 +50,32 @@ const registerCallback = () => {
       },
       callback: (result) => {
         if (result) {
-          console.log(`have to delete: orderId(${orderId})`);
-          $card.remove();
-          if ( $(".card.reserved").length == 0 ) {
-            console.log("all bookings are removed");
-            $(".offlist-booking-new-bottom-button").removeClass("d-flex").addClass("d-none");
-            $(".offlist-booking-new-bottom-message").removeClass("d-none");
-          }
+          // have to delete: orderId(${orderId})
+
+          fetch(reqUrl, {
+            method: "DELETE",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw Error(response.statusText);
+              }
+              return response.json();
+            })
+            .then(response => {
+              $card.remove();
+              if ( $(".card.reserved").length == 0 ) {
+                // all bookings are removed
+                $(".offlist-booking-new-bottom-button").removeClass("d-flex").addClass("d-none");
+                $(".offlist-booking-new-bottom-message").removeClass("d-none");
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
         else {
           // do nothing

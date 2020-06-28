@@ -677,4 +677,94 @@ sub api_create_order {
     $self->respond_to( json => { status => 201, json => \%data } );
 }
 
+=head2 api_cancel_order
+
+    DELETE /api/order/:order_id/booking
+
+=cut
+
+sub api_cancel_order ($self) {
+    #
+    # fetch params
+    #
+    my %params = $self->get_params(qw/ order_id /);
+
+    #
+    # validate params
+    #
+    my $v = $self->app->validator->validation->input(\%params);
+    $v->required("order_id")->obj_id;
+    my @invalid_fields;
+    my @fields = qw(
+        order_id
+    );
+    for my $field (@fields) {
+        push @invalid_fields, $field if $v->has_error($field);
+    }
+    if ( $v->has_error ) {
+        my $msg = "invalid params: " . join(", ", @invalid_fields);
+        $self->error( 400, { str => $msg, data => {} } );
+        return;
+    }
+
+    my $order   = $self->app->DB->resultset("Order")->find( $params{order_id} );
+    my $booking = $order->booking;
+
+    $self->app->log->debug("order.id: " . $order->id);
+    $self->app->log->debug("booking.id: " . $booking->id);
+
+    my %data = (
+        order_id   => $order->id,
+        booking_id => $booking->id,
+    );
+
+    #
+    # check fail condition
+    #
+    # 이미 OpenCloset::API::Order->cancel($order) API는 지우기 전에 상태를
+    # 확인하지만, 실제로 지울 수 있는 조건은 상황에 따라 달라질 수 있으므로
+    # 조건 별 확인은 호출하는 쪽에서 진행하는 것이 적절할 것으로 보입니다.
+    #
+    # 현재 방문 예약을 취소하는 경우는 다음과 같습니다.
+    #
+    # - 방문 예약인 경우 (API 내부에서 수행하므로 중복 체크)
+    # - 방문 예약 일시가 지나지 않은 경우
+    #
+    {
+        my $status_name = $order->status->name;
+        unless ( $status_name eq "방문예약" ) {
+            my $msg = "invalid order.status: order($data{order_id}), status($status_name)";
+            $self->error( 400, { str => $msg, data => \%data } );
+        }
+        my $dt_now     = DateTime->now( time_zone => $self->config->{timezone} );
+        my $dt_booking = $booking->date;
+        if ( $booking->date < $dt_now ) {
+            my $msg = "invalid order.booking.date: order($data{order_id}), booking($data{booking_id}), $dt_booking > $dt_now";
+            $self->error( 400, { str => $msg, data => \%data } );
+            return;
+        }
+    }
+
+    #
+    # cancel the order
+    #
+    # 또한 지금은 주문서를 지우지만 원래의 예전 코드는 주문서를 지우지
+    # 않았습니다. 지우기보다는 예약 정보만 제거하고, 주문서 상태를 남겨둔다면
+    # 예약 진행 중 취소하는 비율과 같은 유의미한 통계를 확보할 수도 있습니다.
+    # 변경된 기존 코드와 최대한 유사하게 동작하기 위해 동일한 API로 주문서를
+    # 제거합니다.
+    #
+    my $order_api = OpenCloset::API::Order->new(
+        schema      => $self->app->DB,
+        monitor_uri => $self->config->{monitor_uri},
+    );
+    my $ret = $order_api->cancel($order);
+    if (!$ret) {
+        my $msg = "failed to cancel order: order($data{order_id}), booking($data{booking_id})";
+        $self->error( 500, { str => $msg, data => \%data } );
+    }
+
+    $self->respond_to( json => { status => 200, json => \%data } );
+}
+
 1;

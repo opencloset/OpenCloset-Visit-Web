@@ -287,6 +287,7 @@ sub _private_routes {
     $auth_api->get("/postcode/search")->to("API#api_postcode_search");
     $auth_api->get("/gui/booking-list")->to("API#api_gui_booking_list");
     $auth_api->post("/order")->to("API#api_create_order");
+    $auth_api->delete("/order/:order_id/booking")->to("API#api_cancel_order");
 }
 
 sub _endgame_routes {

@@ -45,7 +45,7 @@ my %labels = (
       </h3>
     </div>
 
-    <div class="reserved-list" data-url="<%= url_for("/api/v1/") %>">
+    <div class="reserved-list" data-api-url="<%= url_for("/api") %>">
 
       <div class="d-flex justify-content-center mb-3">
         <button type="button" class="btn opencloset-btn-next btn-offlist-next btn-md w-100" data-url="<%= url_with("/endgame/offdate") %>"><i class="fa fa-plus"></i> 새로 방문예약 하기</button>
@@ -61,8 +61,8 @@ my %labels = (
         <div class="card-header">
           <h3 class="card-title"><%= $reserved->{booking_ymd} %> <%= $reserved->{booking_hms} %></h3>
           <div class="card-options">
-            <button class="btn btn-sm opencloset-btn-ok   btn-offlist-order-edit"          >변경</button>
-            <button class="btn btn-sm opencloset-btn-cancel btn-offlist-order-remove ml-2 ">삭제</button>
+            <button class="btn btn-sm opencloset-btn-ok     btn-offlist-order-edit">변경</button>
+            <button class="btn btn-sm opencloset-btn-cancel btn-offlist-order-remove ml-2" data-url1="/order/" data-url2="/booking">삭제</button>
           </div>
         </div>
         <div class="card-body">
