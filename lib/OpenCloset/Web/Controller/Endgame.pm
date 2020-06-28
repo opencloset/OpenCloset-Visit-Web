@@ -40,35 +40,55 @@ sub offcert ($self) {
 =cut
 
 sub offlist ($self) {
-    my $reserved_list = [
+    my $current_user = $self->stash("user");
+
+    my $now      = DateTime->now( time_zone => $self->config->{timezone} );
+    my $dtf      = $self->app->DB->storage->datetime_parser;
+    my $order_rs = $current_user->orders->search(
         {
-            order_id     => 29182,
-            booking_ymd  => "2019-07-05",
-            booking_hms  => "09:30",
-            wear_self    => "1",
-            wear_gender  => "male",
-            wear_date    => "2019-07-07",
-            prefer_style => "basic",
-            prefer_color => "navy",
-            purpose      => "졸업(입학)식",
-            address1     => "서울시 광진구 구의동",
-            address2     => "35-23 201호",
+            "booking_id" => { "!=" => undef },
+            "booking.date" => { ">" => $dtf->format_datetime($now) },
+            "status.name" => "방문예약",
         },
         {
-            order_id     => 29192,
-            booking_ymd  => "2019-07-09",
-            booking_hms  => "12:00",
-            wear_self    => "0",
-            wear_gender  => "male",
-            wear_date    => "2019-07-09",
-            prefer_style => "basic",
-            prefer_color => "navy",
-            purpose      => "면접",
-            address1     => "서울시 광진구 구의동",
-            address2     => "35-23 201호",
+            join => [
+                "booking",
+                "status",
+            ],
+            prefetch => [
+                "booking",
+                "status",
+                { "user" => "user_info" },
+            ],
+            order_by => [
+                { -desc => "booking.date" },
+            ],
         },
-    ];
-    $self->stash( reserved_list => $reserved_list );
+    );
+
+    my @reserved_list;
+    while ( my $order = $order_rs->next ) {
+        # wearon_date could be undefined
+        my $wearon_date = $order->wearon_date;
+        push(
+            @reserved_list,
+            {
+                order_id     => $order->id,
+                booking_ymd  => $order->booking->date->ymd,
+                booking_hms  => $order->booking->date->strftime("%H:%M"),
+                wear_self    => !$order->agent,
+                wear_gender  => $order->booking->gender,
+                wear_date    => $wearon_date ? $wearon_date->ymd : q{},
+                prefer_style => $order->pre_style,
+                prefer_color => $order->pre_color,
+                purpose      => $order->purpose,
+                address1     => $order->user->user_info->address3,
+                address2     => $order->user->user_info->address4,
+            },
+        );
+    }
+
+    $self->stash( reserved_list => \@reserved_list );
 }
 
 =head2 offdate
