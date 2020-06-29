@@ -47,6 +47,7 @@ sub email {
     }
 
     $self->log->info("email login: $email");
+    $self->session( expiration => 3600 );
 
     #
     # response
@@ -109,6 +110,7 @@ sub phone {
     }
 
     $self->log->info("phone login: $phone");
+    $self->session( expiration => 300 );
 
     #
     # response
