@@ -2,6 +2,9 @@
 layout(
     "endgame2",
     page_id => "offlist",
+    page_data => {
+      "user-info-phone" => $user->user_info->phone,
+    },
 );
 title "방문예약 정보";
 

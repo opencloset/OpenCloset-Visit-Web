@@ -1,6 +1,7 @@
 import "./lib/import-jquery";
 import bootbox from "bootbox/bootbox.all";
 import Mustache from "mustache/mustache";
+import session from "./lib/session";
 import opencloset from "./lib/opencloset";
 
 const pageId = "offlist";
@@ -8,6 +9,7 @@ const pageId = "offlist";
 const domLoaded = () => {
   if (!$(`#page-${pageId}`).length) return;
 
+  clearSession();
   opencloset.convertIdToString(".opencloset-id2str");
   registerCallback();
 }
@@ -17,6 +19,11 @@ if (document.readyState === "loading") {
 }
 else {
   domLoaded();
+}
+
+const clearSession = () => {
+  let phone = $(`#${pageId}`).data("user-info-phone");
+  session.clear(phone);
 }
 
 const registerCallback = () => {
