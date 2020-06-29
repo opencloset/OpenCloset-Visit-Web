@@ -28,10 +28,13 @@ const registerCallback = () => {
       return false;
     }
 
-    let url = $target.data("url");
+    let finishUrl = $target.data("finish-url");
+    let apiUrl = $target.data("api-url");
+    let url1 = $target.data("url1");
+    let url2 = $target.data("url2");
     let orderId = $target.data("order-id");
     let bookingDate = $target.data("booking-date");
-    console.log(`remove clicked: orderId(${orderId}) url(${url})`);
+    let reqUrl = apiUrl + url1 + orderId + url2;
 
     let modal = bootbox.confirm({
       title: Mustache.render($("#template-offbooked-modal-remove-title").html()),
@@ -44,10 +47,28 @@ const registerCallback = () => {
       callback: (result) => {
         if (result) {
           // cancel order
-          console.log(`have to delete: orderId(${orderId})`);
+          // have to delete: orderId(${orderId})
 
-          // success
-          window.location = `${$target.data("url")}`;
+          fetch(reqUrl, {
+            method: "DELETE",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                throw Error(response.statusText);
+              }
+              return response.json();
+            })
+            .then(response => {
+              // success
+              window.location = finishUrl;
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
         else {
           // do nothing

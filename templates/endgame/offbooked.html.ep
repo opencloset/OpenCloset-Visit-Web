@@ -61,7 +61,10 @@ title "방문 예약 확인";
           <div class="col-6">
             <button
               class="btn btn-block opencloset-btn-cancel btn-offbooked-cancel"
-              data-url="<%= url_with("/endgame/offlist") %>"
+              data-finish-url="<%= url_for("/endgame/offlist") %>"
+              data-api-url="<%= url_for("/api") %>"
+              data-url1="/order/"
+              data-url2="/booking"
               data-order-id="<%= $order_id %>"
               data-booking-date="<%= $booking_date %>"
               >예약 취소</button>
